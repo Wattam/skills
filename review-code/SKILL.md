@@ -13,8 +13,7 @@ disable-model-invocation: true
     - A list of file paths or a directory.
     - A git diff range (e.g. `main..HEAD`, a branch name, or a commit SHA). Use `git diff --name-only <range>` and
       `git diff <range>` to enumerate and read.
-    - Nothing → default to the uncommitted working tree (`git status` + `git diff HEAD`). Confirm this default with the
-      user before proceeding.
+    - Nothing → default to the uncommitted working tree (`git status` + `git diff HEAD`).
 
 ## Workflow
 
@@ -39,11 +38,28 @@ disable-model-invocation: true
       it)
     - Example in the spec not honored (input → output mismatch, before → after mismatch)
     - Existing pattern named in Context not followed (a new ad-hoc pattern introduced instead)
+    - Bespoke one-off utility, helper, or inline reimplementation added where an existing canonical utility/helper in
+      the codebase already provides the behavior
+    - Code placed in the wrong package, module, or service — architectural drift from the codebase's established
+      layering and boundaries (e.g. business logic in a controller, persistence calls from a domain type, cross-layer
+      reach-around)
     - Note/constraint violated (auth, ordering, idempotency, perf, side effects, role check, null/empty handling)
     - Edge case from the spec not handled
     - For bug-fix specs: repro input still produces the current (wrong) behavior; expected behavior not produced
     - Suspected correctness bug introduced by the diff itself (null deref, off-by-one, swallowed exception, missing
       transaction boundary, leaked resource, SQL/XSS/command injection, broken authorization check)
+    - Test changes that reinforce the implementation instead of verifying the specified behavior — tautological or
+      change-detector tests whose expected values are reverse-engineered from the code under test, so they pass by
+      construction and would still pass if the behavior were wrong. Concrete forms:
+        - Assertions hard-coded to the exact output the code currently produces, with no independent derivation from the
+          spec's Examples or Acceptance criteria
+        - Over-mocking so the test only confirms stubbed interactions or that a method was called, never a real result
+        - Assertions on private state, internal call order, or implementation details rather than observable outputs and
+          contracts
+        - A bug present in the diff encoded as the expected result, locking in the wrong behavior
+        - Snapshot/golden files regenerated and committed without inspection
+        - Only the happy path the author already knew worked is exercised, leaving the spec's edge cases, error paths,
+          and Acceptance criteria unasserted
 6. **Ask about unmapped changes.** For each changed hunk that is not covered by the spec and cannot be derived from any
    Scope/Expected-behavior/Context/Note entry:
     - Ask one question at a time. Use plain text in the chat — do not use AskUserQuestion.
@@ -82,8 +98,9 @@ disable-model-invocation: true
   files — into that single table. Each row is one piece of evidence: `File`, `Lines`, `Code`.
 - Below each heading write 1–2 short sentences naming what is wrong and which spec item or rule it violates (Scope
   bullet or Expected-behavior bullet for bug-fix specs, Acceptance criterion, Out-of-scope rule, Context pattern,
-  Example, Note, or `Correctness` when it is a bug not tied to a spec item). Follow-up prose after the table is allowed
-  only when a single sentence cannot make the issue actionable.
+  Example, Note, `Correctness` when it is a bug not tied to a spec item, or `Tests` when a test reinforces the
+  implementation instead of verifying the specified behavior). Follow-up prose after the table is allowed only when a
+  single sentence cannot make the issue actionable.
 - Use tables for evidence; quote the offending code only when it is shorter than the explanation and clarifies the
   issue.
 - No TODOs, no "figure out later", no placeholders like `<TBD>`. If a finding is uncertain, omit it.
