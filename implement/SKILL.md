@@ -1,0 +1,78 @@
+---
+name: implement
+description: Execute an implementation plan (folder path containing a file ending with PLAN.md, or a direct path to a file ending with PLAN.md) by applying its Steps to the codebase in sequential order and verifying its Acceptance criteria. Modifies code in place. Never creates, switches, or commits to branches. When the plan does not mention tests, never reads or touches test files.
+disable-model-invocation: true
+---
+
+# Implement
+
+## Inputs
+
+- A folder path containing a file ending with `PLAN.md`, or a direct path to a file ending with `PLAN.md`.
+
+## Workflow
+
+1. **Precondition.** If no `CLAUDE.md` exists in the current working directory, tell the user the skill requires project
+   context from `CLAUDE.md` and stop.
+2. **Locate and ingest the plan.** If the input is a file path ending with `PLAN.md`, read it. If the input is a folder,
+   list its contents, identify the file ending with `PLAN.md`, and read it in full. Treat Context, Steps, and Acceptance
+   criteria as the binding source of work to perform.
+3. **Determine the test policy.** Scan the full plan text — Context, Steps, Acceptance criteria, and any Open
+   questions —
+   for any mention of tests: test files, test cases, test directories, a test framework or runner, a test command, test
+   assertions, a step that writes or changes tests, or a test-related acceptance criterion.
+    - Plan mentions tests → you may read, create, edit, and run test files exactly as the plan directs.
+    - Plan does NOT mention tests → for the entire run you are **forbidden** to read, open, create, edit, delete, or run
+      any test file, and forbidden to navigate into test directories. Every action targets non-test code only. This
+      includes verification in step 8: do not fall back to running tests to check anything.
+4. **Investigate the codebase.** For each file, symbol, signature, path, or command named in the plan's Context and
+   Steps, use Grep, Glob, and Read to confirm its current state, exact location, and surrounding patterns before
+   editing. Respect the test policy from step 3 — do not read test files when the plan does not mention tests.
+5. **Identify gaps.** Scan the plan and the investigation for missing information that blocks execution. A plan from the
+   `plan` skill is meant to be self-contained, so gaps should be rare. Treat each of these as a potential gap:
+    - **Plan open questions** — the plan's own `## Open questions` section lists an unresolved item that a Step depends
+      on.
+    - **Missing target** — a Step names a file, symbol, or path that does not exist and the plan does not say to create
+      it.
+    - **Ambiguous action** — a Step's action, signature, payload, SQL, or command is not concrete enough to apply
+      without choosing among alternatives.
+    - **Unrunnable check** — an Acceptance criterion names a command or assertion that cannot be run in this
+      environment.
+6. **Ask one question at a time.** Use plain text in the chat — do not use AskUserQuestion.
+    - Include a recommendation only when evidence supports one; never invent one.
+    - Wait for the user's answer before asking the next question.
+    - Stop when no gaps remain.
+7. **Execute the Steps in sequential order.** Perform the plan's Steps one at a time, in the listed order. Do not
+   reorder, skip, batch ahead, or parallelize. Complete a Step's action — file edit, file creation, file deletion, or
+   command — and confirm it succeeded before starting the next Step. Apply only what the Step describes.
+8. **Verify the Acceptance criteria.** After the last Step, check each Acceptance criterion using the exact command or
+   assertion the plan supplies. Honor the test policy from step 3: when the plan does not mention tests, verify only
+   through the non-test checks the plan provides, and leave any criterion that can only be verified by tests unverified.
+9. **Confirm** with a summary message: files created, edited, and deleted; Steps completed (and the first blocked Step,
+   if any); each Acceptance criterion marked verified, unverified, or failed.
+
+## Execution discipline
+
+- **Version control is off-limits for writes.** Do not create, switch, rename, or check out branches; do not commit,
+  stage, push, pull, merge, rebase, stash, or reset. Use `git` only for read-only inspection (e.g. `git status`,
+  `git diff`) when an edit needs it.
+- **Sequential only.** Run the Steps strictly in the order the plan lists them, one at a time.
+- **Test policy is absolute.** If the plan does not mention tests, never read, open, write, or run a test file or enter
+  a test directory — not during investigation, execution, or verification.
+- **Stay inside the plan.** Make only the changes the Steps describe. Do not add out-of-plan refactors, renames,
+  reformatting, dependency upgrades, or "while I'm here" improvements.
+- **No partial placeholders.** A Step is either completed fully or reported as blocked. Do not leave TODOs, stubs, or
+  commented-out scaffolding in the code.
+- Write code and comments in English, matching the conventions and style of the surrounding code being edited.
+
+## Stop conditions
+
+- No folder or file provided → ask for one, then stop.
+- Input folder contains no file ending with `PLAN.md` → tell the user, then stop.
+- Input folder contains multiple files ending with `PLAN.md` → ask the user which one to use, then wait for their
+  answer.
+- Provided file does not end with `PLAN.md` → tell the user, then stop.
+- Plan is unreadable or empty → tell the user, then stop.
+- A Step cannot be completed (missing dependency, conflicting code, failing command, or a gap the user declined to
+  resolve in step 6) → stop at that Step. Report what blocked it, which Steps completed, and which Steps remain. Do not
+  proceed to later Steps, since they may depend on the blocked one.
