@@ -35,7 +35,7 @@ disable-model-invocation: true
     - For bug fixes: repro steps missing, expected behavior not stated
 6. **Ask one question at a time.**
     - Include a recommendation only when evidence supports one; never invent one.
-    - Wait for a answer before asking the next question.
+    - Wait for an answer before asking the next question.
     - Stop when no gaps remain.
 7. **Write the spec** to a markdown file inside a new folder. Create a folder in the current working directory whose
    name is the derived kebab-case title, then write the spec inside it as `<kebab-case-title>-SPEC.md` (e.g.

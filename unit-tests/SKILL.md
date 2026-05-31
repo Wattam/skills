@@ -19,7 +19,8 @@ disable-model-invocation: true
 3. **Localize unit tests.** For every file, module, function, class, or method named in the plan's Steps or Context,
    find the corresponding unit test using the project's convention: co-located (`foo.test.ts` next to `foo.ts`,
    `foo_test.go`, `test_foo.py` next to `foo.py`), parallel tree (`tests/unit/`, `test/`, `src/test/java/...`,
-   `__tests__/`), or framework-specific layout declared in `CLAUDE.md`. Search for direct references to each named symbol
+   `__tests__/`), or framework-specific layout declared in `CLAUDE.md`. Search for direct references to each named
+   symbol
    inside the unit test locations. Read each matching unit test file in full. Read each production file named in the
    plan only to confirm signatures, types, and exported symbols needed to write new tests. Do not read integration
    tests, end-to-end tests, fixtures unrelated to the matched tests, build files, or production code not named in the
@@ -50,7 +51,7 @@ disable-model-invocation: true
       removed.
 6. **Ask one question at a time.**.
     - Include a recommendation only when evidence supports one; never invent one.
-    - Wait for a answer before asking the next question.
+    - Wait for an answer before asking the next question.
     - Stop when no gaps remain.
 7. **Apply the change set.**
     - **CREATE**: write the new test file at the recorded path. Mirror the framework, imports, naming, fixtures, mocks,

@@ -34,7 +34,7 @@ it. Example: invoked in `/home/user/projects/foo`, `/home/user/projects/` and an
    testing quirks.
     - Ask one question at a time.
     - Include a recommendation only when evidence supports one; never invent one.
-    - Wait for a answer before asking the next question.
+    - Wait for an answer before asking the next question.
     - Stop when no gaps remain.
 
 3. **Phase 3 — Write.** If no `CLAUDE.md` exists, write a new one at `./CLAUDE.md`. If one already exists, do not

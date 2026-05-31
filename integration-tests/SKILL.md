@@ -19,7 +19,8 @@ disable-model-invocation: true
    criteria, Context, and Examples, as the binding source of behaviors to cover.
 3. **Localize integration tests.** Find the integration test root (e.g. `tests/integration/`, `test/integration/`,
    `src/test/java/.../it/`, `integration-tests/`, `e2e/`). For every file, symbol, endpoint, table, or column named in
-   the spec's Context, search the integration test root for direct references. Read each matching integration test file in
+   the spec's Context, search the integration test root for direct references. Read each matching integration test file
+   in
    full. Read each file the spec's Context names only to confirm signatures and payload shapes needed to write new
    tests. Do not read unit tests, fixtures unrelated to the matched tests, build files, or production code not named in
    the spec's Context.
@@ -46,7 +47,7 @@ disable-model-invocation: true
       removed.
 6. **Ask one question at a time.**
     - Include a recommendation only when evidence supports one; never invent one.
-    - Wait for a answer before asking the next question.
+    - Wait for an answer before asking the next question.
     - Stop when no gaps remain.
 7. **Apply the change set.**
     - **CREATE**: write the new test file at the recorded path. Mirror the framework, imports, naming, fixtures, and

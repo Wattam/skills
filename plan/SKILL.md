@@ -29,7 +29,7 @@ disable-model-invocation: true
     - **Verification** — acceptance criteria, migration/rollout/backfill steps not stated.
 5. **Ask one question at a time.**
     - Include a recommendation only when evidence supports one; never invent one.
-    - Wait for a answer before asking the next question.
+    - Wait for an answer before asking the next question.
     - Stop when no gaps remain.
 6. **Write the plan** to a markdown file inside the same folder as the spec. Filename: replace the trailing `SPEC.md`
    with `PLAN.md` (e.g. `add-promotion-archive-job-SPEC.md` → `add-promotion-archive-job-PLAN.md`). Overwrite if it

@@ -67,7 +67,7 @@ disable-model-invocation: true
       and which Scope bullet, Expected-behavior bullet, or Note item does it belong to?"
     - Include a classification recommendation (intended-but-undocumented, out-of-scope, or incidental refactor) only
       when evidence supports one; never invent one.
-    - Wait for a answer before asking the next.
+    - Wait for an answer before asking the next.
     - Based on the answer: drop the hunk from the issue list (intended, simply absent from the spec text) or add it as
       an issue under `## Out-of-scope changes`. If the user declines to answer, treat the hunk as out-of-scope.
     - Stop when every unmapped hunk has an answer.

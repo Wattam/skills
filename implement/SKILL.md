@@ -39,7 +39,7 @@ disable-model-invocation: true
       environment.
 6. **Ask one question at a time.**
     - Include a recommendation only when evidence supports one; never invent one.
-    - Wait for a answer before asking the next question.
+    - Wait for an answer before asking the next question.
     - Stop when no gaps remain.
 7. **Execute the Steps in sequential order.** Perform the plan's Steps one at a time, in the listed order. Do not
    reorder, skip, batch ahead, or parallelize. Complete a Step's action — file edit, file creation, file deletion, or
