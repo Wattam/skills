@@ -19,7 +19,7 @@ disable-model-invocation: true
 3. **Localize unit tests.** For every file, module, function, class, or method named in the plan's Steps or Context,
    find the corresponding unit test using the project's convention: co-located (`foo.test.ts` next to `foo.ts`,
    `foo_test.go`, `test_foo.py` next to `foo.py`), parallel tree (`tests/unit/`, `test/`, `src/test/java/...`,
-   `__tests__/`), or framework-specific layout declared in `CLAUDE.md`. Grep for direct references to each named symbol
+   `__tests__/`), or framework-specific layout declared in `CLAUDE.md`. Search for direct references to each named symbol
    inside the unit test locations. Read each matching unit test file in full. Read each production file named in the
    plan only to confirm signatures, types, and exported symbols needed to write new tests. Do not read integration
    tests, end-to-end tests, fixtures unrelated to the matched tests, build files, or production code not named in the
@@ -48,9 +48,9 @@ disable-model-invocation: true
       testable.
     - **Deletion confirmation** — an existing test appears obsolete but the plan does not explicitly mark its target as
       removed.
-6. **Ask one question at a time.** Use plain text in the chat — do not use AskUserQuestion.
+6. **Ask one question at a time.**.
     - Include a recommendation only when evidence supports one; never invent one.
-    - Wait for the user's answer before asking the next question.
+    - Wait for a answer before asking the next question.
     - Stop when no gaps remain.
 7. **Apply the change set.**
     - **CREATE**: write the new test file at the recorded path. Mirror the framework, imports, naming, fixtures, mocks,
@@ -135,7 +135,7 @@ Omit any of `Created`, `Edited`, or `Deleted` that has no entries. Do not introd
 
 - No folder provided → ask for one, then stop.
 - Folder contains no file ending with `PLAN.md` → tell the user, then stop.
-- Folder contains multiple files ending with `PLAN.md` → ask the user which one to use, then wait for their answer.
+- Folder contains multiple files ending with `PLAN.md` → ask which one to use, then wait for their answer.
 - Plan is unreadable or empty → tell the user, then stop.
 - No unit test location can be located and the user provides none in step 6 → tell the user, then stop without applying
   any changes.

@@ -46,8 +46,8 @@ plan, so they run after `plan/` has produced its output. The order among `implem
 5. **`unit-tests/`** — reads the `*PLAN.md` from a given folder, creates/edits/deletes unit test files in the codebase,
    and writes `<kebab-title>-UNIT-TESTS.md` **into the same folder**. The doc is a **record of test changes**, not a
    plan or rationale.
-6. **`review-code/`** — reads the `*SPEC.md` and a diff/file list, writes `<kebab-title>-REVIEW.md` **into the same folder**.
-   Contains **only issues found**, no praise or summaries.
+6. **`review-code/`** — reads the `*SPEC.md` and a diff/file list, writes `<kebab-title>-REVIEW.md` **into the same
+   folder**. Contains **only issues found**, no praise or summaries.
 
 Filename derivation rules:
 
@@ -60,28 +60,31 @@ Filename derivation rules:
 ## The `init-claude-md` skill (standalone)
 
 Not part of the pipeline. Generates `./CLAUDE.md` from a survey of repo files plus a short interview, or proposes a diff
-when one already exists. Follows the same authoring conventions as the pipeline skills (plain-text gap questions, no
-`AskUserQuestion`, LLM-optimized prose, self-contained outputs) with two deliberate divergences: it skips the "abort if
-no `CLAUDE.md`" precondition (it is the skill that creates the file), and its output lives at the repo root rather than
-in a `<kebab-title>/` folder.
+when one already exists. Follows the same authoring conventions as the pipeline skills (gap questions, LLM-optimized
+prose, self-contained outputs) with two deliberate divergences: it skips the "abort if no `CLAUDE.md`" precondition (it
+is the skill that creates the file), and its output lives at the repo root rather than in a `<kebab-title>/` folder.
 
 ## Invariants every skill enforces (keep these in sync if you edit one)
 
 - **Precondition.** `spec`, `plan`, `implement`, `integration-tests`, `unit-tests`, and `review-code` abort if no
   `CLAUDE.md` exists in the CWD — they rely on project context being present. `init-claude-md` is the exception: it runs
   without that precondition because it creates the file.
-- **Gap questions are plain chat text, one at a time.** Skills explicitly forbid `AskUserQuestion`. They wait for the
-  user's answer before asking the next, and stop when no gaps remain.
+- **Gap questions are plain chat text, one at a time.** They wait for the user's answer before asking the next, and stop
+  when no gaps remain.
 - **Recommendations only when evidence supports them** — never invented.
 - **Self-contained outputs.** Every identifier, path, signature, role, payload field needed to act on the doc must be
   inlined. Phrases like "see the ticket" / "as discussed" / "see the spec" are banned.
 - **No `<TBD>` / TODO placeholders.** Unanswered gaps go under a final `## Open questions` section instead.
 - **LLM-optimized prose.** Short declarative sentences, explicit identifiers, no rhetorical flourish.
+- **Harness-agnostic phrasing.** Skills must not name proprietary tools tied to a specific harness. Describe the action
+  instead ("search and read the codebase", "ask in plain chat text") so the skill runs on any agent. This applies only
+  to the harness's tool names — ordinary verbs like "read the file" or "write the spec", and real shell commands like
+  `git diff`, are fine.
 
 `implement` shares the precondition, gap-question, recommendation, and prose invariants but produces no markdown
 document, so the self-contained-output and `<TBD>`/`Open questions` invariants do not apply to it. Instead it inlines
-what is needed into its in-chat summary, and when a gap blocking a Step goes unanswered it stops at that Step rather than
-recording the gap.
+what is needed into its in-chat summary, and when a gap blocking a Step goes unanswered it stops at that Step rather
+than recording the gap.
 
 Stage-specific anti-patterns the docs ban explicitly — useful to know when reviewing edits:
 
@@ -99,8 +102,8 @@ Stage-specific anti-patterns the docs ban explicitly — useful to know when rev
 - **Unit-tests summary must contain only the record of test changes and the criterion-to-test coverage map.** If a
   unit-tests summary edit contains "in order to", "so that", "because", "as the plan describes", restates the plan, or
   inlines test source code, it has drifted into spec/plan territory.
-- **Review-code must contain only issues.** If a review-code edit contains "overall", "previously", "good job", "also", "
-  additionally", "note that", or restates passing criteria, it has drifted into summary territory.
+- **Review-code must contain only issues.** If a review-code edit contains "overall", "previously", "good job",
+  "also", "additionally", "note that", or restates passing criteria, it has drifted into summary territory.
 
 ## Output structure produced by the pipeline
 

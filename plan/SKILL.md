@@ -17,7 +17,7 @@ disable-model-invocation: true
 2. **Locate and ingest the spec.** List the folder contents, identify the file ending with `SPEC.md`, and read it in
    full.
 3. **Investigate the codebase.** Open each file the spec's Context names, plus their direct callers, related entities,
-   and tests. Use Grep, Glob, and Read to extract exact signatures, current line targets, and existing patterns to
+   and tests. Search and read the codebase to extract exact signatures, current line targets, and existing patterns to
    mirror. Record findings to populate the plan's per-step details.
 4. **Identify gaps.** Scan the spec and what the investigation surfaced for missing information that would block
    execution. Treat each of these as a potential gap:
@@ -27,9 +27,9 @@ disable-model-invocation: true
       writes, network calls, file I/O) not described.
     - **Constraints** — auth, permissions, role requirements not stated.
     - **Verification** — acceptance criteria, migration/rollout/backfill steps not stated.
-5. **Ask one question at a time.** Use plain text in the chat — do not use AskUserQuestion.
+5. **Ask one question at a time.**
     - Include a recommendation only when evidence supports one; never invent one.
-    - Wait for the user's answer before asking the next question.
+    - Wait for a answer before asking the next question.
     - Stop when no gaps remain.
 6. **Write the plan** to a markdown file inside the same folder as the spec. Filename: replace the trailing `SPEC.md`
    with `PLAN.md` (e.g. `add-promotion-archive-job-SPEC.md` → `add-promotion-archive-job-PLAN.md`). Overwrite if it
@@ -54,7 +54,7 @@ disable-model-invocation: true
 - Prefer code blocks and tables over prose.
 - No TODOs or `<TBD>` placeholders — every gap must either be answered in step 5 or recorded under `## Open questions`
   at the bottom.
-- Do not create or update test files, and do not add test-writing steps to the plan, unless the user explicitly asks.
+- Do not create or update test files, and do not add test-writing steps to the plan, unless explicitly asked.
 
 ## Plan file structure
 
@@ -86,7 +86,7 @@ disable-model-invocation: true
 
 - No folder provided → ask for one, then stop.
 - Folder contains no file ending with `SPEC.md` → tell the user, then stop.
-- Folder contains multiple files ending with `SPEC.md` → ask the user which one to use, then wait for their answer.
+- Folder contains multiple files ending with `SPEC.md` → ask which one to use, then wait for their answer.
 - Spec is unreadable or empty → tell the user, then stop.
 - User declines to answer a gap question → record the gap as an open question at the bottom of the plan under
   `## Open questions` and continue.

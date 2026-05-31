@@ -19,7 +19,7 @@ disable-model-invocation: true
    criteria, Context, and Examples, as the binding source of behaviors to cover.
 3. **Localize integration tests.** Find the integration test root (e.g. `tests/integration/`, `test/integration/`,
    `src/test/java/.../it/`, `integration-tests/`, `e2e/`). For every file, symbol, endpoint, table, or column named in
-   the spec's Context, Grep the integration test root for direct references. Read each matching integration test file in
+   the spec's Context, search the integration test root for direct references. Read each matching integration test file in
    full. Read each file the spec's Context names only to confirm signatures and payload shapes needed to write new
    tests. Do not read unit tests, fixtures unrelated to the matched tests, build files, or production code not named in
    the spec's Context.
@@ -44,9 +44,9 @@ disable-model-invocation: true
       clear test target.
     - **Deletion confirmation** — an existing test appears obsolete but the spec does not explicitly mark its target as
       removed.
-6. **Ask one question at a time.** Use plain text in the chat — do not use AskUserQuestion.
+6. **Ask one question at a time.**
     - Include a recommendation only when evidence supports one; never invent one.
-    - Wait for the user's answer before asking the next question.
+    - Wait for a answer before asking the next question.
     - Stop when no gaps remain.
 7. **Apply the change set.**
     - **CREATE**: write the new test file at the recorded path. Mirror the framework, imports, naming, fixtures, and
@@ -130,7 +130,7 @@ Omit any of `Created`, `Edited`, or `Deleted` that has no entries. Do not introd
 
 - No folder provided → ask for one, then stop.
 - Folder contains no file ending with `SPEC.md` → tell the user, then stop.
-- Folder contains multiple files ending with `SPEC.md` → ask the user which one to use, then wait for their answer.
+- Folder contains multiple files ending with `SPEC.md` → ask which one to use, then wait for their answer.
 - Spec is unreadable or empty → tell the user, then stop.
 - No integration test root can be located and the user provides none in step 6 → tell the user, then stop without
   applying any changes.

@@ -12,13 +12,12 @@ disable-model-invocation: true
 
 ## Workflow
 
-1. **Precondition.** If no `CLAUDE.md` exists in the current working directory, tell the user the skill requires project
-   context from `CLAUDE.md` and stop.
+1. **Precondition.** If no `CLAUDE.md` exists in the current working directory, tell the skill requires project context
+   from `CLAUDE.md` and stop.
 2. **Locate and ingest the plan.** If the input is a file path ending with `PLAN.md`, read it. If the input is a folder,
    list its contents, identify the file ending with `PLAN.md`, and read it in full. Treat Context, Steps, and Acceptance
    criteria as the binding source of work to perform.
-3. **Determine the test policy.** Scan the full plan text — Context, Steps, Acceptance criteria, and any Open
-   questions —
+3. **Determine the test policy.** Scan the full plan text (Context, Steps, Acceptance criteria, and any Open questions)
    for any mention of tests: test files, test cases, test directories, a test framework or runner, a test command, test
    assertions, a step that writes or changes tests, or a test-related acceptance criterion.
     - Plan mentions tests → you may read, create, edit, and run test files exactly as the plan directs.
@@ -26,7 +25,7 @@ disable-model-invocation: true
       any test file, and forbidden to navigate into test directories. Every action targets non-test code only. This
       includes verification in step 8: do not fall back to running tests to check anything.
 4. **Investigate the codebase.** For each file, symbol, signature, path, or command named in the plan's Context and
-   Steps, use Grep, Glob, and Read to confirm its current state, exact location, and surrounding patterns before
+   Steps, search and read the codebase to confirm its current state, exact location, and surrounding patterns before
    editing. Respect the test policy from step 3 — do not read test files when the plan does not mention tests.
 5. **Identify gaps.** Scan the plan and the investigation for missing information that blocks execution. A plan from the
    `plan` skill is meant to be self-contained, so gaps should be rare. Treat each of these as a potential gap:
@@ -38,9 +37,9 @@ disable-model-invocation: true
       without choosing among alternatives.
     - **Unrunnable check** — an Acceptance criterion names a command or assertion that cannot be run in this
       environment.
-6. **Ask one question at a time.** Use plain text in the chat — do not use AskUserQuestion.
+6. **Ask one question at a time.**
     - Include a recommendation only when evidence supports one; never invent one.
-    - Wait for the user's answer before asking the next question.
+    - Wait for a answer before asking the next question.
     - Stop when no gaps remain.
 7. **Execute the Steps in sequential order.** Perform the plan's Steps one at a time, in the listed order. Do not
    reorder, skip, batch ahead, or parallelize. Complete a Step's action — file edit, file creation, file deletion, or
@@ -69,8 +68,7 @@ disable-model-invocation: true
 
 - No folder or file provided → ask for one, then stop.
 - Input folder contains no file ending with `PLAN.md` → tell the user, then stop.
-- Input folder contains multiple files ending with `PLAN.md` → ask the user which one to use, then wait for their
-  answer.
+- Input folder contains multiple files ending with `PLAN.md` → ask which one to use, then wait for their answer.
 - Provided file does not end with `PLAN.md` → tell the user, then stop.
 - Plan is unreadable or empty → tell the user, then stop.
 - A Step cannot be completed (missing dependency, conflicting code, failing command, or a gap the user declined to

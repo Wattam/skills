@@ -62,12 +62,12 @@ disable-model-invocation: true
           and Acceptance criteria unasserted
 6. **Ask about unmapped changes.** For each changed hunk that is not covered by the spec and cannot be derived from any
    Scope/Expected-behavior/Context/Note entry:
-    - Ask one question at a time. Use plain text in the chat — do not use AskUserQuestion.
+    - Ask one question at a time.
     - Question shape: "`<file>:<line>` — <short description of the change> is not covered by the spec. Is this intended,
       and which Scope bullet, Expected-behavior bullet, or Note item does it belong to?"
     - Include a classification recommendation (intended-but-undocumented, out-of-scope, or incidental refactor) only
       when evidence supports one; never invent one.
-    - Wait for the user's answer before asking the next.
+    - Wait for a answer before asking the next.
     - Based on the answer: drop the hunk from the issue list (intended, simply absent from the spec text) or add it as
       an issue under `## Out-of-scope changes`. If the user declines to answer, treat the hunk as out-of-scope.
     - Stop when every unmapped hunk has an answer.
@@ -157,7 +157,7 @@ no "Notes", no "Open questions").
 
 - No folder provided → ask for one, then stop.
 - Folder contains no file ending with `SPEC.md` → tell the user, then stop.
-- Folder contains multiple files ending with `SPEC.md` → ask the user which one to use, then wait for their answer.
+- Folder contains multiple files ending with `SPEC.md` → ask which one to use, then wait for their answer.
 - Spec is unreadable or empty → tell the user, then stop.
 - No code changes resolvable from the input (empty diff, no files) → tell the user, then stop.
 - User declines to answer an unmapped-change question → record the hunk under `## Out-of-scope changes` and continue.

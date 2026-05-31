@@ -9,8 +9,8 @@ disable-model-invocation: true
 ## Inputs
 
 - A natural-language description of a feature or bug fix, provided as:
-    - Text in the user's invocation message, or
-    - A file path the user supplies (read it with the Read tool).
+    - Text in invocation message, or
+    - A file path.
 
 ## Workflow
 
@@ -18,7 +18,7 @@ disable-model-invocation: true
    context from `CLAUDE.md` and stop.
 2. **Classify the request** as **feature** or **bug fix** and pick the template variant (see "Spec file structure"
    below).
-3. **Investigate the codebase.** Use Grep, Glob, and Read to locate the files, symbols, and existing patterns the
+3. **Investigate the codebase.** Search and read the codebase to locate the files, symbols, and existing patterns the
    request touches. Record what you find; these populate the spec's Context section without needing a user question.
 4. **Derive a short title.** 2–6 words, kebab-case for the filename, Title Case for the document heading. Examples:
    `add-promotion-archive-job` / `Add Promotion Archive Job`, `fix-template-role-check` / `Fix Template Role Check`.
@@ -33,9 +33,9 @@ disable-model-invocation: true
     - Edge cases not surfaced (null, empty, unauthorized, oversized, concurrent, …)
     - Constraints/gotchas not stated (auth, perf, ordering, idempotency, side effects)
     - For bug fixes: repro steps missing, expected behavior not stated
-6. **Ask one question at a time.** Use plain text in the chat — do not use AskUserQuestion.
+6. **Ask one question at a time.**
     - Include a recommendation only when evidence supports one; never invent one.
-    - Wait for the user's answer before asking the next question.
+    - Wait for a answer before asking the next question.
     - Stop when no gaps remain.
 7. **Write the spec** to a markdown file inside a new folder. Create a folder in the current working directory whose
    name is the derived kebab-case title, then write the spec inside it as `<kebab-case-title>-SPEC.md` (e.g.

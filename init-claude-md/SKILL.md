@@ -32,9 +32,9 @@ it. Example: invoked in `/home/user/projects/foo`, `/home/user/projects/` and an
 
 2. **Phase 2 — Interview.** Ask only what the survey could not answer: undocumented commands, gotchas, env setup,
    testing quirks.
-    - Ask one question at a time. Use plain text in the chat — do not use AskUserQuestion.
+    - Ask one question at a time.
     - Include a recommendation only when evidence supports one; never invent one.
-    - Wait for the user's answer before asking the next question.
+    - Wait for a answer before asking the next question.
     - Stop when no gaps remain.
 
 3. **Phase 3 — Write.** If no `CLAUDE.md` exists, write a new one at `./CLAUDE.md`. If one already exists, do not
