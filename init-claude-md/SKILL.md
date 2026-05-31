@@ -1,6 +1,6 @@
 ---
 name: init-claude-md
-description: Generate a minimal CLAUDE.md for the current repository, or propose a diff against an existing one. CLAUDE.md loads into every Claude Code session — include only what Claude would otherwise get wrong.
+description: Generate a minimal CLAUDE.md for the current repository, or propose a diff against an existing one.
 disable-model-invocation: true
 ---
 
@@ -23,15 +23,12 @@ it. Example: invoked in `/home/user/projects/foo`, `/home/user/projects/` and an
    `.circleci/config.yml`, etc.), `README*`, existing `CLAUDE.md`, `AGENTS.md`, `.cursor/rules`, `.cursorrules`,
    `.windsurfrules`, `.clinerules`, `.mcp.json`. From these, detect:
     - Non-standard build/test/lint commands
-    - Languages, frameworks, package manager
-    - Project structure (monorepo, multi-module, single)
     - Style rules diverging from language defaults
     - Required env vars, gotchas, workflow quirks
 
    Track what the files alone cannot reveal — these become Phase 2 questions.
 
-2. **Phase 2 — Interview.** Ask only what the survey could not answer: undocumented commands, gotchas, env setup,
-   testing quirks.
+2. **Phase 2 — Interview.** Ask only what the survey could not answer.
     - Ask one question at a time.
     - Include a recommendation only when evidence supports one; never invent one.
     - Wait for an answer before asking the next question.
@@ -46,13 +43,10 @@ it. Example: invoked in `/home/user/projects/foo`, `/home/user/projects/` and an
 ## Content rules
 
 - Every line must pass: "Would Claude make mistakes without this?" If no, cut it.
-- Write tersely and LLM-optimized: short imperative rules, concrete examples over prose, no redundancy, no filler. Each
-  item stands on its own.
+- Write tersely: short imperative rules, concrete examples over prose. Each item stands on its own.
 - Be specific: "Use 2-space indentation in TypeScript" beats "format code properly."
 - Only write facts derived from files read in Phase 1 or interview answers in Phase 2. Do not invent sections like "
   Common Development Tasks" or "Tips for Development."
-- For long or volatile content (API docs, references), use `@path/to/file` imports so Claude reads the current version
-  on demand instead of inlining it.
 
 ## Required preamble
 

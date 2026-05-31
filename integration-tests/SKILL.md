@@ -1,6 +1,6 @@
 ---
 name: integration-tests
-description: Create, edit, and delete integration tests in the codebase based on a specification (folder path containing a file ending with SPEC.md). Localize the affected test files with minimal codebase exploration, apply the changes in place, and write a summary of the test changes inside the same spec folder.
+description: Create, edit, and delete integration tests in the codebase based on a specification.
 disable-model-invocation: true
 ---
 
@@ -20,10 +20,8 @@ disable-model-invocation: true
 3. **Localize integration tests.** Find the integration test root (e.g. `tests/integration/`, `test/integration/`,
    `src/test/java/.../it/`, `integration-tests/`, `e2e/`). For every file, symbol, endpoint, table, or column named in
    the spec's Context, search the integration test root for direct references. Read each matching integration test file
-   in
-   full. Read each file the spec's Context names only to confirm signatures and payload shapes needed to write new
-   tests. Do not read unit tests, fixtures unrelated to the matched tests, build files, or production code not named in
-   the spec's Context.
+   in full. Read each file the spec's Context names only to confirm signatures and payload shapes needed to write new
+   tests.
 4. **Build the change set.** For each Scope item (feature spec) or each Expected-behavior bullet (bug-fix spec), and
    for each Acceptance criterion in the spec:
     - An integration test from step 3 already exercises the same symbol, endpoint, or behavior → **EDIT** (record file
@@ -78,8 +76,8 @@ disable-model-invocation: true
 
 ## Investigation discipline
 
-- Read only the integration test root and the spec's Context-named files. Do not open unit tests, production code beyond
-  the Context, build files, or CI configuration.
+- Read only the integration test root and the spec's Context-named files. Do not open unit tests, fixtures unrelated to
+  the matched tests, production code beyond the Context, build files, or CI configuration.
 - Do not run tests, install dependencies, or trigger any code execution.
 - Do not modify production code, fixtures, helpers, build files, CI configuration, or unit tests.
 - Do not introduce new helpers, base classes, or fixtures unless an existing integration test in the same root already

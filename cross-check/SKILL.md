@@ -1,6 +1,6 @@
 ---
 name: cross-check
-description: Cross-check a specification, its implementation plan, and any tests written before implementation (folder path containing a file ending with SPEC.md and a file ending with PLAN.md) for inconsistencies, and write the findings to a markdown file inside that same folder. Runs before implement. Reports only the inconsistencies found across the documents; never prescribes how to fix them and never modifies the spec, plan, or tests.
+description: Cross-check a specification, implementation plan, and test documents for inconsistencies.
 disable-model-invocation: true
 ---
 

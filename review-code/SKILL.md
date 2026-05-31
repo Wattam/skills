@@ -1,6 +1,6 @@
 ---
 name: review-code
-description: Review code changes against a specification (folder path containing a file ending with SPEC.md) and write the findings to a markdown file inside that same spec folder.
+description: Review code changes against a specification.
 disable-model-invocation: true
 ---
 
@@ -11,8 +11,7 @@ disable-model-invocation: true
 - A spec folder path containing a file ending with `SPEC.md`.
 - The code changes to review, provided as one of:
     - A list of file paths or a directory.
-    - A git diff range (e.g. `main..HEAD`, a branch name, or a commit SHA). Use `git diff --name-only <range>` and
-      `git diff <range>` to enumerate and read.
+    - A git diff range (e.g. `main..HEAD`, a branch name, or a commit SHA).
     - Nothing → default to the uncommitted working tree (`git status` + `git diff HEAD`).
 
 ## Workflow
@@ -27,9 +26,8 @@ disable-model-invocation: true
    supposed to mirror.
 4. **Map each change to the spec.** For every changed hunk, determine which spec item it satisfies or violates: Scope
    bullet (feature spec), Expected-behavior bullet (bug-fix spec), Acceptance criterion, Context pointer, Example, or
-   Note. Track unmapped changes — code that is altered but is neither mentioned in nor derivable from the spec.
-5. **Identify issues.** Treat each of these as a potential issue. For every one found, record the exact file path and
-   line number(s):
+   Note. Track unmapped changes (defined in step 6).
+5. **Identify issues.** Treat each of these as a potential issue:
     - Scope item (feature spec) or Expected-behavior bullet (bug-fix spec) not implemented or only partially
       implemented
     - File or symbol modified that is outside the spec's stated scope — listed under Out of scope (feature spec), or
@@ -92,15 +90,14 @@ disable-model-invocation: true
   that sentence.
 - Every issue must cite the exact file path and line number(s) in its evidence table. Use a single line number (e.g.
   `37`) or a range (e.g. `320, 328–331` or `256–269`). Line numbers refer to the file at its current revision on disk.
-- One numbered heading per logical issue. Same problem at multiple sites = one issue with one table (one row per site).
-  Different problems = separate issues, even when they share a file.
-- Group similar findings — repeated rule violations, multiple sites of the same bug, the same Note breached in several
-  files — into that single table. Each row is one piece of evidence: `File`, `Lines`, `Code`.
+- One numbered heading per logical issue with one table; the same problem at multiple sites is one issue with one row
+  per site (repeated rule violations, multiple sites of the same bug, the same Note breached in several files).
+  Different problems are separate issues, even when they share a file. Each row is one piece of evidence: `File`,
+  `Lines`, `Code`.
 - Below each heading write 1–2 short sentences naming what is wrong and which spec item or rule it violates (Scope
   bullet or Expected-behavior bullet for bug-fix specs, Acceptance criterion, Out-of-scope rule, Context pattern,
-  Example, Note, `Correctness` when it is a bug not tied to a spec item, or `Tests` when a test reinforces the
-  implementation instead of verifying the specified behavior). Follow-up prose after the table is allowed only when a
-  single sentence cannot make the issue actionable.
+  Example, Note, `Correctness` when it is a bug not tied to a spec item, or `Tests` for a test issue from step 5).
+  Follow-up prose after the table is allowed only when a single sentence cannot make the issue actionable.
 - Use tables for evidence; quote the offending code only when it is shorter than the explanation and clarifies the
   issue.
 - No TODOs, no "figure out later", no placeholders like `<TBD>`. If a finding is uncertain, omit it.
@@ -120,10 +117,11 @@ Within a section, number issues sequentially starting at 1 and reset the counter
 
 <1–2 sentences: what changed and why it is out of scope per the spec.>
 
-| File                | Lines  | Code                       |
-|---------------------|--------|----------------------------|
-| `path/to/file.ext`  | 12–34  | `<offending snippet>`      |
-| `path/to/other.ext` | 88     | `<offending snippet>`      |
+| File                | Lines        | Code                       |
+|---------------------|--------------|----------------------------|
+| `path/to/file.ext`  | 12–34        | `<offending snippet>`      |
+| same                | 320, 328–331 | `<offending snippet>`      |
+| `path/to/other.ext` | 88           | `<offending snippet>`      |
 
 ## Acceptance criteria not met
 
@@ -131,23 +129,14 @@ Within a section, number issues sequentially starting at 1 and reset the counter
 
 <1–2 sentences: what is missing or wrong.>
 
-| File               | Lines    | Code                       |
-|--------------------|----------|----------------------------|
-| `path/to/file.ext` | 256–269  | `<offending snippet>`      |
-
 ## Implementation issues
 
 ### 1. <issue title>
 
 <1–2 sentences: what is wrong, naming the Context pattern, Note, edge case, or `Correctness` rule it violates.>
-
-| File                | Lines        | Code                       |
-|---------------------|--------------|----------------------------|
-| `path/to/file.ext`  | 37           | `<offending snippet>`      |
-| same                | 320, 328–331 | `<offending snippet>`      |
-| `path/to/other.ext` | 270–273      | `<offending snippet>`      |
 ```
 
+Every issue under every section carries the same `File`/`Lines`/`Code` evidence table shown above.
 `## Implementation issues` covers every finding that is neither out-of-scope nor a missed acceptance criterion.
 
 Omit any section that has no entries. Do not add any other top-level section (no "Spec gaps", no "Files referenced",
@@ -160,4 +149,3 @@ no "Notes", no "Open questions").
 - Folder contains multiple files ending with `SPEC.md` → ask which one to use, then wait for their answer.
 - Spec is unreadable or empty → tell the user, then stop.
 - No code changes resolvable from the input (empty diff, no files) → tell the user, then stop.
-- User declines to answer an unmapped-change question → record the hunk under `## Out-of-scope changes` and continue.

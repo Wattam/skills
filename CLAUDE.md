@@ -16,8 +16,8 @@ Each `SKILL.md` begins with YAML frontmatter:
 ```yaml
 ---
 name: <skill-name>                      # must match the folder name
-description: <one paragraph>            # what it does
-disable-model-invocation: true          # current convention across all skills
+description: <one line>                 # short description of what it does
+disable-model-invocation: true
 ---
 ```
 
@@ -121,7 +121,7 @@ Stage-specific anti-patterns the docs ban explicitly — useful to know when rev
 
 ```
 <cwd>/
-└── <kebab-title>/                    # created by spec, reused by plan/integration-tests/unit-tests/cross-check/review-code
+└── <kebab-title>/                # created by spec, reused by plan/integration-tests/unit-tests/cross-check/review-code
     ├── <kebab-title>-SPEC.md
     ├── <kebab-title>-PLAN.md
     ├── <kebab-title>-INTEGRATION-TESTS.md
@@ -144,10 +144,6 @@ The cross-check file has exactly three top-level sections in fixed order — `##
 `## Plan ↔ tests` — with numbered inconsistencies restarting at 1 inside each section. Sections with no entries are
 omitted; the two test sections are omitted entirely when tests are absent. Do not introduce new top-level sections when
 editing `cross-check/SKILL.md`.
-
-The review file has exactly three top-level sections in fixed order — `## Out-of-scope changes`,
-`## Acceptance criteria not met`, `## Implementation issues` — with numbered issues restarting at 1 inside each section.
-Do not introduce new top-level sections when editing `review-code/SKILL.md`.
 
 ## Editing tips
 

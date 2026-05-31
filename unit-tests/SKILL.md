@@ -1,6 +1,6 @@
 ---
 name: unit-tests
-description: Create, edit, and delete unit tests in the codebase based on an implementation plan (folder path containing a file ending with PLAN.md). Localize the affected test files with minimal codebase exploration, apply the changes in place, and write a summary of the test changes inside the same plan folder.
+description: Create, edit, and delete unit tests in the codebase based on an implementation plan.
 disable-model-invocation: true
 ---
 
@@ -16,15 +16,12 @@ disable-model-invocation: true
    context from `CLAUDE.md` and stop.
 2. **Locate and ingest the plan.** List the folder contents, identify the file ending with `PLAN.md`, and read it in
    full. Treat Context, Steps, and Acceptance criteria as the binding source of behaviors to cover.
-3. **Localize unit tests.** For every file, module, function, class, or method named in the plan's Steps or Context,
-   find the corresponding unit test using the project's convention: co-located (`foo.test.ts` next to `foo.ts`,
+3. **Localize unit tests.** Determine the project's unit test convention: co-located (`foo.test.ts` next to `foo.ts`,
    `foo_test.go`, `test_foo.py` next to `foo.py`), parallel tree (`tests/unit/`, `test/`, `src/test/java/...`,
-   `__tests__/`), or framework-specific layout declared in `CLAUDE.md`. Search for direct references to each named
-   symbol
-   inside the unit test locations. Read each matching unit test file in full. Read each production file named in the
-   plan only to confirm signatures, types, and exported symbols needed to write new tests. Do not read integration
-   tests, end-to-end tests, fixtures unrelated to the matched tests, build files, or production code not named in the
-   plan.
+   `__tests__/`), or framework-specific layout declared in `CLAUDE.md`. For every file, module, function, class, or
+   method named in the plan's Steps or Context, search those unit test locations for direct references and read each
+   matching unit test file in full. Read each production file named in the plan only to confirm signatures, types, and
+   exported symbols needed to write new tests.
 4. **Build the change set.** For each Step and each Acceptance criterion in the plan:
     - A unit test from step 3 already exercises the same symbol or behavior → **EDIT** (record file path and the
       assertions/cases to add, change, or remove).
@@ -49,7 +46,7 @@ disable-model-invocation: true
       testable.
     - **Deletion confirmation** — an existing test appears obsolete but the plan does not explicitly mark its target as
       removed.
-6. **Ask one question at a time.**.
+6. **Ask one question at a time.**
     - Include a recommendation only when evidence supports one; never invent one.
     - Wait for an answer before asking the next question.
     - Stop when no gaps remain.
@@ -83,7 +80,8 @@ disable-model-invocation: true
 ## Investigation discipline
 
 - Read only the unit test locations and the production files named in the plan. Do not open integration tests,
-  end-to-end tests, production code beyond the plan, build files, or CI configuration.
+  end-to-end tests, fixtures unrelated to the matched tests, production code beyond the plan, build files, or CI
+  configuration.
 - Do not run tests, install dependencies, or trigger any code execution.
 - Do not modify production code, fixtures, helpers, build files, CI configuration, integration tests, or end-to-end
   tests.

@@ -1,6 +1,6 @@
 ---
 name: implement
-description: Execute an implementation plan (folder path containing a file ending with PLAN.md, or a direct path to a file ending with PLAN.md) by applying its Steps to the codebase in sequential order and verifying its Acceptance criteria. Modifies code in place. Never creates, switches, or commits to branches. When the plan does not mention tests, never reads or touches test files.
+description: Execute an implementation plan.
 disable-model-invocation: true
 ---
 
@@ -12,8 +12,8 @@ disable-model-invocation: true
 
 ## Workflow
 
-1. **Precondition.** If no `CLAUDE.md` exists in the current working directory, tell the skill requires project context
-   from `CLAUDE.md` and stop.
+1. **Precondition.** If no `CLAUDE.md` exists in the current working directory, tell the user the skill requires project
+   context from `CLAUDE.md` and stop.
 2. **Locate and ingest the plan.** If the input is a file path ending with `PLAN.md`, read it. If the input is a folder,
    list its contents, identify the file ending with `PLAN.md`, and read it in full. Treat Context, Steps, and Acceptance
    criteria as the binding source of work to perform.
@@ -26,7 +26,7 @@ disable-model-invocation: true
       includes verification in step 8: do not fall back to running tests to check anything.
 4. **Investigate the codebase.** For each file, symbol, signature, path, or command named in the plan's Context and
    Steps, search and read the codebase to confirm its current state, exact location, and surrounding patterns before
-   editing. Respect the test policy from step 3 — do not read test files when the plan does not mention tests.
+   editing. Respect the test policy from step 3.
 5. **Identify gaps.** Scan the plan and the investigation for missing information that blocks execution. A plan from the
    `plan` skill is meant to be self-contained, so gaps should be rare. Treat each of these as a potential gap:
     - **Plan open questions** — the plan's own `## Open questions` section lists an unresolved item that a Step depends
@@ -45,8 +45,8 @@ disable-model-invocation: true
    reorder, skip, batch ahead, or parallelize. Complete a Step's action — file edit, file creation, file deletion, or
    command — and confirm it succeeded before starting the next Step. Apply only what the Step describes.
 8. **Verify the Acceptance criteria.** After the last Step, check each Acceptance criterion using the exact command or
-   assertion the plan supplies. Honor the test policy from step 3: when the plan does not mention tests, verify only
-   through the non-test checks the plan provides, and leave any criterion that can only be verified by tests unverified.
+   assertion the plan supplies. Under the test policy from step 3, leave any criterion that can only be verified by
+   tests unverified.
 9. **Confirm** with a summary message: files created, edited, and deleted; Steps completed (and the first blocked Step,
    if any); each Acceptance criterion marked verified, unverified, or failed.
 
@@ -55,7 +55,6 @@ disable-model-invocation: true
 - **Version control is off-limits for writes.** Do not create, switch, rename, or check out branches; do not commit,
   stage, push, pull, merge, rebase, stash, or reset. Use `git` only for read-only inspection (e.g. `git status`,
   `git diff`) when an edit needs it.
-- **Sequential only.** Run the Steps strictly in the order the plan lists them, one at a time.
 - **Test policy is absolute.** If the plan does not mention tests, never read, open, write, or run a test file or enter
   a test directory — not during investigation, execution, or verification.
 - **Stay inside the plan.** Make only the changes the Steps describe. Do not add out-of-plan refactors, renames,

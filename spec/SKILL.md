@@ -1,6 +1,6 @@
 ---
 name: spec
-description: Turn a natural-language feature or bug-fix request into a tight, LLM-optimized specification written to a markdown file inside a new folder named after the derived kebab-case title in the current working directory. The spec describes WHAT changes and the minimum WHY needed to scope it, never HOW to implement it.
+description: Turn a natural-language feature or bug-fix request into a specification file.
 disable-model-invocation: true
 ---
 
@@ -37,8 +37,8 @@ disable-model-invocation: true
     - Include a recommendation only when evidence supports one; never invent one.
     - Wait for an answer before asking the next question.
     - Stop when no gaps remain.
-7. **Write the spec** to a markdown file inside a new folder. Create a folder in the current working directory whose
-   name is the derived kebab-case title, then write the spec inside it as `<kebab-case-title>-SPEC.md` (e.g.
+7. **Write the spec.** Create a folder in the current working directory whose name is the derived kebab-case title,
+   then write the spec inside it as `<kebab-case-title>-SPEC.md` (e.g.
    `add-promotion-archive-job/add-promotion-archive-job-SPEC.md`). If the folder already exists, reuse it; if the target
    file already exists, overwrite it.
 8. **Confirm** with a one-line message naming the folder and file written.
@@ -48,15 +48,15 @@ disable-model-invocation: true
 - Write in English, optimized for LLM consumption: short declarative sentences, explicit identifiers, no rhetorical
   flourish.
 - Describe **WHAT** changes and the minimum **WHY** to scope it (one-sentence Goal). Do not describe **HOW**: no
-  step-by-step procedures, no chosen algorithms, no file edits, no code. Implementation choices do not belong in a
-  spec — delete them. If you catch yourself writing "first do X, then Y" or "add this method" — delete it.
+  step-by-step procedures, no chosen algorithms, no file edits, no code. If you catch yourself writing "first do X,
+  then Y" or "add this method", delete it.
 - The spec must be **self-contained**. Every name, path, role, identifier, payload field, or value needed to scope the
   work must appear in the spec. Do not write "see the ticket" or "as discussed" — inline the information.
 - Point at specific files in Context. "Look at `service/PromotionService.java` for the existing archive pattern"
   prevents an implementer from inventing a new one.
 - Include at least one concrete example. Even for a one-line fix: "input `null` should return `[]` not throw" beats a
   paragraph of description. For features, include one normal case and one edge case.
-- Include the **Out of scope** section only when the change touches shared code; omit it for narrowly scoped changes.
+- Include the **Out of scope** section only when the change touches shared code.
 - No TODOs or `<TBD>` placeholders — every gap must either be answered in step 6 or recorded under `## Open questions`
   at the bottom.
 

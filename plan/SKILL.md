@@ -1,6 +1,6 @@
 ---
 name: plan
-description: Turn a specification (folder path containing a file ending with SPEC.md) into a self-contained, LLM-optimized implementation plan written to a markdown file inside that same spec folder. The plan describes HOW to execute the work, never WHY.
+description: Turn a specification into a implementation plan.
 disable-model-invocation: true
 ---
 
@@ -27,10 +27,8 @@ disable-model-invocation: true
       writes, network calls, file I/O) not described.
     - **Constraints** — auth, permissions, role requirements not stated.
     - **Verification** — acceptance criteria, migration/rollout/backfill steps not stated.
-5. **Ask one question at a time.**
-    - Include a recommendation only when evidence supports one; never invent one.
-    - Wait for an answer before asking the next question.
-    - Stop when no gaps remain.
+5. **Ask one question at a time.** Include a recommendation only when evidence supports one; never invent one. Wait for
+   an answer before asking the next; stop when no gaps remain.
 6. **Write the plan** to a markdown file inside the same folder as the spec. Filename: replace the trailing `SPEC.md`
    with `PLAN.md` (e.g. `add-promotion-archive-job-SPEC.md` → `add-promotion-archive-job-PLAN.md`). Overwrite if it
    exists.
@@ -40,9 +38,9 @@ disable-model-invocation: true
 
 - Write in English, optimized for LLM consumption: short declarative sentences, explicit identifiers, no rhetorical
   flourish.
-- Describe **HOW**, never **WHY**. No rationale, no background, no "this is important because...". If you catch yourself
-  writing "because", "in order to", "so that", or "the reason is" — delete that sentence.
-- The plan must be **self-contained**. Inline every identifier, path, signature, schema, role, and value. Never
+- Describe **HOW**, never **WHY** — no rationale, no background. If you catch yourself writing "because", "in order to",
+  "so that", or "the reason is", delete that sentence.
+- The plan must be **self-contained**: inline every identifier, path, signature, schema, role, and value. Never
   substitute a reference like "see the spec" for the information itself.
 - Use ordered steps; one concrete action per step.
 - For each step, include (when applicable):
