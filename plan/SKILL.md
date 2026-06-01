@@ -8,7 +8,7 @@ disable-model-invocation: true
 
 ## Inputs
 
-- A folder path containing a file ending with `SPEC.md`.
+- A folder path containing a file ending with `SPEC.md`. Expected location: `specs/<kebab-title>/`.
 
 ## Workflow
 
@@ -30,8 +30,8 @@ disable-model-invocation: true
 5. **Ask one question at a time.** Include a recommendation only when evidence supports one; never invent one. Wait for
    an answer before asking the next; stop when no gaps remain.
 6. **Write the plan** to a markdown file inside the same folder as the spec. Filename: replace the trailing `SPEC.md`
-   with `PLAN.md` (e.g. `add-promotion-archive-job-SPEC.md` → `add-promotion-archive-job-PLAN.md`). Overwrite if it
-   exists.
+   with `PLAN.md` (e.g. `specs/add-promotion-archive-job/add-promotion-archive-job-SPEC.md` →
+   `specs/add-promotion-archive-job/add-promotion-archive-job-PLAN.md`). Overwrite if it exists.
 7. **Confirm** with a one-line message naming the file written.
 
 ## Plan content rules

@@ -37,10 +37,10 @@ disable-model-invocation: true
     - Include a recommendation only when evidence supports one; never invent one.
     - Wait for an answer before asking the next question.
     - Stop when no gaps remain.
-7. **Write the spec.** Create a folder in the current working directory whose name is the derived kebab-case title,
-   then write the spec inside it as `<kebab-case-title>-SPEC.md` (e.g.
-   `add-promotion-archive-job/add-promotion-archive-job-SPEC.md`). If the folder already exists, reuse it; if the target
-   file already exists, overwrite it.
+7. **Write the spec.** Create a folder named `specs/` in the current working directory if it does not already exist,
+   then create a subfolder inside `specs/` whose name is the derived kebab-case title. Write the spec inside that
+   subfolder as `<kebab-case-title>-SPEC.md` (e.g. `specs/add-promotion-archive-job/add-promotion-archive-job-SPEC.md`).
+   If the subfolder already exists, reuse it; if the target file already exists, overwrite it.
 8. **Confirm** with a one-line message naming the folder and file written.
 
 ## Spec content rules

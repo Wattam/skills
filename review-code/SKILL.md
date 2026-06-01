@@ -8,7 +8,7 @@ disable-model-invocation: true
 
 ## Inputs
 
-- A spec folder path containing a file ending with `SPEC.md`.
+- A spec folder path containing a file ending with `SPEC.md`. Expected location: `specs/<kebab-title>/`.
 - The code changes to review, provided as one of:
     - A list of file paths or a directory.
     - A git diff range (e.g. `main..HEAD`, a branch name, or a commit SHA).
@@ -70,8 +70,8 @@ disable-model-invocation: true
       an issue under `## Out-of-scope changes`. If the user declines to answer, treat the hunk as out-of-scope.
     - Stop when every unmapped hunk has an answer.
 7. **Write the review** to a markdown file inside the same folder as the spec. Filename: replace the trailing `SPEC.md`
-   with `REVIEW.md` (e.g. `add-promotion-archive-job-SPEC.md` → `add-promotion-archive-job-REVIEW.md`). Overwrite if it
-   exists.
+   with `REVIEW.md` (e.g. `specs/add-promotion-archive-job/add-promotion-archive-job-SPEC.md` →
+   `specs/add-promotion-archive-job/add-promotion-archive-job-REVIEW.md`). Overwrite if it exists.
 8. **Confirm** with a one-line message naming the file written and the number of issues found.
 
 ## Review content rules

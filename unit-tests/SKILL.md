@@ -8,7 +8,7 @@ disable-model-invocation: true
 
 ## Inputs
 
-- A folder path containing a file ending with `PLAN.md`.
+- A folder path containing a file ending with `PLAN.md`. Expected location: `specs/<kebab-title>/`.
 
 ## Workflow
 
@@ -57,8 +57,8 @@ disable-model-invocation: true
     - **DELETE**: remove the file, or delete only the specific test functions when the remaining tests in the file still
       cover in-scope behavior.
 8. **Write the summary** to a markdown file inside the same folder as the plan. Filename: replace the trailing `PLAN.md`
-   with `UNIT-TESTS.md` (e.g. `add-promotion-archive-job-PLAN.md` → `add-promotion-archive-job-UNIT-TESTS.md`).
-   Overwrite if it exists.
+   with `UNIT-TESTS.md` (e.g. `specs/add-promotion-archive-job/add-promotion-archive-job-PLAN.md` →
+   `specs/add-promotion-archive-job/add-promotion-archive-job-UNIT-TESTS.md`). Overwrite if it exists.
 9. **Confirm** with a one-line message naming the summary file and the counts of files created, edited, and deleted.
 
 ## Content rules

@@ -34,7 +34,8 @@ after `plan/` and after any pre-implementation tests, and before `implement` —
 tests against one another so contradictions are caught before code is written.
 
 1. **`spec/`** — turns a feature/bug request into `<kebab-title>-SPEC.md` inside a **new** folder named `<kebab-title>/`
-   in the CWD. Describes **WHAT** and minimum **WHY**, never **HOW**.
+   under `specs/` in the CWD (creating `specs/` first if it does not exist). Describes **WHAT** and minimum **WHY**,
+   never **HOW**.
 2. **`plan/`** — reads the `*SPEC.md` from a given folder and writes `<kebab-title>-PLAN.md` **into the same folder**.
    Describes **HOW**, never **WHY**.
 3. **`integration-tests/`** — reads the `*SPEC.md` from a given folder, creates/edits/deletes integration test files in
@@ -68,7 +69,7 @@ Filename derivation rules:
 Not part of the pipeline. Generates `./CLAUDE.md` from a survey of repo files plus a short interview, or proposes a diff
 when one already exists. Follows the same authoring conventions as the pipeline skills (gap questions, LLM-optimized
 prose, self-contained outputs) with two deliberate divergences: it skips the "abort if no `CLAUDE.md`" precondition (it
-is the skill that creates the file), and its output lives at the repo root rather than in a `<kebab-title>/` folder.
+is the skill that creates the file), and its output lives at the repo root rather than in a `specs/<kebab-title>/` folder.
 
 ## Invariants every skill enforces (keep these in sync if you edit one)
 
@@ -121,21 +122,26 @@ Stage-specific anti-patterns the docs ban explicitly — useful to know when rev
 
 ```
 <cwd>/
-└── <kebab-title>/                # created by spec, reused by plan/integration-tests/unit-tests/cross-check/review-code
-    ├── <kebab-title>-SPEC.md
-    ├── <kebab-title>-PLAN.md
-    ├── <kebab-title>-INTEGRATION-TESTS.md
-    ├── <kebab-title>-UNIT-TESTS.md
-    ├── <kebab-title>-CROSS-CHECK.md
-    └── <kebab-title>-REVIEW.md
+└── specs/                              # created by spec, reused by plan/integration-tests/unit-tests/cross-check/review-code
+    └── <kebab-title>/
+        ├── <kebab-title>-SPEC.md
+        ├── <kebab-title>-PLAN.md
+        ├── <kebab-title>-INTEGRATION-TESTS.md
+        ├── <kebab-title>-UNIT-TESTS.md
+        ├── <kebab-title>-CROSS-CHECK.md
+        └── <kebab-title>-REVIEW.md
 ```
+
+The `<kebab-title>/` subfolder lives inside `specs/` in the CWD. `spec` creates the `specs/` folder if it
+does not exist, then creates the kebab-title subfolder inside it. The other pipeline skills consume the spec folder
+path (e.g. `specs/<kebab-title>/`) and write their artifacts into the same subfolder.
 
 The `integration-tests` and `unit-tests` skills also write to the codebase outside the spec folder — the test files
 themselves. The `INTEGRATION-TESTS.md` and `UNIT-TESTS.md` docs are indexes of those changes plus a coverage map; they
 do not contain test source code.
 
 The `implement` skill writes only to the codebase outside the spec folder — the production code it changes. It adds no
-file to the `<kebab-title>/` folder.
+file to the `specs/<kebab-title>/` folder.
 
 The `cross-check` skill writes only the `CROSS-CHECK.md` file inside the spec folder. It reads the spec, plan, test
 docs, and the test files those docs index, but modifies none of them and reads no production code.

@@ -8,7 +8,8 @@ disable-model-invocation: true
 
 ## Inputs
 
-- A folder path containing a file ending with `SPEC.md` and a file ending with `PLAN.md`.
+- A folder path containing a file ending with `SPEC.md` and a file ending with `PLAN.md`. Expected location:
+  `specs/<kebab-title>/`.
 - Pre-implementation tests, picked up automatically:
     - The folder's `UNIT-TESTS.md` and/or `INTEGRATION-TESTS.md` docs, if present, plus the test files they index.
     - Optionally, test files or directories the user names in the invocation.
@@ -70,8 +71,8 @@ disable-model-invocation: true
       the user declines to answer, record it as an inconsistency.
     - Stop when every ambiguous divergence has an answer.
 6. **Write the cross-check** to a markdown file inside the same folder. Filename: replace the trailing `SPEC.md` with
-   `CROSS-CHECK.md` (e.g. `add-promotion-archive-job-SPEC.md` → `add-promotion-archive-job-CROSS-CHECK.md`). Overwrite
-   if it exists.
+   `CROSS-CHECK.md` (e.g. `specs/add-promotion-archive-job/add-promotion-archive-job-SPEC.md` →
+   `specs/add-promotion-archive-job/add-promotion-archive-job-CROSS-CHECK.md`). Overwrite if it exists.
 7. **Confirm** with a one-line message naming the file written and the number of inconsistencies found.
 
 ## Content rules

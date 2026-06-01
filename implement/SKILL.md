@@ -8,7 +8,8 @@ disable-model-invocation: true
 
 ## Inputs
 
-- A folder path containing a file ending with `PLAN.md`, or a direct path to a file ending with `PLAN.md`.
+- A folder path containing a file ending with `PLAN.md`, or a direct path to a file ending with `PLAN.md`. Expected
+  folder location: `specs/<kebab-title>/`.
 
 ## Workflow
 
