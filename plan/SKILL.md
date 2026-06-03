@@ -18,7 +18,8 @@ disable-model-invocation: true
    full.
 3. **Investigate the codebase.** Open each file the spec's Context names, plus their direct callers, related entities,
    and tests. Search and read the codebase to extract exact signatures, current line targets, and existing patterns to
-   mirror. Record findings to populate the plan's per-step details.
+   mirror. Record findings to populate the plan's per-step details. Look for **prefactoring opportunities** — existing
+   code worth restructuring first, without changing behavior, to make the feature change simpler to apply.
 4. **Identify gaps.** Scan the spec and what the investigation surfaced for missing information that would block
    execution. Treat each of these as a potential gap:
     - **Identifiers** — target files/modules/directories, function/class/endpoint/table/column names,
@@ -49,6 +50,8 @@ disable-model-invocation: true
     - The exact signature, payload shape, or SQL
     - The exact command to run
     - The exact assertion or acceptance check
+- If the investigation surfaced a prefactoring opportunity, emit the behavior-preserving restructuring as Step(s) placed
+  **before** the Steps that add the feature. Write each as a bare action with no rationale, like every other Step.
 - Prefer code blocks and tables over prose.
 - No TODOs or `<TBD>` placeholders — every gap must either be answered in step 5 or recorded under `## Open questions`
   at the bottom.
