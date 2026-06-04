@@ -68,14 +68,11 @@ Filename derivation rules:
 
 Not part of the pipeline. Generates `./CLAUDE.md` from a survey of repo files plus a short interview, or proposes a diff
 when one already exists. Follows the same authoring conventions as the pipeline skills (gap questions, LLM-optimized
-prose, self-contained outputs) with two deliberate divergences: it skips the "abort if no `CLAUDE.md`" precondition (it
-is the skill that creates the file), and its output lives at the repo root rather than in a `specs/<kebab-title>/` folder.
+prose, self-contained outputs) with one deliberate divergence: its output lives at the repo root rather than in a
+`specs/<kebab-title>/` folder.
 
 ## Invariants every skill enforces (keep these in sync if you edit one)
 
-- **Precondition.** `spec`, `plan`, `integration-tests`, `unit-tests`, `cross-check`, `implement`, and `review-code`
-  abort if no `CLAUDE.md` exists in the CWD — they rely on project context being present. `init-claude-md` is the
-  exception: it runs without that precondition because it creates the file.
 - **Gap questions are plain chat text, one at a time.** They wait for the user's answer before asking the next, and stop
   when no gaps remain.
 - **Recommendations only when evidence supports them** — never invented.
@@ -88,7 +85,7 @@ is the skill that creates the file), and its output lives at the repo root rathe
   to the harness's tool names — ordinary verbs like "read the file" or "write the spec", and real shell commands like
   `git diff`, are fine.
 
-`implement` shares the precondition, gap-question, recommendation, and prose invariants but produces no markdown
+`implement` shares the gap-question, recommendation, and prose invariants but produces no markdown
 document, so the self-contained-output and `<TBD>`/`Open questions` invariants do not apply to it. Instead it inlines
 what is needed into its in-chat summary, and when a gap blocking a Step goes unanswered it stops at that Step rather
 than recording the gap.
@@ -153,8 +150,8 @@ editing `cross-check/SKILL.md`.
 
 ## Editing tips
 
-- When changing a workflow step (e.g. how gap questions are asked, how filenames are derived, the CLAUDE.md
-  precondition), apply the change to all seven pipeline skills so they stay consistent. Exception: `implement` writes no
+- When changing a workflow step (e.g. how gap questions are asked, how filenames are derived), apply the change to all
+  seven pipeline skills so they stay consistent. Exception: `implement` writes no
   markdown artifact, so filename-derivation and output-format changes do not apply to it.
 - There are no commands to run, lint, or test. Validation of a skill change is by reading the diff against the
   conventions above.

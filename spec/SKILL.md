@@ -14,15 +14,13 @@ disable-model-invocation: true
 
 ## Workflow
 
-1. **Precondition.** If no `CLAUDE.md` exists in the current working directory, tell the user the skill requires project
-   context from `CLAUDE.md` and stop.
-2. **Classify the request** as **feature** or **bug fix** and pick the template variant (see "Spec file structure"
+1. **Classify the request** as **feature** or **bug fix** and pick the template variant (see "Spec file structure"
    below).
-3. **Investigate the codebase.** Search and read the codebase to locate the files, symbols, and existing patterns the
+2. **Investigate the codebase.** Search and read the codebase to locate the files, symbols, and existing patterns the
    request touches. Record what you find; these populate the spec's Context section without needing a user question.
-4. **Derive a short title.** 2–6 words, kebab-case for the filename, Title Case for the document heading. Examples:
+3. **Derive a short title.** 2–6 words, kebab-case for the filename, Title Case for the document heading. Examples:
    `add-promotion-archive-job` / `Add Promotion Archive Job`, `fix-template-role-check` / `Fix Template Role Check`.
-5. **Identify gaps.** Scan the request and what the investigation surfaced for missing information that would block
+4. **Identify gaps.** Scan the request and what the investigation surfaced for missing information that would block
    writing a useful spec. Treat each of these as a potential gap:
     - Goal not stateable in one sentence (what + why)
     - Scope bullets not listable (2–5 concrete items)
@@ -33,15 +31,15 @@ disable-model-invocation: true
     - Edge cases not surfaced (null, empty, unauthorized, oversized, concurrent, …)
     - Constraints/gotchas not stated (auth, perf, ordering, idempotency, side effects)
     - For bug fixes: repro steps missing, expected behavior not stated
-6. **Ask one question at a time.**
+5. **Ask one question at a time.**
     - Include a recommendation only when evidence supports one; never invent one.
     - Wait for an answer before asking the next question.
     - Stop when no gaps remain.
-7. **Write the spec.** Create a folder named `specs/` in the current working directory if it does not already exist,
+6. **Write the spec.** Create a folder named `specs/` in the current working directory if it does not already exist,
    then create a subfolder inside `specs/` whose name is the derived kebab-case title. Write the spec inside that
    subfolder as `<kebab-case-title>-SPEC.md` (e.g. `specs/add-promotion-archive-job/add-promotion-archive-job-SPEC.md`).
    If the subfolder already exists, reuse it; if the target file already exists, overwrite it.
-8. **Confirm** with a one-line message naming the folder and file written.
+7. **Confirm** with a one-line message naming the folder and file written.
 
 ## Spec content rules
 
@@ -57,7 +55,7 @@ disable-model-invocation: true
 - Include at least one concrete example. Even for a one-line fix: "input `null` should return `[]` not throw" beats a
   paragraph of description. For features, include one normal case and one edge case.
 - Include the **Out of scope** section only when the change touches shared code.
-- No TODOs or `<TBD>` placeholders — every gap must either be answered in step 6 or recorded under `## Open questions`
+- No TODOs or `<TBD>` placeholders — every gap must either be answered in step 5 or recorded under `## Open questions`
   at the bottom.
 
 ## Spec file structure
@@ -99,7 +97,7 @@ disable-model-invocation: true
 
 ## Open questions
 
-<include only if step 6 left gaps unanswered>
+<include only if step 5 left gaps unanswered>
 
 - <gap>
 ```
@@ -139,7 +137,7 @@ disable-model-invocation: true
 
 ## Open questions
 
-<include only if step 6 left gaps unanswered>
+<include only if step 5 left gaps unanswered>
 
 - <gap>
 ```

@@ -12,15 +12,13 @@ disable-model-invocation: true
 
 ## Workflow
 
-1. **Precondition.** If no `CLAUDE.md` exists in the current working directory, tell the user the skill requires project
-   context from `CLAUDE.md` and stop.
-2. **Locate and ingest the spec.** List the folder contents, identify the file ending with `SPEC.md`, and read it in
+1. **Locate and ingest the spec.** List the folder contents, identify the file ending with `SPEC.md`, and read it in
    full.
-3. **Investigate the codebase.** Open each file the spec's Context names, plus their direct callers, related entities,
+2. **Investigate the codebase.** Open each file the spec's Context names, plus their direct callers, related entities,
    and tests. Search and read the codebase to extract exact signatures, current line targets, and existing patterns to
    mirror. Record findings to populate the plan's per-step details. Look for **prefactoring opportunities** — existing
    code worth restructuring first, without changing behavior, to make the feature change simpler to apply.
-4. **Identify gaps.** Scan the spec and what the investigation surfaced for missing information that would block
+3. **Identify gaps.** Scan the spec and what the investigation surfaced for missing information that would block
    execution. Treat each of these as a potential gap:
     - **Identifiers** — target files/modules/directories, function/class/endpoint/table/column names,
       dependencies/libraries/versions not pinned.
@@ -28,12 +26,12 @@ disable-model-invocation: true
       writes, network calls, file I/O) not described.
     - **Constraints** — auth, permissions, role requirements not stated.
     - **Verification** — acceptance criteria, migration/rollout/backfill steps not stated.
-5. **Ask one question at a time.** Include a recommendation only when evidence supports one; never invent one. Wait for
+4. **Ask one question at a time.** Include a recommendation only when evidence supports one; never invent one. Wait for
    an answer before asking the next; stop when no gaps remain.
-6. **Write the plan** to a markdown file inside the same folder as the spec. Filename: replace the trailing `SPEC.md`
+5. **Write the plan** to a markdown file inside the same folder as the spec. Filename: replace the trailing `SPEC.md`
    with `PLAN.md` (e.g. `specs/add-promotion-archive-job/add-promotion-archive-job-SPEC.md` →
    `specs/add-promotion-archive-job/add-promotion-archive-job-PLAN.md`). Overwrite if it exists.
-7. **Confirm** with a one-line message naming the file written.
+6. **Confirm** with a one-line message naming the file written.
 
 ## Plan content rules
 
@@ -53,7 +51,7 @@ disable-model-invocation: true
 - If the investigation surfaced a prefactoring opportunity, emit the behavior-preserving restructuring as Step(s) placed
   **before** the Steps that add the feature. Write each as a bare action with no rationale, like every other Step.
 - Prefer code blocks and tables over prose.
-- No TODOs or `<TBD>` placeholders — every gap must either be answered in step 5 or recorded under `## Open questions`
+- No TODOs or `<TBD>` placeholders — every gap must either be answered in step 4 or recorded under `## Open questions`
   at the bottom.
 - Do not create or update test files, and do not add test-writing steps to the plan, unless explicitly asked.
 
@@ -78,7 +76,7 @@ disable-model-invocation: true
 
 ## Open questions
 
-<include only if step 5 left gaps unanswered>
+<include only if step 4 left gaps unanswered>
 
 - <gap>
 ```

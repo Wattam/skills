@@ -16,18 +16,16 @@ disable-model-invocation: true
 
 ## Workflow
 
-1. **Precondition.** If no `CLAUDE.md` exists in the current working directory, tell the user the skill requires project
-   context from `CLAUDE.md` and stop.
-2. **Locate and ingest the spec.** List the folder contents, identify the file ending with `SPEC.md`, and read it in
+1. **Locate and ingest the spec.** List the folder contents, identify the file ending with `SPEC.md`, and read it in
    full. Treat every section as a binding constraint to check against.
-3. **Enumerate the changed files.** Resolve the input to a concrete list of file paths plus their changed line ranges.
+2. **Enumerate the changed files.** Resolve the input to a concrete list of file paths plus their changed line ranges.
    Read each changed file in full from disk so review line numbers stay accurate. Also read the spec's
    Context-referenced files so you can judge pattern compliance, Note constraints, and existing conventions the diff is
    supposed to mirror.
-4. **Map each change to the spec.** For every changed hunk, determine which spec item it satisfies or violates: Scope
+3. **Map each change to the spec.** For every changed hunk, determine which spec item it satisfies or violates: Scope
    bullet (feature spec), Expected-behavior bullet (bug-fix spec), Acceptance criterion, Context pointer, Example, or
-   Note. Track unmapped changes (defined in step 6).
-5. **Identify issues.** Treat each of these as a potential issue:
+   Note. Track unmapped changes (defined in step 5).
+4. **Identify issues.** Treat each of these as a potential issue:
     - Scope item (feature spec) or Expected-behavior bullet (bug-fix spec) not implemented or only partially
       implemented
     - File or symbol modified that is outside the spec's stated scope — listed under Out of scope (feature spec), or
@@ -58,7 +56,7 @@ disable-model-invocation: true
         - Snapshot/golden files regenerated and committed without inspection
         - Only the happy path the author already knew worked is exercised, leaving the spec's edge cases, error paths,
           and Acceptance criteria unasserted
-6. **Ask about unmapped changes.** For each changed hunk that is not covered by the spec and cannot be derived from any
+5. **Ask about unmapped changes.** For each changed hunk that is not covered by the spec and cannot be derived from any
    Scope/Expected-behavior/Context/Note entry:
     - Ask one question at a time.
     - Question shape: "`<file>:<line>` — <short description of the change> is not covered by the spec. Is this intended,
@@ -69,10 +67,10 @@ disable-model-invocation: true
     - Based on the answer: drop the hunk from the issue list (intended, simply absent from the spec text) or add it as
       an issue under `## Out-of-scope changes`. If the user declines to answer, treat the hunk as out-of-scope.
     - Stop when every unmapped hunk has an answer.
-7. **Write the review** to a markdown file inside the same folder as the spec. Filename: replace the trailing `SPEC.md`
+6. **Write the review** to a markdown file inside the same folder as the spec. Filename: replace the trailing `SPEC.md`
    with `REVIEW.md` (e.g. `specs/add-promotion-archive-job/add-promotion-archive-job-SPEC.md` →
    `specs/add-promotion-archive-job/add-promotion-archive-job-REVIEW.md`). Overwrite if it exists.
-8. **Confirm** with a one-line message naming the file written and the number of issues found.
+7. **Confirm** with a one-line message naming the file written and the number of issues found.
 
 ## Review content rules
 
@@ -96,7 +94,7 @@ disable-model-invocation: true
   `Lines`, `Code`.
 - Below each heading write 1–2 short sentences naming what is wrong and which spec item or rule it violates (Scope
   bullet or Expected-behavior bullet for bug-fix specs, Acceptance criterion, Out-of-scope rule, Context pattern,
-  Example, Note, `Correctness` when it is a bug not tied to a spec item, or `Tests` for a test issue from step 5).
+  Example, Note, `Correctness` when it is a bug not tied to a spec item, or `Tests` for a test issue from step 4).
   Follow-up prose after the table is allowed only when a single sentence cannot make the issue actionable.
 - Use tables for evidence; quote the offending code only when it is shorter than the explanation and clarifies the
   issue.
