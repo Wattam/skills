@@ -21,8 +21,8 @@ a pipeline (spec → plan → {integration-tests, unit-tests} → cross-check �
 - The pipeline skills share conventions: gap questions asked one at a time in plain chat, recommendations
   only when evidence supports them, self-contained outputs, no `<TBD>`/TODO placeholders (unanswered gaps
   go under `## Open questions`), filenames derived from the spec/plan filename. When you change a shared
-  convention in one skill, apply the same change to all seven. Exception: `implement` writes no markdown
-  artifact, so filename-derivation and output-format changes do not apply to it.
+  convention in one skill, apply the same change to all seven. Exception: `implement` has no `## Open questions`
+  section — an unanswered gap stops the run at the blocked Step instead.
 - Each skill's SKILL.md is the authority on its stage-specific rules (drift bans, banned words, output
   structure, read/write limits). Never loosen a ban already stated in the file you are editing.
 

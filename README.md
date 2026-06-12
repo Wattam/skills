@@ -1,8 +1,8 @@
 # Skills
 
 A collection of [Claude Code skills](https://code.claude.com/docs/en/skills) that turn a feature idea or bug report
-into shipped, reviewed code through a series of small, focused stages. Each stage produces a markdown artifact (or, for
-`implement`, the code change itself), so you can inspect, correct, and re-run any stage before moving to the next.
+into shipped, reviewed code through a series of small, focused stages. Each stage produces a markdown artifact, so you
+can inspect, correct, and re-run any stage before moving to the next.
 
 All skills are user-invoked only (`disable-model-invocation: true`) — Claude never triggers them on its own. You run
 them as slash commands, e.g. `/spec`, `/plan`.
@@ -26,15 +26,15 @@ spec ──┬──► plan ──┬──► unit-tests ───────
        └───────────┴──► integration-tests ─┘
 ```
 
-| Stage | You provide | It produces |
-|---|---|---|
-| `/spec` | A feature or bug description (text or file path) | `specs/<title>/<title>-SPEC.md` — **what** to build and why |
-| `/plan` | The spec folder | `<title>-PLAN.md` — **how** to build it, as ordered steps |
-| `/integration-tests` | The spec folder | Integration test files in your codebase + `<title>-INTEGRATION-TESTS.md` (an index of the changes) |
-| `/unit-tests` | The spec folder (reads the plan) | Unit test files in your codebase + `<title>-UNIT-TESTS.md` (an index of the changes) |
-| `/cross-check` | The spec folder | `<title>-CROSS-CHECK.md` — contradictions found between spec, plan, and tests |
-| `/implement` | The spec folder (or a direct path to the plan) | The production code change itself — no markdown artifact |
-| `/review-code` | The spec folder + optionally a diff range or file list (defaults to the uncommitted working tree) | `<title>-REVIEW.md` — issues found in the code, measured against the spec |
+| Stage                | You provide                                                                                                                                | It produces                                                                                                    |
+|----------------------|--------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------|
+| `/spec`              | A feature or bug description (text or file path)                                                                                           | `specs/<title>/<title>-SPEC.md` — **what** to build and why                                                    |
+| `/plan`              | The spec folder                                                                                                                            | `<title>-PLAN.md` — **how** to build it, as ordered steps                                                      |
+| `/integration-tests` | The spec folder                                                                                                                            | Integration test files in your codebase + `<title>-INTEGRATION-TESTS.md` (an index of the changes)             |
+| `/unit-tests`        | The spec folder (reads the plan)                                                                                                           | Unit test files in your codebase + `<title>-UNIT-TESTS.md` (an index of the changes)                           |
+| `/cross-check`       | The spec folder                                                                                                                            | `<title>-CROSS-CHECK.md` — contradictions found between spec, plan, and tests                                  |
+| `/implement`         | The spec folder (or a direct path to the plan)                                                                                             | The production code change + `<title>-IMPLEMENT.md` (the files changed and each acceptance criterion's result) |
+| `/review-code`       | The spec folder + optionally a diff range or file list (defaults to the uncommitted working tree; reads `<title>-IMPLEMENT.md` if present) | `<title>-REVIEW.md` — issues found in the code, measured against the spec                                      |
 
 Ordering is flexible where it can be:
 
@@ -74,6 +74,7 @@ You don't have to run every stage. `spec → plan → implement` is a perfectly 
         ├── add-promotion-archive-job-INTEGRATION-TESTS.md
         ├── add-promotion-archive-job-UNIT-TESTS.md
         ├── add-promotion-archive-job-CROSS-CHECK.md
+        ├── add-promotion-archive-job-IMPLEMENT.md
         └── add-promotion-archive-job-REVIEW.md
 ```
 
@@ -90,8 +91,8 @@ Test files and production code go into your codebase directly; the `specs/` fold
 - **Findings only, no praise.** `cross-check` and `review-code` list only problems. An empty report means nothing was
   found — that's the good outcome.
 - **Strict lanes.** Specs never say *how*, plans never say *why*, `implement` only executes the plan (it never touches
-  branches or commits, and writes no documents), and `cross-check` never modifies anything. If a stage's output drifts
-  out of its lane, that's a bug worth fixing in the skill.
+  branches or commits, and writes no document other than its `IMPLEMENT.md` report), and `cross-check` never modifies
+  anything. If a stage's output drifts out of its lane, that's a bug worth fixing in the skill.
 
 ## `init-claude-md` (standalone)
 

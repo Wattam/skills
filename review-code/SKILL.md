@@ -9,6 +9,8 @@ disable-model-invocation: true
 ## Inputs
 
 - A spec folder path containing a file ending with `SPEC.md`. Expected location: `specs/<kebab-title>/`.
+- The folder's file ending with `IMPLEMENT.md`, if present — picked up automatically. It records the files the
+  implementation created, edited, and deleted, and each Acceptance criterion's verified/unverified/failed status.
 - The code changes to review, provided as one of:
     - A list of file paths or a directory.
     - A git diff range (e.g. `main..HEAD`, a branch name, or a commit SHA).
@@ -17,11 +19,14 @@ disable-model-invocation: true
 ## Workflow
 
 1. **Locate and ingest the spec.** List the folder contents, identify the file ending with `SPEC.md`, and read it in
-   full. Treat every section as a binding constraint to check against.
+   full. Treat every section as a binding constraint to check against. If the folder contains a file ending with
+   `IMPLEMENT.md`, read it in full. If it does not, skip every `IMPLEMENT.md`-based check below; the report's absence
+   is not an issue.
 2. **Enumerate the changed files.** Resolve the input to a concrete list of file paths plus their changed line ranges.
    Read each changed file in full from disk so review line numbers stay accurate. Also read the spec's
    Context-referenced files so you can judge pattern compliance, Note constraints, and existing conventions the diff is
-   supposed to mirror.
+   supposed to mirror. If an `IMPLEMENT.md` report was read, compare its Files table against the resolved list and
+   carry every mismatch into step 4.
 3. **Map each change to the spec.** For every changed hunk, determine which spec item it satisfies or violates: Scope
    bullet (feature spec), Expected-behavior bullet (bug-fix spec), Acceptance criterion, Context pointer, Example, or
    Note. Track unmapped changes (defined in step 5).
@@ -44,6 +49,11 @@ disable-model-invocation: true
     - For bug-fix specs: repro input still produces the current (wrong) behavior; expected behavior not produced
     - Suspected correctness bug introduced by the diff itself (null deref, off-by-one, swallowed exception, missing
       transaction boundary, leaked resource, SQL/XSS/command injection, broken authorization check)
+    - Mismatch between the `IMPLEMENT.md` report and the change set: a file the report lists as created, edited, or
+      deleted has no corresponding change in the diff, or a changed file is absent from the report's Files table
+    - An Acceptance criterion the `IMPLEMENT.md` report marks `unverified` or `failed` that the diff does not satisfy —
+      check each such criterion directly against the code; a `verified` mark does not exempt a criterion from step 3's
+      mapping
     - Test changes that reinforce the implementation instead of verifying the specified behavior — tautological or
       change-detector tests. Concrete forms:
         - Assertions hard-coded to the exact output the code currently produces, with no independent derivation from the
@@ -58,6 +68,8 @@ disable-model-invocation: true
 5. **Ask about unmapped changes.** For each changed hunk that is not covered by the spec and cannot be derived from any
    Scope/Expected-behavior/Context/Note entry, ask one question at a time. Include a classification recommendation
    (intended-but-undocumented, out-of-scope, or incidental refactor) only when evidence supports one; never invent one.
+   The `IMPLEMENT.md` report's Files table counts as evidence: a hunk in a file the report ties to a plan Step supports
+   an intended-but-undocumented recommendation.
    Wait for an answer before asking the next; stop when every unmapped hunk has an answer.
     - Question shape: "`<file>:<line>` — <short description of the change> is not covered by the spec. Is this intended,
       and which Scope bullet, Expected-behavior bullet, or Note item does it belong to?"
@@ -88,7 +100,8 @@ disable-model-invocation: true
   Different problems are separate issues, even when they share a file.
 - Below each heading write 1–2 short sentences naming what is wrong and which spec item or rule it violates (Scope
   bullet or Expected-behavior bullet for bug-fix specs, Acceptance criterion, Out-of-scope rule, Context pattern,
-  Example, Note, `Correctness` when it is a bug not tied to a spec item, or `Tests` for a test issue from step 4).
+  Example, Note, `Correctness` when it is a bug not tied to a spec item, `Implementation report` for a mismatch between
+  the `IMPLEMENT.md` report and the diff, or `Tests` for a test issue from step 4).
   Follow-up prose after the table is allowed only when a single sentence cannot make the issue actionable.
 - Use tables for evidence; quote the offending code only when it is shorter than the explanation and clarifies the
   issue.
