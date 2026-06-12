@@ -59,18 +59,14 @@ disable-model-invocation: true
         - A test doc's Coverage table cites a plan Acceptance criterion the plan does not contain.
 4. **Ask about ambiguous divergences.** For each apparent divergence where the evidence cannot decide whether it is a
    real inconsistency or an intended difference (e.g. the plan deliberately narrows the spec, or a test covers behavior
-   beyond the spec by design):
-    - Ask one question at a time.
+   beyond the spec by design), ask one question at a time. Include a recommendation only when evidence supports one;
+   never invent one. Wait for an answer before asking the next; stop when every ambiguous divergence has an answer.
     - Question shape: "<artifact A location> states <X>; <artifact B location> states <Y>. Is this divergence
       intended?"
-    - Include a recommendation only when evidence supports one; never invent one.
-    - Wait for an answer before asking the next question.
     - Based on the answer: drop the divergence (intended) or record it as an inconsistency in the matching section. If
       the user declines to answer, record it as an inconsistency.
-    - Stop when every ambiguous divergence has an answer.
 5. **Write the cross-check** to a markdown file inside the same folder. Filename: replace the trailing `SPEC.md` with
-   `CROSS-CHECK.md` (e.g. `specs/add-promotion-archive-job/add-promotion-archive-job-SPEC.md` →
-   `specs/add-promotion-archive-job/add-promotion-archive-job-CROSS-CHECK.md`). Overwrite if it exists.
+   `CROSS-CHECK.md` (e.g. `…-SPEC.md` → `…-CROSS-CHECK.md`). Overwrite if it exists.
 6. **Confirm** with a one-line message naming the file written and the number of inconsistencies found.
 
 ## Content rules
@@ -90,8 +86,7 @@ disable-model-invocation: true
   reconcile them, which document to change, or what to write instead — that is the next stage's work. If you catch
   yourself writing "should change", "fix by", "instead", "in order to", or "so that" — delete that sentence.
 - Every inconsistency must be **self-contained**: inline the conflicting statement from each document. Naming the
-  document and the location is required, but a citation never substitutes for the statement itself — never write "see
-  the spec" or "see Step 4" in place of the content.
+  document and the location is required, but never write "see the spec" or "see Step 4" in place of the content.
 - One numbered heading per logical inconsistency. The same inconsistency observed at multiple sites is one issue with
   one table (one row per site or per document). Different inconsistencies are separate issues even when they involve the
   same document.
@@ -103,17 +98,17 @@ disable-model-invocation: true
 
 ## Investigation discipline
 
-- Read nothing beyond the sources named in steps 1 and 2.
-- Do not read production code, build files, or CI configuration. The plan describes changes not yet applied, so
-  production code does not reflect it and is not a valid reference at this stage.
+- Read nothing beyond the sources named in steps 1 and 2 — in particular no production code, build files, or CI
+  configuration. The plan describes changes not yet applied, so production code does not reflect it and is not a valid
+  reference at this stage.
 - Do not run tests, install dependencies, or trigger any code execution.
 - Do not modify the spec, the plan, the test docs, or the test files. The only file this skill writes is its own
   `CROSS-CHECK.md` report.
 
 ## Cross-check file structure
 
-The file has exactly three top-level sections, in this order. Each section holds zero or more numbered inconsistencies.
-Within a section, number them sequentially starting at 1 and reset the counter at each section.
+The file has up to three top-level sections, in this fixed order, and no others; omit any section that has no entries.
+Within a section, number inconsistencies sequentially starting at 1.
 
 ```md
 # Cross-check: <short title taken from the spec>
@@ -124,30 +119,24 @@ Within a section, number them sequentially starting at 1 and reset the counter a
 
 <1–2 sentences: what disagrees and which items are involved.>
 
-| Artifact | Location        | Statement                       |
-|----------|-----------------|---------------------------------|
-| <A>      | <location in A> | <quoted or paraphrased content> |
-| <B>      | <location in B> | <quoted or paraphrased content> |
+| Artifact | Location           | Statement                       |
+|----------|--------------------|---------------------------------|
+| Spec     | <location in spec> | <quoted or paraphrased content> |
+| Plan     | <location in plan> | <quoted or paraphrased content> |
 
 ## Spec ↔ tests
 
-### 1. <inconsistency title> — same entry shape as above
+### 1. <inconsistency title> — same entry shape; `Artifact` rows are Spec and Tests
 
 ## Plan ↔ tests
 
-### 1. <inconsistency title> — same entry shape as above
+### 1. <inconsistency title> — same entry shape; `Artifact` rows are Plan and Tests
 ```
-
-Every entry has a title, 1–2 sentences naming what disagrees, then one evidence table whose two `Artifact` rows are
-that section's pair — Spec/Plan, Spec/Tests, or Plan/Tests. Each `Location` is a spec section/criterion, a plan
-`Step <n>`, or a test `<file>::<test_name>`. Omit any section that has no entries; when tests are absent, the
-**Spec ↔ tests** and **Plan ↔ tests** sections are omitted. Do not add any other top-level section.
 
 ## Stop conditions
 
 - No folder provided → ask for one, then stop.
-- Folder contains no file ending with `SPEC.md` → tell the user, then stop.
-- Folder contains no file ending with `PLAN.md` → tell the user, then stop.
-- Folder contains multiple files ending with `SPEC.md` → ask which one to use, then wait for their answer.
-- Folder contains multiple files ending with `PLAN.md` → ask which one to use, then wait for their answer.
+- Folder contains no file ending with `SPEC.md` or no file ending with `PLAN.md` → tell the user, then stop.
+- Folder contains multiple files ending with `SPEC.md` or multiple files ending with `PLAN.md` → ask which one to use,
+  then wait for their answer.
 - Spec or plan is unreadable or empty → tell the user, then stop.

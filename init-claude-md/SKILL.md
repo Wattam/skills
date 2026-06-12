@@ -21,10 +21,8 @@ it. Example: invoked in `/home/user/projects/foo`, `/home/user/projects/` and an
 1. **Phase 1 — Survey.** Read, in scope, every file present from this list: manifests (`package.json`, `Cargo.toml`,
    `pyproject.toml`, `go.mod`, `pom.xml`), `Makefile`, CI config (`.github/workflows/*`, `.gitlab-ci.yml`,
    `.circleci/config.yml`, etc.), `README*`, existing `CLAUDE.md`, `AGENTS.md`, `.cursor/rules`, `.cursorrules`,
-   `.windsurfrules`, `.clinerules`, `.mcp.json`. From these, detect:
-    - Non-standard build/test/lint commands
-    - Style rules diverging from language defaults
-    - Required env vars, gotchas, workflow quirks
+   `.windsurfrules`, `.clinerules`, `.mcp.json`. From these, detect candidates for every item in the **Include** list
+   below.
 
    Track what the files alone cannot reveal — these become Phase 2 questions.
 

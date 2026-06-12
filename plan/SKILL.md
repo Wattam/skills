@@ -1,6 +1,6 @@
 ---
 name: plan
-description: Turn a specification into a implementation plan.
+description: Turn a specification into an implementation plan.
 disable-model-invocation: true
 ---
 
@@ -29,8 +29,7 @@ disable-model-invocation: true
 4. **Ask one question at a time.** Include a recommendation only when evidence supports one; never invent one. Wait for
    an answer before asking the next; stop when no gaps remain.
 5. **Write the plan** to a markdown file inside the same folder as the spec. Filename: replace the trailing `SPEC.md`
-   with `PLAN.md` (e.g. `specs/add-promotion-archive-job/add-promotion-archive-job-SPEC.md` →
-   `specs/add-promotion-archive-job/add-promotion-archive-job-PLAN.md`). Overwrite if it exists.
+   with `PLAN.md` (e.g. `…-SPEC.md` → `…-PLAN.md`). Overwrite if it exists.
 6. **Confirm** with a one-line message naming the file written.
 
 ## Plan content rules
@@ -48,8 +47,8 @@ disable-model-invocation: true
     - The exact signature, payload shape, or SQL
     - The exact command to run
     - The exact assertion or acceptance check
-- If the investigation surfaced a prefactoring opportunity, emit the behavior-preserving restructuring as Step(s) placed
-  **before** the Steps that add the feature. Write each as a bare action with no rationale, like every other Step.
+- If the investigation surfaced a prefactoring opportunity, emit it as Step(s) placed **before** the Steps that add the
+  feature.
 - Prefer code blocks and tables over prose.
 - No TODOs or `<TBD>` placeholders — every gap must either be answered in step 4 or recorded under `## Open questions`
   at the bottom.
@@ -87,5 +86,4 @@ disable-model-invocation: true
 - Folder contains no file ending with `SPEC.md` → tell the user, then stop.
 - Folder contains multiple files ending with `SPEC.md` → ask which one to use, then wait for their answer.
 - Spec is unreadable or empty → tell the user, then stop.
-- User declines to answer a gap question → record the gap as an open question at the bottom of the plan under
-  `## Open questions` and continue.
+- User declines to answer a gap question → record it under `## Open questions` and continue.

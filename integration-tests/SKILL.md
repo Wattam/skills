@@ -28,7 +28,8 @@ disable-model-invocation: true
       assertions/scenarios to add).
     - Spec removes a behavior, endpoint, or symbol that an integration test from step 2 still exercises → **DELETE** (
       record file path, or specific test names if the file still covers in-scope behavior).
-      Every Acceptance criterion must map to at least one assertion in the change set.
+
+   Every Acceptance criterion must map to at least one assertion in the change set.
 4. **Identify gaps.** Scan the spec and the localization output for missing information that would block writing or
    modifying tests. Treat each of these as a potential gap:
     - **Test infrastructure** — integration test root, framework, runner, or invocation command not discoverable from
@@ -41,19 +42,15 @@ disable-model-invocation: true
       clear test target.
     - **Deletion confirmation** — an existing test appears obsolete but the spec does not explicitly mark its target as
       removed.
-5. **Ask one question at a time.**
-    - Include a recommendation only when evidence supports one; never invent one.
-    - Wait for an answer before asking the next question.
-    - Stop when no gaps remain.
+5. **Ask one question at a time.** Include a recommendation only when evidence supports one; never invent one. Wait for
+   an answer before asking the next; stop when no gaps remain.
 6. **Apply the change set.**
     - **CREATE**: write the new test file at the recorded path. Mirror the framework, imports, naming, fixtures, and
       helpers used by the nearest existing integration test in the same root.
-    - **EDIT**: change only the recorded assertions/scenarios. Do not rewrite unchanged tests in the same file.
-    - **DELETE**: remove the file, or delete only the specific test functions when the remaining tests in the file still
-      cover in-scope behavior.
+    - **EDIT**: change only the recorded assertions/scenarios.
+    - **DELETE**: remove the recorded file, or delete only the recorded test functions.
 7. **Write the summary** to a markdown file inside the same folder as the spec. Filename: replace the trailing `SPEC.md`
-   with `INTEGRATION-TESTS.md` (e.g. `specs/add-promotion-archive-job/add-promotion-archive-job-SPEC.md` →
-   `specs/add-promotion-archive-job/add-promotion-archive-job-INTEGRATION-TESTS.md`). Overwrite if it exists.
+   with `INTEGRATION-TESTS.md` (e.g. `…-SPEC.md` → `…-INTEGRATION-TESTS.md`). Overwrite if it exists.
 8. **Confirm** with a one-line message naming the summary file and the counts of files created, edited, and deleted.
 
 ## Content rules
@@ -67,15 +64,14 @@ disable-model-invocation: true
   substitute a reference like "see the spec" or "see the test file" for the information itself.
 - Every Acceptance criterion in the spec must map to at least one row in the Coverage table. If a criterion cannot be
   mapped, list it under `## Open questions` instead of inventing coverage.
-- Do not include test source code in the summary. The tests themselves are the artifact; the summary lists where they
-  live and what they cover.
+- Do not include test source code in the summary.
 - No TODOs or `<TBD>` placeholders — every gap must either be answered in step 5 or recorded under `## Open questions`
   at the bottom.
 
 ## Investigation discipline
 
-- Read only the integration test root and the spec's Context-named files. Do not open unit tests, fixtures unrelated to
-  the matched tests, production code beyond the Context, build files, or CI configuration.
+- Read nothing beyond the integration test root and the spec's Context-named files: no unit tests, no fixtures
+  unrelated to the matched tests, no other production code, no build files, no CI configuration.
 - Do not run tests, install dependencies, or trigger any code execution.
 - Do not modify production code, fixtures, helpers, build files, CI configuration, or unit tests.
 - Do not introduce new helpers, base classes, or fixtures unless an existing integration test in the same root already

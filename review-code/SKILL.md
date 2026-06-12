@@ -4,7 +4,7 @@ description: Review code changes against a specification.
 disable-model-invocation: true
 ---
 
-# Review
+# Review code
 
 ## Inputs
 
@@ -45,8 +45,7 @@ disable-model-invocation: true
     - Suspected correctness bug introduced by the diff itself (null deref, off-by-one, swallowed exception, missing
       transaction boundary, leaked resource, SQL/XSS/command injection, broken authorization check)
     - Test changes that reinforce the implementation instead of verifying the specified behavior — tautological or
-      change-detector tests whose expected values are reverse-engineered from the code under test, so they pass by
-      construction and would still pass if the behavior were wrong. Concrete forms:
+      change-detector tests. Concrete forms:
         - Assertions hard-coded to the exact output the code currently produces, with no independent derivation from the
           spec's Examples or Acceptance criteria
         - Over-mocking so the test only confirms stubbed interactions or that a method was called, never a real result
@@ -57,19 +56,15 @@ disable-model-invocation: true
         - Only the happy path the author already knew worked is exercised, leaving the spec's edge cases, error paths,
           and Acceptance criteria unasserted
 5. **Ask about unmapped changes.** For each changed hunk that is not covered by the spec and cannot be derived from any
-   Scope/Expected-behavior/Context/Note entry:
-    - Ask one question at a time.
+   Scope/Expected-behavior/Context/Note entry, ask one question at a time. Include a classification recommendation
+   (intended-but-undocumented, out-of-scope, or incidental refactor) only when evidence supports one; never invent one.
+   Wait for an answer before asking the next; stop when every unmapped hunk has an answer.
     - Question shape: "`<file>:<line>` — <short description of the change> is not covered by the spec. Is this intended,
       and which Scope bullet, Expected-behavior bullet, or Note item does it belong to?"
-    - Include a classification recommendation (intended-but-undocumented, out-of-scope, or incidental refactor) only
-      when evidence supports one; never invent one.
-    - Wait for an answer before asking the next.
     - Based on the answer: drop the hunk from the issue list (intended, simply absent from the spec text) or add it as
       an issue under `## Out-of-scope changes`. If the user declines to answer, treat the hunk as out-of-scope.
-    - Stop when every unmapped hunk has an answer.
 6. **Write the review** to a markdown file inside the same folder as the spec. Filename: replace the trailing `SPEC.md`
-   with `REVIEW.md` (e.g. `specs/add-promotion-archive-job/add-promotion-archive-job-SPEC.md` →
-   `specs/add-promotion-archive-job/add-promotion-archive-job-REVIEW.md`). Overwrite if it exists.
+   with `REVIEW.md` (e.g. `…-SPEC.md` → `…-REVIEW.md`). Overwrite if it exists.
 7. **Confirm** with a one-line message naming the file written and the number of issues found.
 
 ## Review content rules
@@ -86,12 +81,11 @@ disable-model-invocation: true
 
   If you catch yourself writing "overall", "previously", "good job", "also", "additionally", or "note that" — delete
   that sentence.
-- Every issue must cite the exact file path and line number(s) in its evidence table. Use a single line number (e.g.
-  `37`) or a range (e.g. `320, 328–331` or `256–269`). Line numbers refer to the file at its current revision on disk.
+- Every issue must cite the exact file path and line number(s) in its evidence table. Line numbers refer to the file at
+  its current revision on disk.
 - One numbered heading per logical issue with one table; the same problem at multiple sites is one issue with one row
   per site (repeated rule violations, multiple sites of the same bug, the same Note breached in several files).
-  Different problems are separate issues, even when they share a file. Each row is one piece of evidence: `File`,
-  `Lines`, `Code`.
+  Different problems are separate issues, even when they share a file.
 - Below each heading write 1–2 short sentences naming what is wrong and which spec item or rule it violates (Scope
   bullet or Expected-behavior bullet for bug-fix specs, Acceptance criterion, Out-of-scope rule, Context pattern,
   Example, Note, `Correctness` when it is a bug not tied to a spec item, or `Tests` for a test issue from step 4).
@@ -103,8 +97,8 @@ disable-model-invocation: true
 
 ## Review file structure
 
-The review file has exactly three top-level sections, in this order. Each section holds zero or more numbered issues.
-Within a section, number issues sequentially starting at 1 and reset the counter at each section.
+The review file has up to three top-level sections, in this fixed order; omit any section that has no entries. Within a
+section, number issues sequentially starting at 1.
 
 ```md
 # Review: <short title taken from the spec>
@@ -137,8 +131,7 @@ Within a section, number issues sequentially starting at 1 and reset the counter
 Every issue under every section carries the same `File`/`Lines`/`Code` evidence table shown above.
 `## Implementation issues` covers every finding that is neither out-of-scope nor a missed acceptance criterion.
 
-Omit any section that has no entries. Do not add any other top-level section (no "Spec gaps", no "Files referenced",
-no "Notes", no "Open questions").
+Do not add any other top-level section (no "Spec gaps", no "Files referenced", no "Notes", no "Open questions").
 
 ## Stop conditions
 

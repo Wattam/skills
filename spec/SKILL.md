@@ -31,10 +31,8 @@ disable-model-invocation: true
     - Edge cases not surfaced (null, empty, unauthorized, oversized, concurrent, …)
     - Constraints/gotchas not stated (auth, perf, ordering, idempotency, side effects)
     - For bug fixes: repro steps missing, expected behavior not stated
-5. **Ask one question at a time.**
-    - Include a recommendation only when evidence supports one; never invent one.
-    - Wait for an answer before asking the next question.
-    - Stop when no gaps remain.
+5. **Ask one question at a time.** Include a recommendation only when evidence supports one; never invent one. Wait for
+   an answer before asking the next; stop when no gaps remain.
 6. **Write the spec.** Create a folder named `specs/` in the current working directory if it does not already exist,
    then create a subfolder inside `specs/` whose name is the derived kebab-case title. Write the spec inside that
    subfolder as `<kebab-case-title>-SPEC.md` (e.g. `specs/add-promotion-archive-job/add-promotion-archive-job-SPEC.md`).
@@ -53,7 +51,7 @@ disable-model-invocation: true
 - Point at specific files in Context. "Look at `service/PromotionService.java` for the existing archive pattern"
   prevents an implementer from inventing a new one.
 - Include at least one concrete example. Even for a one-line fix: "input `null` should return `[]` not throw" beats a
-  paragraph of description. For features, include one normal case and one edge case.
+  paragraph of description.
 - Include the **Out of scope** section only when the change touches shared code.
 - No TODOs or `<TBD>` placeholders — every gap must either be answered in step 5 or recorded under `## Open questions`
   at the bottom.
@@ -102,11 +100,13 @@ disable-model-invocation: true
 - <gap>
 ```
 
-### Bug-fix template (swap the top two sections)
+### Bug-fix template
+
+Identical to the feature template, except: `## Goal`, `## Scope`, and `## Out of scope` are replaced by the three
+sections below, and the `## Examples` placeholder becomes
+`<repro input → wrong output (current); same input → right output (expected)>`.
 
 ```md
-# <Title>
-
 ## Current behavior
 
 <what happens now, with repro steps if non-obvious>
@@ -118,28 +118,6 @@ disable-model-invocation: true
 ## Suspected cause
 
 <optional — only if there is a real hypothesis; do not speculate>
-
-## Acceptance criteria
-
-- <testable condition>
-
-## Context
-
-- `path/to/file.ext` — <relevance>
-
-## Examples
-
-<repro input → wrong output (current); same input → right output (expected)>
-
-## Notes
-
-<constraints, gotchas — only if non-obvious>
-
-## Open questions
-
-<include only if step 5 left gaps unanswered>
-
-- <gap>
 ```
 
 ## Stop conditions
@@ -149,5 +127,4 @@ disable-model-invocation: true
   changing and where), then wait for their answer.
 - Description is still not actionable after the clarifying question → tell the user, then stop.
 - File path supplied is unreadable or empty → tell the user, then stop.
-- User declines to answer a gap question → record the gap under `## Open questions` at the bottom of the spec and
-  continue.
+- User declines to answer a gap question → record it under `## Open questions` and continue.
