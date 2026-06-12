@@ -30,4 +30,3 @@ a pipeline (spec → plan → {integration-tests, unit-tests} → cross-check �
 
 - There is nothing to build, lint, or run. Validate a change by reading the diff against the rules above
   and the edited skill's own SKILL.md.
-- Installed copies do not pick up edits — re-run `./install-skills.sh` after changing a skill.
