@@ -12,3 +12,5 @@ adding one does not affect the others:
 
 - `init-claude-md` — generates a minimal `CLAUDE.md` for the current repository, or proposes a diff against an
   existing one.
+- `pi-extension` — guides creating or updating a pi agent extension: the common factory/event/context model
+  plus pointers to the per-capability pi docs.
