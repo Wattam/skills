@@ -4,12 +4,19 @@ This file provides guidance to coding agents when working with code in this repo
 
 ## What this repo is
 
-Claude Code skill definitions. No application code, build system, or tests. Each top-level folder is one
-skill whose only file is `<skill>/SKILL.md`; editing a skill means editing that markdown. Seven skills form
-a pipeline (spec → plan → {integration-tests, unit-tests} → cross-check → implement → review-code);
-`init-claude-md` is standalone. `README.md` documents the pipeline ordering, inputs, and artifact layout.
+Claude Code skill definitions. No application code, build system, or tests. Each skill is one folder whose
+only file is `SKILL.md` (its `name` matches the folder name); editing a skill means editing that markdown.
 
-## Authoring rules for SKILL.md files
+Skills are grouped into category folders. Each category has its own `CLAUDE.md` with the conventions specific
+to it — read that file before editing a skill in the category:
+
+- `development-pipeline/` — skills that chain into one feature-development workflow (spec → plan → tests →
+  cross-check → implement → review). See `development-pipeline/CLAUDE.md`.
+- `utility/` — standalone skills that each do one self-contained job. See `utility/CLAUDE.md`.
+
+`README.md` documents each category and how its skills are used.
+
+## Authoring rules for every SKILL.md
 
 - Frontmatter is required: `name` (must match the folder name), `description` (one line),
   `disable-model-invocation: true`.
@@ -18,15 +25,12 @@ a pipeline (spec → plan → {integration-tests, unit-tests} → cross-check �
 - Harness-agnostic phrasing: never name proprietary tools tied to a specific agent harness. Describe the
   action instead ("search and read the codebase", "ask in plain chat text"). Ordinary verbs ("read the
   file") and real shell commands (`git diff`) are fine.
-- The pipeline skills share conventions: gap questions asked one at a time in plain chat, recommendations
-  only when evidence supports them, self-contained outputs, no `<TBD>`/TODO placeholders (unanswered gaps
-  go under `## Open questions`), filenames derived from the spec/plan filename. When you change a shared
-  convention in one skill, apply the same change to all seven. Exception: `implement` has no `## Open questions`
-  section — an unanswered gap stops the run at the blocked Step instead.
+- Each skill must work from an empty context: a SKILL.md is self-contained and never assumes another skill
+  ran first or relies on prior chat state.
 - Each skill's SKILL.md is the authority on its stage-specific rules (drift bans, banned words, output
   structure, read/write limits). Never loosen a ban already stated in the file you are editing.
 
 ## Validation
 
-- There is nothing to build, lint, or run. Validate a change by reading the diff against the rules above
-  and the edited skill's own SKILL.md.
+- There is nothing to build, lint, or run. Validate a change by reading the diff against the rules above, the
+  category's `CLAUDE.md`, and the edited skill's own SKILL.md.
