@@ -13,8 +13,9 @@ it. There is no application code, build, or test suite here; to change a skill's
 ./install-skills.sh
 ```
 
-This runs `npx skills add . -g -a pi -a claude-code -y`, installing every skill in this repo globally for the
-`claude-code` and `pi` agents. Re-run it after editing a skill to pick up changes.
+This runs `npx skills add . -g -y -a universal -a pi -a claude-code`, installing every skill in this repo
+globally to the shared `~/.agents/skills` directory (`universal`) and symlinking the `pi` (`~/.pi/agent/skills`)
+and `claude-code` (`~/.claude/skills`) agent directories to it. Re-run it after editing a skill to pick up changes.
 
 ## Categories
 
