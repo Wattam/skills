@@ -68,17 +68,17 @@ one-time startup work such as fetching remote config or models).
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 
 export default function (pi: ExtensionAPI) {
-  // Load-time: register capabilities (cheap, no I/O, no background work).
-  pi.registerCommand("name", {
-    description: "...",
-    handler: async (args, ctx) => { /* ... */ },
-  });
+    // Load-time: register capabilities (cheap, no I/O, no background work).
+    pi.registerCommand("name", {
+        description: "...",
+        handler: async (args, ctx) => { /* ... */ },
+    });
 
-  // Start session-scoped resources (watchers, sockets, timers, UI) here.
-  pi.on("session_start", async (event, ctx) => { /* ... */ });
+    // Start session-scoped resources (watchers, sockets, timers, UI) here.
+    pi.on("session_start", async (event, ctx) => { /* ... */ });
 
-  // Tear them down here. Make this idempotent.
-  pi.on("session_shutdown", async (event, ctx) => { /* ... */ });
+    // Tear them down here. Make this idempotent.
+    pi.on("session_shutdown", async (event, ctx) => { /* ... */ });
 }
 ```
 
@@ -183,6 +183,8 @@ capability's details here.
 - Guard UI by mode: `ctx.hasUI` for dialogs/notifications, `ctx.mode === "tui"` for custom components.
 - Pass `ctx.signal` to abort-aware async work started during a turn.
 - Use `CONFIG_DIR_NAME` for project-local config paths instead of hardcoding `.pi`.
+- Annotate every variable in generated TypeScript with an explicit type; do not rely on inference for declared variables.
+- Indent generated TypeScript with 4 spaces by default.
 
 ## Workflow
 
