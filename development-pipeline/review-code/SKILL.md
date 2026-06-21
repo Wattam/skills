@@ -9,8 +9,13 @@ disable-model-invocation: true
 ## Inputs
 
 - A spec folder path containing a file ending with `SPEC.md`. Expected location: `specs/<kebab-title>/`.
-- The folder's file ending with `IMPLEMENT.md`, if present — picked up automatically. It records the files the
-  implementation created, edited, and deleted, and each Acceptance criterion's verified/unverified/failed status.
+- Up to three **stage reports** the pipeline may have left in that folder, each picked up automatically if present and
+  skipped without penalty if absent. Every report lists the files its stage created, edited, and deleted and ties that
+  change set to the spec's Acceptance criteria:
+    - `IMPLEMENT.md` — the files the implementation changed, plus each Acceptance criterion's verified/unverified/failed
+      status.
+    - `UNIT-TESTS.md` and `INTEGRATION-TESTS.md` — the test files each stage changed, plus a Coverage table mapping each
+      Acceptance criterion to the tests that cover it.
 - The code changes to review, provided as one of:
     - A list of file paths or a directory.
     - A git diff range (e.g. `main..HEAD`, a branch name, or a commit SHA).
@@ -19,14 +24,14 @@ disable-model-invocation: true
 ## Workflow
 
 1. **Locate and ingest the spec.** List the folder contents, identify the file ending with `SPEC.md`, and read it in
-   full. Treat every section as a binding constraint to check against. If the folder contains a file ending with
-   `IMPLEMENT.md`, read it in full. If it does not, skip every `IMPLEMENT.md`-based check below; the report's absence
-   is not an issue.
+   full. Treat every section as a binding constraint to check against. Read in full every stage report present (the
+   files ending with `IMPLEMENT.md`, `UNIT-TESTS.md`, and `INTEGRATION-TESTS.md`). For each one absent, skip every check
+   below that depends on it; its absence is not an issue.
 2. **Enumerate the changed files.** Resolve the input to a concrete list of file paths plus their changed line ranges.
    Read each changed file in full from disk so review line numbers stay accurate. Also read the spec's
    Context-referenced files so you can judge pattern compliance, Note constraints, and existing conventions the diff is
-   supposed to mirror. If an `IMPLEMENT.md` report was read, compare its Files table against the resolved list and
-   carry every mismatch into step 4.
+   supposed to mirror. For every stage report that was read, compare the files it lists as created, edited, or deleted
+   against the resolved list and carry every mismatch into step 4.
 3. **Map each change to the spec.** For every changed hunk, determine which spec item it satisfies or violates: Scope
    bullet (feature spec), Expected-behavior bullet (bug-fix spec), Acceptance criterion, Context pointer, Example, or
    Note. Track unmapped changes (defined in step 5).
@@ -49,11 +54,13 @@ disable-model-invocation: true
     - For bug-fix specs: repro input still produces the current (wrong) behavior; expected behavior not produced
     - Suspected correctness bug introduced by the diff itself (null deref, off-by-one, swallowed exception, missing
       transaction boundary, leaked resource, SQL/XSS/command injection, broken authorization check)
-    - Mismatch between the `IMPLEMENT.md` report and the change set: a file the report lists as created, edited, or
-      deleted has no corresponding change in the diff, or a changed file is absent from the report's Files table
-    - An Acceptance criterion the `IMPLEMENT.md` report marks `unverified` or `failed` that the diff does not satisfy —
-      check each such criterion directly against the code; a `verified` mark does not exempt a criterion from step 3's
-      mapping
+    - Mismatch between a stage report and the change set: a file the report lists as created, edited, or deleted has no
+      corresponding change in the diff, or a changed file is absent from the report's file tables
+    - A stage report's claim about an Acceptance criterion that the diff does not bear out — check each criterion
+      directly against the code and tests regardless of the report. An `IMPLEMENT.md` `verified` mark does not exempt a
+      criterion from step 3's mapping, an `unverified` or `failed` mark must still be checked, and a `UNIT-TESTS.md` or
+      `INTEGRATION-TESTS.md` Coverage row may map a criterion to a test that is missing from the diff or does not
+      actually exercise it
     - Test changes that reinforce the implementation instead of verifying the specified behavior — tautological or
       change-detector tests. Concrete forms:
         - Assertions hard-coded to the exact output the code currently produces, with no independent derivation from the
@@ -68,8 +75,8 @@ disable-model-invocation: true
 5. **Ask about unmapped changes.** For each changed hunk that is not covered by the spec and cannot be derived from any
    Scope/Expected-behavior/Context/Note entry, ask one question at a time. Include a classification recommendation
    (intended-but-undocumented, out-of-scope, or incidental refactor) only when evidence supports one; never invent one.
-   The `IMPLEMENT.md` report's Files table counts as evidence: a hunk in a file the report ties to a plan Step supports
-   an intended-but-undocumented recommendation.
+   A stage report's file tables count as evidence: a hunk in a file a report ties to a plan Step, Acceptance criterion,
+   or test case supports an intended-but-undocumented recommendation.
    Wait for an answer before asking the next; stop when every unmapped hunk has an answer.
     - Question shape: "`<file>:<line>` — <short description of the change> is not covered by the spec. Is this intended,
       and which Scope bullet, Expected-behavior bullet, or Note item does it belong to?"
@@ -100,8 +107,9 @@ disable-model-invocation: true
   Different problems are separate issues, even when they share a file.
 - Below each heading write 1–2 short sentences naming what is wrong and which spec item or rule it violates (Scope
   bullet or Expected-behavior bullet for bug-fix specs, Acceptance criterion, Out-of-scope rule, Context pattern,
-  Example, Note, `Correctness` when it is a bug not tied to a spec item, `Implementation report` for a mismatch between
-  the `IMPLEMENT.md` report and the diff, or `Tests` for a test issue from step 4).
+  Example, Note, `Correctness` when it is a bug not tied to a spec item, `Stage report` for a mismatch between a stage
+  report (`IMPLEMENT.md`, `UNIT-TESTS.md`, or `INTEGRATION-TESTS.md`) and the diff, or `Tests` for a test issue from
+  step 4).
   Follow-up prose after the table is allowed only when a single sentence cannot make the issue actionable.
 - Use tables for evidence; quote the offending code only when it is shorter than the explanation and clarifies the
   issue.

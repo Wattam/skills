@@ -20,7 +20,7 @@ spec ──┬──► plan ──┬──► unit-tests ───────
 | `/unit-tests`        | The spec folder (reads the plan)                                                                                                           | Unit test files in your codebase + `<title>-UNIT-TESTS.md` (an index of the changes)                           |
 | `/cross-check`       | The spec folder                                                                                                                            | `<title>-CROSS-CHECK.md` — contradictions found between spec, plan, and tests                                  |
 | `/implement`         | The spec folder (or a direct path to the plan)                                                                                             | The production code change + `<title>-IMPLEMENT.md` (the files changed and each acceptance criterion's result) |
-| `/review-code`       | The spec folder + optionally a diff range or file list (defaults to the uncommitted working tree; reads `<title>-IMPLEMENT.md` if present) | `<title>-REVIEW.md` — issues found in the code, measured against the spec                                      |
+| `/review-code`       | The spec folder + optionally a diff range or file list (defaults to the uncommitted working tree; reads `<title>-IMPLEMENT.md`, `<title>-UNIT-TESTS.md`, and `<title>-INTEGRATION-TESTS.md` if present) | `<title>-REVIEW.md` — issues found in the code, measured against the spec                                      |
 
 Ordering is flexible where it can be:
 
