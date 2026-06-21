@@ -14,3 +14,4 @@ adding one does not affect the others:
   existing one.
 - `pi-extension` — guides creating or updating a pi agent extension: the common factory/event/context model
   plus pointers to the per-capability pi docs.
+- `standalone-review` — reviews code changes against loose context and writes a `REVIEW.md`.
