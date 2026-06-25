@@ -62,8 +62,8 @@ The review is written as `REVIEW.md` in the current working directory. Overwrite
         - Only the happy path the author already knew worked is exercised, leaving edge cases and error paths unasserted
 5. **Ask about unmapped changes.** Only when context was provided. For each changed hunk that is not covered by the
    stated intent and cannot be derived from any expectation, constraint, or example in it, ask one question at a time.
-   Include a classification recommendation (intended-but-undocumented, out-of-scope, or incidental refactor) only when
-   evidence supports one; never invent one. Wait for an answer before asking the next; stop when every unmapped hunk has
+   Include a classification recommendation (intended-but-undocumented or out-of-scope) only when evidence supports one;
+   never invent one. Wait for an answer before asking the next; stop when every unmapped hunk has
    an answer.
     - Question shape: "`<file>:<line>` — <short description of the change> is not covered by the stated intent. Is this
       intended, and which expectation or constraint does it belong to?"
@@ -86,8 +86,8 @@ The review is written as `REVIEW.md` in the current working directory. Overwrite
 
   If you catch yourself writing "overall", "previously", "good job", "also", "additionally", or "note that" — delete
   that sentence.
-- Every issue must cite the exact file path and line number(s) in its evidence table. Line numbers refer to the file at
-  its current revision on disk.
+- An issue that points to specific code must cite the exact file path and line number(s) in its evidence table. Line
+  numbers refer to the file at its current revision on disk.
 - One numbered heading per logical issue with one table; the same problem at multiple sites is one issue with one row
   per site (repeated rule violations, multiple sites of the same bug, the same constraint breached in several files).
   Different problems are separate issues, even when they share a file.
@@ -135,7 +135,8 @@ section, number issues sequentially starting at 1.
 violates.>
 ```
 
-Every issue under every section carries the same `File`/`Lines`/`Code` evidence table shown above.
+Every issue that cites specific code carries the same `File`/`Lines`/`Code` evidence table shown above; a stated
+expectation the diff never addresses may stand on its 1–2 sentences with no table.
 `## Out-of-scope changes` and `## Stated intent not met` appear only when context was provided.
 `## Implementation issues` covers every finding that is neither out-of-scope nor an unmet expectation.
 

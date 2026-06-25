@@ -13,10 +13,10 @@ disable-model-invocation: true
 ## Workflow
 
 1. **Locate and ingest the plan.** List the folder contents, identify the file ending with `PLAN.md`, and read it in
-   full. Treat Context, Steps, and Acceptance criteria as the binding source of behaviors to cover.
+   full. Treat Steps and Acceptance criteria as the binding source of behaviors to cover.
 2. **Localize unit tests.** Determine the project's unit test convention: co-located (`foo.test.ts`, `foo_test.go`,
-   `test_foo.py` next to the source file), parallel tree (`tests/unit/`, `test/`, `src/test/java/...`, `__tests__/`),
-   or framework-specific layout declared in `CLAUDE.md`. For every file, module, function, class, or
+   `test_foo.py` next to the source file) or parallel tree (`tests/unit/`, `test/`, `src/test/java/...`,
+   `__tests__/`). For every file, module, function, class, or
    method named in the plan's Steps or Context, search those unit test locations for direct references and read each
    matching unit test file in full. Read each production file named in the plan only to confirm signatures, types, and
    exported symbols needed to write new tests.
@@ -27,9 +27,6 @@ disable-model-invocation: true
       assertions/cases to add).
     - Plan removes a symbol, branch, or behavior that a unit test from step 2 still exercises → **DELETE** (record file
       path, or specific test names if the file still covers in-scope behavior).
-
-   Every Acceptance criterion must map to at least one assertion in the change set. Every Step that introduces or
-   modifies a symbol must map to at least one test case in the change set.
 4. **Identify gaps.** Scan the plan and the localization output for missing information that would block writing or
    modifying tests. Treat each of these as a potential gap:
     - **Test infrastructure** — unit test framework, runner, assertion library, mocking library, or invocation command
@@ -54,28 +51,20 @@ disable-model-invocation: true
     - **DELETE**: remove the recorded file, or delete only the recorded test functions.
 7. **Write the summary** to a markdown file inside the same folder as the plan. Filename: replace the trailing `PLAN.md`
    with `UNIT-TESTS.md` (e.g. `…-PLAN.md` → `…-UNIT-TESTS.md`). Overwrite if it exists.
-8. **Confirm** with a one-line message naming the summary file and the counts of files created, edited, and deleted.
 
 ## Content rules
 
 - Write in English, optimized for LLM consumption: short declarative sentences, explicit identifiers, no rhetorical
   flourish.
-- The summary is a **record of test changes**, not a plan or rationale. Do not describe WHY a test was added. Do not
-  restate the plan. If you catch yourself writing "in order to", "so that", "because", or "as the plan describes" —
-  delete that sentence.
+- The summary is a **record of test changes**, not a plan or rationale. Do not describe WHY a test was added.
 - The summary must be **self-contained**. Inline every test file path, test name, framework, and assertion focus. Never
   substitute a reference like "see the plan" or "see the test file" for the information itself.
-- Every Acceptance criterion in the plan must map to at least one row in the Coverage table. If a criterion cannot be
-  mapped, list it under `## Open questions` instead of inventing coverage.
 - Do not include test source code in the summary.
 - No TODOs or `<TBD>` placeholders — every gap must either be answered in step 5 or recorded under `## Open questions`
   at the bottom.
 
 ## Investigation discipline
 
-- Read nothing beyond the unit test locations and the production files named in the plan: no integration tests, no
-  end-to-end tests, no fixtures unrelated to the matched tests, no other production code, no build files, no CI
-  configuration.
 - Do not run tests, install dependencies, or trigger any code execution.
 - Do not modify production code, fixtures, helpers, build files, CI configuration, integration tests, or end-to-end
   tests.

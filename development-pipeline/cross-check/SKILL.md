@@ -73,7 +73,7 @@ disable-model-invocation: true
 
 - Write in English, optimized for LLM consumption: short declarative sentences, explicit identifiers, no rhetorical
   flourish.
-- The file contains **only the inconsistencies found and where they occur**. Do not include:
+- Do not include:
     - Summaries of the spec, plan, or tests
     - Items that agree across the documents
     - Praise or "looks good" notes
@@ -90,8 +90,7 @@ disable-model-invocation: true
 - One numbered heading per logical inconsistency. The same inconsistency observed at multiple sites is one issue with
   one table (one row per site or per document). Different inconsistencies are separate issues even when they involve the
   same document.
-- Use a table for evidence; quote the offending text only when it is shorter than the explanation and clarifies the
-  issue.
+- Use a table for evidence.
 - No TODOs, no "figure out later", no placeholders like `<TBD>`. A genuinely uncertain divergence is either asked about
   in step 4 or omitted.
 - If no inconsistencies are found, the file contains only the title and a single line: `No inconsistencies found.`

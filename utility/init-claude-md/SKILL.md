@@ -1,6 +1,6 @@
 ---
 name: init-claude-md
-description: Generate a minimal CLAUDE.md for the current repository, or propose a diff against an existing one.
+description: Generate a minimal CLAUDE.md for the current repository.
 disable-model-invocation: true
 ---
 
@@ -32,18 +32,16 @@ it. Example: invoked in `/home/user/projects/foo`, `/home/user/projects/` and an
     - Wait for an answer before asking the next question.
     - Stop when no gaps remain.
 
-3. **Phase 3 — Write.** If no `CLAUDE.md` exists, write a new one at `./CLAUDE.md`. If one already exists, do not
-   overwrite — instead, present the proposed changes as a unified diff in the chat with one-line reasoning per change,
-   and wait for the user to accept before writing.
+3. **Phase 3 — Write.** Write the file at `./CLAUDE.md`, overwriting any existing `CLAUDE.md`.
 
-4. **Confirm** with a one-line message naming the file written (or the diff presented for review).
+4. **Confirm** with a one-line message naming the file written.
 
 ## Content rules
 
 - Every line must pass: "Would Claude make mistakes without this?" If no, cut it.
 - Write tersely: short imperative rules, concrete examples over prose. Each item stands on its own.
 - Be specific: "Use 2-space indentation in TypeScript" beats "format code properly."
-- Only write facts derived from files read in Phase 1 or interview answers in Phase 2. Do not invent sections like "
+- Write facts derived from files read in Phase 1 or interview answers in Phase 2. Do not invent sections like "
   Common Development Tasks" or "Tips for Development."
 
 ## Required preamble
@@ -67,7 +65,7 @@ This file provides guidance to coding agents when working with code in this repo
 
 ## Exclude
 
-- Anything about git, branches, commits, PRs, or hosting platforms (GitHub, GitLab, Bitbucket, etc.)
+- Anything about git, branches, commits, or PRs
 - Meta-preferences ("plan first", "be terse", "explain tradeoffs")
 - File or component listings — Claude discovers these by reading code
 - Standard language conventions
@@ -80,4 +78,3 @@ This file provides guidance to coding agents when working with code in this repo
 - Current working directory contains none of the surveyed files and the user provides no interview answers → tell the
   user there is nothing concrete to record, then stop.
 - User declines to answer an interview question → drop that gap and continue with what is known.
-- Existing `CLAUDE.md` is present and the user rejects the proposed diff → leave the file untouched, then stop.

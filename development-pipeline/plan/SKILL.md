@@ -44,9 +44,9 @@ disable-model-invocation: true
 - For each step, include (when applicable):
     - The exact file path
     - The exact symbol (function, class, method, endpoint, table, column)
+    - The exact line target (current line number or range)
     - The exact signature, payload shape, or SQL
     - The exact command to run
-    - The exact assertion or acceptance check
 - If the investigation surfaced a prefactoring opportunity, emit it as Step(s) placed **before** the Steps that add the
   feature.
 - Prefer code blocks and tables over prose.
@@ -65,7 +65,7 @@ disable-model-invocation: true
 
 ## Steps
 
-1. <action> — <file:symbol> — <signature/payload/SQL/command>
+1. <action> — <file:symbol@line> — <signature/payload/SQL/command>
 2. ...
 
 ## Acceptance criteria
@@ -86,4 +86,3 @@ disable-model-invocation: true
 - Folder contains no file ending with `SPEC.md` → tell the user, then stop.
 - Folder contains multiple files ending with `SPEC.md` → ask which one to use, then wait for their answer.
 - Spec is unreadable or empty → tell the user, then stop.
-- User declines to answer a gap question → record it under `## Open questions` and continue.

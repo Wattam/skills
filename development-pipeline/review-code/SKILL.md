@@ -10,12 +10,10 @@ disable-model-invocation: true
 
 - A spec folder path containing a file ending with `SPEC.md`. Expected location: `specs/<kebab-title>/`.
 - Up to three **stage reports** the pipeline may have left in that folder, each picked up automatically if present and
-  skipped without penalty if absent. Every report lists the files its stage created, edited, and deleted and ties that
-  change set to the spec's Acceptance criteria:
-    - `IMPLEMENT.md` — the files the implementation changed, plus each Acceptance criterion's verified/unverified/failed
-      status.
-    - `UNIT-TESTS.md` and `INTEGRATION-TESTS.md` — the test files each stage changed, plus a Coverage table mapping each
-      Acceptance criterion to the tests that cover it.
+  skipped without penalty if absent. Each report's file tables list the files its stage created, edited, and deleted:
+    - `IMPLEMENT.md` — also records each Acceptance criterion's verified/unverified/failed status.
+    - `UNIT-TESTS.md` and `INTEGRATION-TESTS.md` — also carry a Coverage table mapping each Acceptance criterion to the
+      tests that cover it.
 - The code changes to review, provided as one of:
     - A list of file paths or a directory.
     - A git diff range (e.g. `main..HEAD`, a branch name, or a commit SHA).
@@ -74,9 +72,7 @@ disable-model-invocation: true
           and Acceptance criteria unasserted
 5. **Ask about unmapped changes.** For each changed hunk that is not covered by the spec and cannot be derived from any
    Scope/Expected-behavior/Context/Note entry, ask one question at a time. Include a classification recommendation
-   (intended-but-undocumented, out-of-scope, or incidental refactor) only when evidence supports one; never invent one.
-   A stage report's file tables count as evidence: a hunk in a file a report ties to a plan Step, Acceptance criterion,
-   or test case supports an intended-but-undocumented recommendation.
+   (intended-but-undocumented or out-of-scope) only when evidence supports one; never invent one.
    Wait for an answer before asking the next; stop when every unmapped hunk has an answer.
     - Question shape: "`<file>:<line>` — <short description of the change> is not covered by the spec. Is this intended,
       and which Scope bullet, Expected-behavior bullet, or Note item does it belong to?"
@@ -100,8 +96,8 @@ disable-model-invocation: true
 
   If you catch yourself writing "overall", "previously", "good job", "also", "additionally", or "note that" — delete
   that sentence.
-- Every issue must cite the exact file path and line number(s) in its evidence table. Line numbers refer to the file at
-  its current revision on disk.
+- An issue that points to specific code must cite the exact file path and line number(s) in its evidence table. Line
+  numbers refer to the file at its current revision on disk.
 - One numbered heading per logical issue with one table; the same problem at multiple sites is one issue with one row
   per site (repeated rule violations, multiple sites of the same bug, the same Note breached in several files).
   Different problems are separate issues, even when they share a file.
@@ -149,7 +145,8 @@ section, number issues sequentially starting at 1.
 <1–2 sentences: what is wrong, naming the Context pattern, Note, edge case, or `Correctness` rule it violates.>
 ```
 
-Every issue under every section carries the same `File`/`Lines`/`Code` evidence table shown above.
+Every issue that cites specific code carries the same `File`/`Lines`/`Code` evidence table shown above; an Acceptance
+criterion the diff never addresses may stand on its 1–2 sentences with no table.
 `## Implementation issues` covers every finding that is neither out-of-scope nor a missed acceptance criterion.
 
 Do not add any other top-level section (no "Spec gaps", no "Files referenced", no "Notes", no "Open questions").

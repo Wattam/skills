@@ -26,10 +26,8 @@ disable-model-invocation: true
       path and the assertions/scenarios to add, change, or remove).
     - No integration test from step 2 covers this item → **CREATE** (record the new file path and the
       assertions/scenarios to add).
-    - Spec removes a behavior, endpoint, or symbol that an integration test from step 2 still exercises → **DELETE** (
-      record file path, or specific test names if the file still covers in-scope behavior).
-
-   Every Acceptance criterion must map to at least one assertion in the change set.
+    - Spec removes a behavior, endpoint, or symbol that an integration test from step 2 still exercises → **DELETE**
+      (record file path, or specific test names if the file still covers in-scope behavior).
 4. **Identify gaps.** Scan the spec and the localization output for missing information that would block writing or
    modifying tests. Treat each of these as a potential gap:
     - **Test infrastructure** — integration test root, framework, runner, or invocation command not discoverable from
@@ -51,27 +49,20 @@ disable-model-invocation: true
     - **DELETE**: remove the recorded file, or delete only the recorded test functions.
 7. **Write the summary** to a markdown file inside the same folder as the spec. Filename: replace the trailing `SPEC.md`
    with `INTEGRATION-TESTS.md` (e.g. `…-SPEC.md` → `…-INTEGRATION-TESTS.md`). Overwrite if it exists.
-8. **Confirm** with a one-line message naming the summary file and the counts of files created, edited, and deleted.
 
 ## Content rules
 
 - Write in English, optimized for LLM consumption: short declarative sentences, explicit identifiers, no rhetorical
   flourish.
-- The summary is a **record of test changes**, not a plan or rationale. Do not describe WHY a test was added. Do not
-  restate the spec. If you catch yourself writing "in order to", "so that", "because", or "as the spec describes" —
-  delete that sentence.
+- The summary is a **record of test changes**, not a plan or rationale. Do not describe WHY a test was added.
 - The summary must be **self-contained**. Inline every test file path, test name, framework, and assertion focus. Never
   substitute a reference like "see the spec" or "see the test file" for the information itself.
-- Every Acceptance criterion in the spec must map to at least one row in the Coverage table. If a criterion cannot be
-  mapped, list it under `## Open questions` instead of inventing coverage.
 - Do not include test source code in the summary.
 - No TODOs or `<TBD>` placeholders — every gap must either be answered in step 5 or recorded under `## Open questions`
   at the bottom.
 
 ## Investigation discipline
 
-- Read nothing beyond the integration test root and the spec's Context-named files: no unit tests, no fixtures
-  unrelated to the matched tests, no other production code, no build files, no CI configuration.
 - Do not run tests, install dependencies, or trigger any code execution.
 - Do not modify production code, fixtures, helpers, build files, CI configuration, or unit tests.
 - Do not introduce new helpers, base classes, or fixtures unless an existing integration test in the same root already

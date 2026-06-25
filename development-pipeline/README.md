@@ -76,6 +76,8 @@ Test files and production code go into your codebase directly; the `specs/` fold
   hand a spec or plan to anyone (human or LLM) without the surrounding chat.
 - **Findings only, no praise.** `cross-check` and `review-code` list only problems. An empty report means nothing was
   found — that's the good outcome.
+- **Tests run in full.** When `implement` verifies acceptance criteria, it runs the project's entire test suite — not
+  only the tests touching the change — unless the plan or you say not to.
 - **Strict lanes.** Specs never say *how*, plans never say *why*, `implement` only executes the plan (it never touches
   branches or commits, and writes no document other than its `IMPLEMENT.md` report), and `cross-check` never modifies
   anything. If a stage's output drifts out of its lane, that's a bug worth fixing in the skill.
