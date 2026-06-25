@@ -1,8 +1,7 @@
 # Development pipeline
 
-Skills that turn a feature idea or bug report into shipped, reviewed code through a series of small, focused
-stages. Each stage produces a markdown artifact, so you can inspect, correct, and re-run any stage before
-moving to the next. See `../README.md` for installation.
+Skills that turn a feature idea or bug report into shipped, reviewed code through a series of small, focused stages. Each stage produces a markdown artifact, so you can inspect, correct, and re-run
+any stage before moving to the next. See `../README.md` for installation.
 
 ## The pipeline
 
@@ -12,14 +11,14 @@ spec ──┬──► plan ──┬──► unit-tests ───────
        └───────────┴──► integration-tests ─┘
 ```
 
-| Stage                | You provide                                                                                                                                | It produces                                                                                                    |
-|----------------------|--------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------|
-| `/spec`              | A feature or bug description (text or file path)                                                                                           | `specs/<title>/<title>-SPEC.md` — **what** to build and why                                                    |
-| `/plan`              | The spec folder                                                                                                                            | `<title>-PLAN.md` — **how** to build it, as ordered steps                                                      |
-| `/integration-tests` | The spec folder                                                                                                                            | Integration test files in your codebase + `<title>-INTEGRATION-TESTS.md` (an index of the changes)             |
-| `/unit-tests`        | The spec folder (reads the plan)                                                                                                           | Unit test files in your codebase + `<title>-UNIT-TESTS.md` (an index of the changes)                           |
-| `/cross-check`       | The spec folder                                                                                                                            | `<title>-CROSS-CHECK.md` — contradictions found between spec, plan, and tests                                  |
-| `/implement`         | The spec folder (or a direct path to the plan)                                                                                             | The production code change + `<title>-IMPLEMENT.md` (the files changed and each acceptance criterion's result) |
+| Stage                | You provide                                                                                                                                                                                             | It produces                                                                                                    |
+|----------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------|
+| `/spec`              | A feature or bug description (text or file path)                                                                                                                                                        | `specs/<title>/<title>-SPEC.md` — **what** to build and why                                                    |
+| `/plan`              | The spec folder                                                                                                                                                                                         | `<title>-PLAN.md` — **how** to build it, as ordered steps                                                      |
+| `/integration-tests` | The spec folder                                                                                                                                                                                         | Integration test files in your codebase + `<title>-INTEGRATION-TESTS.md` (an index of the changes)             |
+| `/unit-tests`        | The spec folder (reads the plan)                                                                                                                                                                        | Unit test files in your codebase + `<title>-UNIT-TESTS.md` (an index of the changes)                           |
+| `/cross-check`       | The spec folder                                                                                                                                                                                         | `<title>-CROSS-CHECK.md` — contradictions found between spec, plan, and tests                                  |
+| `/implement`         | The spec folder (or a direct path to the plan)                                                                                                                                                          | The production code change + `<title>-IMPLEMENT.md` (the files changed and each acceptance criterion's result) |
 | `/review-code`       | The spec folder + optionally a diff range or file list (defaults to the uncommitted working tree; reads `<title>-IMPLEMENT.md`, `<title>-UNIT-TESTS.md`, and `<title>-INTEGRATION-TESTS.md` if present) | `<title>-REVIEW.md` — issues found in the code, measured against the spec                                      |
 
 Ordering is flexible where it can be:
@@ -27,8 +26,7 @@ Ordering is flexible where it can be:
 - `plan` and `integration-tests` both work from the spec alone, so either can go first.
 - `unit-tests` and `implement` need the plan to exist.
 - For **TDD**, write tests before `/implement`; otherwise write them after. Both flows work.
-- `cross-check` runs after the plan and any pre-implementation tests, and before `/implement` — it catches
-  contradictions before any production code is written.
+- `cross-check` runs after the plan and any pre-implementation tests, and before `/implement` — it catches contradictions before any production code is written.
 
 You don't have to run every stage. `spec → plan → implement` is a perfectly valid short loop for small changes.
 
@@ -68,16 +66,10 @@ Test files and production code go into your codebase directly; the `specs/` fold
 
 ## What to expect while a skill runs
 
-- **One question at a time.** When a skill hits a gap it cannot resolve from the codebase, it asks you a single plain
-  question in chat and waits. It recommends an answer only when the codebase gives it evidence for one. If you decline
-  to answer, the gap is recorded under an `## Open questions` section in the output (except in `implement`, which stops
-  at the blocked step instead).
-- **Self-contained documents.** Every artifact inlines all the names, paths, and values needed to act on it — you can
-  hand a spec or plan to anyone (human or LLM) without the surrounding chat.
-- **Findings only, no praise.** `cross-check` and `review-code` list only problems. An empty report means nothing was
-  found — that's the good outcome.
-- **Tests run in full.** When `implement` verifies acceptance criteria, it runs the project's entire test suite — not
-  only the tests touching the change — unless the plan or you say not to.
-- **Strict lanes.** Specs never say *how*, plans never say *why*, `implement` only executes the plan (it never touches
-  branches or commits, and writes no document other than its `IMPLEMENT.md` report), and `cross-check` never modifies
-  anything. If a stage's output drifts out of its lane, that's a bug worth fixing in the skill.
+- **One question at a time.** When a skill hits a gap it cannot resolve from the codebase, it asks you a single plain question in chat and waits. It recommends an answer only when the codebase gives
+  it evidence for one. If you decline to answer, the gap is recorded under an `## Open questions` section in the output (except in `implement`, which stops at the blocked step instead).
+- **Self-contained documents.** Every artifact inlines all the names, paths, and values needed to act on it — you can hand a spec or plan to anyone (human or LLM) without the surrounding chat.
+- **Findings only, no praise.** `cross-check` and `review-code` list only problems. An empty report means nothing was found — that's the good outcome.
+- **Tests run in full.** When `implement` verifies acceptance criteria, it runs the project's entire test suite — not only the tests touching the change — unless the plan or you say not to.
+- **Strict lanes.** Specs never say *how*, plans never say *why*, `implement` only executes the plan (it never touches branches or commits, and writes no document other than its `IMPLEMENT.md`
+  report), and `cross-check` never modifies anything. If a stage's output drifts out of its lane, that's a bug worth fixing in the skill.

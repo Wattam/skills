@@ -12,17 +12,14 @@ disable-model-invocation: true
 
 ## Scope boundary
 
-Treat the current working directory as the filesystem root for this task. Never read, list, or reference paths outside
-it. Example: invoked in `/home/user/projects/foo`, `/home/user/projects/` and anything above it is off-limits — only
-`foo/` and its subfolders are in scope.
+Treat the current working directory as the filesystem root for this task. Never read, list, or reference paths outside it. Example: invoked in `/home/user/projects/foo`, `/home/user/projects/` and
+anything above it is off-limits — only `foo/` and its subfolders are in scope.
 
 ## Workflow
 
-1. **Phase 1 — Survey.** Read, in scope, every file present from this list: manifests (`package.json`, `Cargo.toml`,
-   `pyproject.toml`, `go.mod`, `pom.xml`), `Makefile`, CI config (`.github/workflows/*`, `.gitlab-ci.yml`,
-   `.circleci/config.yml`, etc.), `README*`, existing `CLAUDE.md`, `AGENTS.md`, `.cursor/rules`, `.cursorrules`,
-   `.windsurfrules`, `.clinerules`, `.mcp.json`. From these, detect candidates for every item in the **Include** list
-   below.
+1. **Phase 1 — Survey.** Read, in scope, every file present from this list: manifests (`package.json`, `Cargo.toml`, `pyproject.toml`, `go.mod`, `pom.xml`), `Makefile`, CI config
+   (`.github/workflows/*`, `.gitlab-ci.yml`, `.circleci/config.yml`, etc.), `README*`, existing `CLAUDE.md`, `AGENTS.md`, `.cursor/rules`, `.cursorrules`, `.windsurfrules`, `.clinerules`, `.mcp.json`.
+   From these, detect candidates for every item in the **Include** list below.
 
    Track what the files alone cannot reveal — these become Phase 2 questions.
 
@@ -41,8 +38,7 @@ it. Example: invoked in `/home/user/projects/foo`, `/home/user/projects/` and an
 - Every line must pass: "Would Claude make mistakes without this?" If no, cut it.
 - Write tersely: short imperative rules, concrete examples over prose. Each item stands on its own.
 - Be specific: "Use 2-space indentation in TypeScript" beats "format code properly."
-- Write facts derived from files read in Phase 1 or interview answers in Phase 2. Do not invent sections like "
-  Common Development Tasks" or "Tips for Development."
+- Write facts derived from files read in Phase 1 or interview answers in Phase 2. Do not invent sections like " Common Development Tasks" or "Tips for Development."
 
 ## Required preamble
 
@@ -75,6 +71,5 @@ This file provides guidance to coding agents when working with code in this repo
 
 ## Stop conditions
 
-- Current working directory contains none of the surveyed files and the user provides no interview answers → tell the
-  user there is nothing concrete to record, then stop.
+- Current working directory contains none of the surveyed files and the user provides no interview answers → tell the user there is nothing concrete to record, then stop.
 - User declines to answer an interview question → drop that gap and continue with what is known.

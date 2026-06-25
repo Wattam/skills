@@ -6,20 +6,17 @@ disable-model-invocation: true
 
 # Pi Extension
 
-Create a new extension for the pi coding agent, or update an existing one. A pi extension is a TypeScript
-module that pi loads to add tools, commands, keyboard shortcuts, event hooks, custom UI, or model providers.
+Create a new extension for the pi coding agent, or update an existing one. A pi extension is a TypeScript module that pi loads to add tools, commands, keyboard shortcuts, event hooks, custom UI, or
+model providers.
 
-This file covers what every extension needs regardless of type. It does not cover any single capability in
-depth — for that, read the capability's own doc (see [Capabilities](#capabilities-and-where-to-read-more)).
+This file covers what every extension needs regardless of type. It does not cover any single capability in depth — for that, read the capability's own doc (see
+[Capabilities](#capabilities-and-where-to-read-more)).
 
 ## Inputs
 
-- Whether this creates a new extension or updates an existing one. For an update, the target extension — a
-  path or a name under `~/.pi/agent/extensions/` or a project's `.pi/extensions/`.
-- What the extension should do (new), or what should change (update), and which capabilities are involved
-  (tools, commands, hooks, UI, provider, …).
-- For a new extension, where it should live: global (all projects) or project-local (one project). Default to
-  global.
+- Whether this creates a new extension or updates an existing one. For an update, the target extension — a path or a name under `~/.pi/agent/extensions/` or a project's `.pi/extensions/`.
+- What the extension should do (new), or what should change (update), and which capabilities are involved (tools, commands, hooks, UI, provider, …).
+- For a new extension, where it should live: global (all projects) or project-local (one project). Default to global.
 
 Ask only when the goal or the target is ambiguous.
 
@@ -31,16 +28,12 @@ The authoritative pi docs ship inside the installed pi package. Find the package
 PI_PKG="$(npm root -g)/@earendil-works/pi-coding-agent"
 ```
 
-If `npm root -g` does not resolve it (custom or non-global install), locate the package another way
-(`npm ls -g @earendil-works/pi-coding-agent`, or search the active `node_modules`). Docs are under
-`$PI_PKG/docs/`; runnable, copy-pasteable examples are under `$PI_PKG/examples/extensions/` (indexed by its
-`README.md`). Existing extensions in `~/.pi/agent/extensions/` are also useful references.
+If `npm root -g` does not resolve it (custom or non-global install), locate the package another way (`npm ls -g @earendil-works/pi-coding-agent`, or search the active `node_modules`). Docs are under
+`$PI_PKG/docs/`; runnable, copy-pasteable examples are under `$PI_PKG/examples/extensions/` (indexed by its `README.md`). Existing extensions in `~/.pi/agent/extensions/` are also useful references.
 
-The [Common essentials](#common-essentials) below cover what every extension shares — treat them as the
-baseline and do not re-read the whole manual for them. For each capability the extension uses, read only the
-relevant section (`extensions.md` opens with a table of contents whose anchors map to its sections), plus any
-standalone doc and one matching example listed in [Capabilities](#capabilities-and-where-to-read-more). Open
-more of `extensions.md` only when the essentials here are not enough.
+The [Common essentials](#common-essentials) below cover what every extension shares — treat them as the baseline and do not re-read the whole manual for them. For each capability the extension uses,
+read only the relevant section (`extensions.md` opens with a table of contents whose anchors map to its sections), plus any standalone doc and one matching example listed in
+[Capabilities](#capabilities-and-where-to-read-more). Open more of `extensions.md` only when the essentials here are not enough.
 
 ## Common essentials
 
@@ -55,14 +48,12 @@ Auto-discovered (hot-reloadable with `/reload`):
 | `~/.pi/agent/extensions/*.ts` or `~/.pi/agent/extensions/*/index.ts`     | Global (all projects)                                   |
 | `<project>/.pi/extensions/*.ts` or `<project>/.pi/extensions/*/index.ts` | Project-local (loads only after the project is trusted) |
 
-Additional paths and shared packages are configured via `extensions` and `packages` in
-`~/.pi/agent/settings.json` (or a project `.pi/settings.json`). See `$PI_PKG/docs/settings.md`.
+Additional paths and shared packages are configured via `extensions` and `packages` in `~/.pi/agent/settings.json` (or a project `.pi/settings.json`). See `$PI_PKG/docs/settings.md`.
 
 ### Entry point
 
-An extension default-exports a factory function that receives the `ExtensionAPI` object (`pi`). It may be
-synchronous or `async`; if it returns a promise, pi awaits it before startup continues (use `async` for
-one-time startup work such as fetching remote config or models).
+An extension default-exports a factory function that receives the `ExtensionAPI` object (`pi`). It may be synchronous or `async`; if it returns a promise, pi awaits it before startup continues (use
+`async` for one-time startup work such as fetching remote config or models).
 
 ```typescript
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
@@ -91,25 +82,21 @@ export default function (pi: ExtensionAPI) {
 | `@earendil-works/pi-ai`           | `StringEnum` for enum parameters (works with all providers)                                                    |
 | `@earendil-works/pi-tui`          | TUI components for custom rendering                                                                            |
 
-Node built-ins (`node:fs`, `node:path`, …) work. For npm deps, add a `package.json` beside the extension,
-run `npm install`, and imports resolve from `node_modules/`.
+Node built-ins (`node:fs`, `node:path`, …) work. For npm deps, add a `package.json` beside the extension, run `npm install`, and imports resolve from `node_modules/`.
 
 ### Events
 
-Subscribe with `pi.on(event, async (event, ctx) => { ... })`. Some handlers return a value to influence
-behavior (e.g. `tool_call` returns `{ block: true, reason }`; `input` returns `{ action: ... }`). The full
-lifecycle, event list, and return contracts are in `extensions.md`. The two most extensions use:
+Subscribe with `pi.on(event, async (event, ctx) => { ... })`. Some handlers return a value to influence behavior (e.g. `tool_call` returns `{ block: true, reason }`; `input` returns
+`{ action: ... }`). The full lifecycle, event list, and return contracts are in `extensions.md`. The two most extensions use:
 
-- `session_start` — fired on startup, reload, new, resume, and fork. Start resources and reconstruct
-  in-memory state here.
+- `session_start` — fired on startup, reload, new, resume, and fork. Start resources and reconstruct in-memory state here.
 - `session_shutdown` — fired before a session is torn down. Release everything `session_start` started.
 
 ### ExtensionContext (`ctx`)
 
 Every handler receives `ctx`. Members an extension of any type touches:
 
-- `ctx.ui` — dialogs (`select`, `confirm`, `input`, `editor`), `notify`, and `setStatus` / `setWidget` /
-  `setFooter`. Full UI surface is in `tui.md`.
+- `ctx.ui` — dialogs (`select`, `confirm`, `input`, `editor`), `notify`, and `setStatus` / `setWidget` / `setFooter`. Full UI surface is in `tui.md`.
 - `ctx.mode` — `"tui" | "rpc" | "json" | "print"`.
 - `ctx.hasUI` — `true` in tui and rpc.
 - `ctx.cwd` — working directory. Build project-local paths with `CONFIG_DIR_NAME`, not a hardcoded `.pi`.
@@ -121,20 +108,17 @@ Every handler receives `ctx`. Members an extension of any type touches:
 ### ExtensionAPI (`pi`)
 
 - `pi.on(event, handler)`
-- `pi.registerTool(def)`, `pi.registerCommand(name, opts)`, `pi.registerShortcut(key, opts)`,
-  `pi.registerFlag(name, opts)`
+- `pi.registerTool(def)`, `pi.registerCommand(name, opts)`, `pi.registerShortcut(key, opts)`, `pi.registerFlag(name, opts)`
 - `pi.exec(cmd, args, opts)` → `{ stdout, stderr, code, killed }`
 - `pi.sendMessage(...)`, `pi.sendUserMessage(...)`, `pi.appendEntry(customType, data)`
 - `pi.events` — shared bus for inter-extension communication
-- `pi.getActiveTools()` / `pi.getAllTools()` / `pi.setActiveTools(names)`, `pi.setModel(model)`,
-  `pi.getThinkingLevel()` / `pi.setThinkingLevel(level)`
+- `pi.getActiveTools()` / `pi.getAllTools()` / `pi.setActiveTools(names)`, `pi.setModel(model)`, `pi.getThinkingLevel()` / `pi.setThinkingLevel(level)`
 - `pi.registerProvider(name, config)` / `pi.unregisterProvider(name)`
 
 ### State persistence
 
-Extensions are reinstantiated on `/reload` and on session switch/fork. Do not rely on in-memory state
-surviving. Persist state in tool result `details` or via `pi.appendEntry(customType, data)`, and reconstruct
-it in `session_start` by scanning `ctx.sessionManager.getBranch()` / `getEntries()`.
+Extensions are reinstantiated on `/reload` and on session switch/fork. Do not rely on in-memory state surviving. Persist state in tool result `details` or via `pi.appendEntry(customType, data)`, and
+reconstruct it in `session_start` by scanning `ctx.sessionManager.getBranch()` / `getEntries()`.
 
 ### Modes
 
@@ -145,19 +129,16 @@ it in `session_start` by scanning `ctx.sessionManager.getBranch()` / `getEntries
 | JSON         | `"json"`   | `false`     |
 | Print (`-p`) | `"print"`  | `false`     |
 
-Guard dialog and notification calls with `ctx.hasUI`. Guard `ctx.ui.custom()`, component factories, and
-terminal input with `ctx.mode === "tui"`.
+Guard dialog and notification calls with `ctx.hasUI`. Guard `ctx.ui.custom()`, component factories, and terminal input with `ctx.mode === "tui"`.
 
 ### Error handling
 
-Extension errors are logged and the agent continues. A throw from a `tool_call` handler blocks that tool
-(fail-safe). A custom tool's `execute` must **throw** to report failure to the LLM — a returned value never
-sets the error flag.
+Extension errors are logged and the agent continues. A throw from a `tool_call` handler blocks that tool (fail-safe). A custom tool's `execute` must **throw** to report failure to the LLM — a returned
+value never sets the error flag.
 
 ## Capabilities and where to read more
 
-Identify the capabilities the extension needs, then read the matching doc and example. Do not reproduce the
-capability's details here.
+Identify the capabilities the extension needs, then read the matching doc and example. Do not reproduce the capability's details here.
 
 | Capability            | What it does                                                                                                                                                                                                                        | Read                                                                                                    |
 |-----------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------|
@@ -175,9 +156,8 @@ capability's details here.
 
 ## Universal rules
 
-- Never start background resources (watchers, sockets, timers, UI) from the factory — the factory may run in
-  invocations that never open a session. Defer them to `session_start` or the event/command/tool that needs
-  them.
+- Never start background resources (watchers, sockets, timers, UI) from the factory — the factory may run in invocations that never open a session. Defer them to `session_start` or the
+  event/command/tool that needs them.
 - Release every session-scoped resource in an idempotent `session_shutdown` handler.
 - Reconstruct in-memory state in `session_start`; never assume it survived a reload or session switch.
 - Guard UI by mode: `ctx.hasUI` for dialogs/notifications, `ctx.mode === "tui"` for custom components.
@@ -188,24 +168,16 @@ capability's details here.
 
 ## Workflow
 
-1. **Clarify the goal.** Confirm whether this creates a new extension or updates an existing one, what it
-   should do (or what should change), and which capabilities are involved. For an update, locate the target
-   (search `~/.pi/agent/extensions/` and any project `.pi/extensions/`) and read the whole extension first,
-   including its helper modules, to learn its structure and conventions.
-2. **Read what the capabilities need.** Resolve `$PI_PKG`. The essentials above already cover the shared
-   model, so do not read the full manual. For each capability involved, read its specific section of
-   `extensions.md`, any standalone doc, and one matching example.
-3. **For a new extension, choose placement and style.** Single file `name.ts` for small extensions;
-   `name/index.ts` (plus helper modules) for multi-file; `name/` with a `package.json` and `npm install` when
-   npm deps are needed. Place under `~/.pi/agent/extensions/` (global) or `<project>/.pi/extensions/`
-   (project-local). For an update, keep the existing location, file layout, and entry-point shape.
-4. **Write the change.** For a new extension, start from the scaffold. For an update, make targeted edits to
-   the existing file(s) and match the surrounding naming, idioms, and comment density. Either way, register
-   capabilities at load time, defer resources to `session_start`, clean up in `session_shutdown`, and follow
-   the universal rules and the capability's doc.
-5. **Validate.** Load a new file without installing: `pi -e ./path/to/extension.ts`. For an extension in an
-   auto-discovered location — including one you just edited — reload a running session with `/reload`. Confirm
-   the factory throws nothing at load and the capability appears or behaves as intended (the tool in the tool
-   list, `/command` in the command list, etc.).
+1. **Clarify the goal.** Confirm whether this creates a new extension or updates an existing one, what it should do (or what should change), and which capabilities are involved. For an update, locate
+   the target (search `~/.pi/agent/extensions/` and any project `.pi/extensions/`) and read the whole extension first, including its helper modules, to learn its structure and conventions.
+2. **Read what the capabilities need.** Resolve `$PI_PKG`. The essentials above already cover the shared model, so do not read the full manual. For each capability involved, read its specific section
+   of `extensions.md`, any standalone doc, and one matching example.
+3. **For a new extension, choose placement and style.** Single file `name.ts` for small extensions; `name/index.ts` (plus helper modules) for multi-file; `name/` with a `package.json` and
+   `npm install` when npm deps are needed. Place under `~/.pi/agent/extensions/` (global) or `<project>/.pi/extensions/` (project-local). For an update, keep the existing location, file layout, and
+   entry-point shape.
+4. **Write the change.** For a new extension, start from the scaffold. For an update, make targeted edits to the existing file(s) and match the surrounding naming, idioms, and comment density. Either
+   way, register capabilities at load time, defer resources to `session_start`, clean up in `session_shutdown`, and follow the universal rules and the capability's doc.
+5. **Validate.** Load a new file without installing: `pi -e ./path/to/extension.ts`. For an extension in an auto-discovered location — including one you just edited — reload a running session with
+   `/reload`. Confirm the factory throws nothing at load and the capability appears or behaves as intended (the tool in the tool list, `/command` in the command list, etc.).
 
 Confirm with a one-line message naming the file(s) written or changed and how to load them.
