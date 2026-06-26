@@ -61,8 +61,9 @@ disable-model-invocation: true
       to?"
     - Based on the answer: drop the hunk from the issue list (intended, simply absent from the spec text) or add it as an issue under `## Out-of-scope changes`. If the user declines to answer, treat
       the hunk as out-of-scope.
-6. **Write the review** to a markdown file inside the same folder as the spec. Filename: replace the trailing `SPEC.md` with `REVIEW.md` (e.g. `…-SPEC.md` → `…-REVIEW.md`). Overwrite if it exists.
-7. **Confirm** with a one-line message naming the file written and the number of issues found.
+6. **Write the review.** Only if at least one issue was found, write it to a markdown file inside the same folder as the spec; for the filename, replace the trailing `SPEC.md` with `REVIEW.md`, and
+   overwrite if it exists. If no issues were found, write no file.
+7. **Confirm** with a one-line message. If a file was written, name it and the number of issues found; otherwise state that no issues were found and no file was written.
 
 ## Review content rules
 
@@ -75,7 +76,6 @@ disable-model-invocation: true
     - References to a previous review, change logs, or history
     - Meta-commentary about the review process
 
-  If you catch yourself writing "overall", "previously", "good job", "also", "additionally", or "note that" — delete that sentence.
 - An issue that points to specific code must cite the exact file path and line number(s) in its evidence table. Line numbers refer to the file at its current revision on disk.
 - One numbered heading per logical issue with one table; the same problem at multiple sites is one issue with one row per site (repeated rule violations, multiple sites of the same bug, the same Note
   breached in several files). Different problems are separate issues, even when they share a file.
@@ -84,7 +84,7 @@ disable-model-invocation: true
   `INTEGRATION-TESTS.md`) and the diff, or `Tests` for a test issue from step 4). Follow-up prose after the table is allowed only when a single sentence cannot make the issue actionable.
 - Use tables for evidence; quote the offending code only when it is shorter than the explanation and clarifies the issue.
 - No TODOs, no "figure out later", no placeholders like `<TBD>`. If a finding is uncertain, omit it.
-- If no issues are found, the review file contains only the title and a single line: `No issues found.`
+- If no issues are found, tell the user and do not create any file.
 
 ## Review file structure
 

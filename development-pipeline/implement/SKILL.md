@@ -24,8 +24,8 @@ disable-model-invocation: true
 5. **Execute the Steps in sequential order.** Do not reorder, skip, batch ahead, or parallelize. Complete a Step's action and confirm it succeeded before starting the next Step.
 6. **Verify the Acceptance criteria.** After the last Step, check each Acceptance criterion using the exact command or assertion the plan supplies. Running the project's full test suite — every test,
    not only the ones related to the change — is always one of the Acceptance criteria unless the plan or the user says not to. Record for each criterion the check used and its result.
-7. **Write the report** to a markdown file inside the same folder as the plan. Filename: replace the trailing `PLAN.md` with `IMPLEMENT.md` (e.g. `…-PLAN.md` → `…-IMPLEMENT.md`). Overwrite if it
-   exists. Write the report also when the run stops at a blocked Step (see Stop conditions).
+7. **Write the report** to a markdown file inside the same folder as the plan. Filename: replace the trailing `PLAN.md` with `IMPLEMENT.md`. Overwrite if it exists. Write the report also when the run
+   stops at a blocked Step (see Stop conditions).
 8. **Confirm** with a one-line message naming the report file, the counts of files created, edited, and deleted, and the counts of Acceptance criteria verified, unverified, and failed.
 
 ## Execution discipline

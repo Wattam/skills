@@ -22,13 +22,13 @@ disable-model-invocation: true
     - **Constraints** — auth, permissions, role requirements not stated.
     - **Verification** — acceptance criteria, migration/rollout/backfill steps not stated.
 4. **Ask one question at a time.** Include a recommendation only when evidence supports one; never invent one. Wait for an answer before asking the next; stop when no gaps remain.
-5. **Write the plan** to a markdown file inside the same folder as the spec. Filename: replace the trailing `SPEC.md` with `PLAN.md` (e.g. `…-SPEC.md` → `…-PLAN.md`). Overwrite if it exists.
+5. **Write the plan** to a markdown file inside the same folder as the spec. Filename: replace the trailing `SPEC.md` with `PLAN.md`. Overwrite if it exists.
 6. **Confirm** with a one-line message naming the file written.
 
 ## Plan content rules
 
 - Write in English, optimized for LLM consumption: short declarative sentences, explicit identifiers, no rhetorical flourish.
-- Describe **HOW**, never **WHY** — no rationale, no background. If you catch yourself writing "because", "in order to", "so that", or "the reason is", delete that sentence.
+- Describe **HOW**, never **WHY** — no rationale, no background.
 - The plan must be **self-contained**: inline every identifier, path, signature, schema, role, and value. Never substitute a reference like "see the spec" for the information itself.
 - Use ordered steps; one concrete action per step.
 - For each step, include (when applicable):

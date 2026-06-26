@@ -26,7 +26,7 @@ Skills are grouped into category folders. Each category has its own `CLAUDE.md` 
 - Harness-agnostic phrasing: never name proprietary tools tied to a specific agent harness. Describe the action instead ("search and read the codebase", "ask in plain chat text"). Ordinary verbs
   ("read the file") and real shell commands (`git diff`) are fine.
 - Each skill must work from an empty context: a SKILL.md is self-contained and never assumes another skill ran first or relies on prior chat state.
-- Each skill's SKILL.md is the authority on its stage-specific rules (drift bans, banned words, output structure, read/write limits). Never loosen a ban already stated in the file you are editing.
+- Each skill's SKILL.md is the authority on its stage-specific rules (drift bans, output structure, read/write limits).
 
 ## Validation
 

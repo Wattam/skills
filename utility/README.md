@@ -15,4 +15,4 @@ Run `/pi-extension` to create a new extension for the pi coding agent or update 
 ## `standalone-review`
 
 Run `/standalone-review` to review a set of code changes (file paths, a directory, a git diff range, or the uncommitted working tree) against loose context — a free-text intent, a pasted ticket, or a
-document you point it at — or, with no context, for correctness and convention compliance alone. It writes the findings to a `REVIEW.md`.
+document you point it at — or, with no context, for correctness and convention compliance alone. When it finds issues, it writes them to a `REVIEW.md`; when it finds none, it writes no file.

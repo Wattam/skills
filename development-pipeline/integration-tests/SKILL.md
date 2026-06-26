@@ -34,8 +34,7 @@ disable-model-invocation: true
     - **CREATE**: write the new test file at the recorded path. Mirror the framework, imports, naming, fixtures, and helpers used by the nearest existing integration test in the same root.
     - **EDIT**: change only the recorded assertions/scenarios.
     - **DELETE**: remove the recorded file, or delete only the recorded test functions.
-7. **Write the summary** to a markdown file inside the same folder as the spec. Filename: replace the trailing `SPEC.md` with `INTEGRATION-TESTS.md` (e.g. `…-SPEC.md` → `…-INTEGRATION-TESTS.md`).
-   Overwrite if it exists.
+7. **Write the summary** to a markdown file inside the same folder as the spec. Filename: replace the trailing `SPEC.md` with `INTEGRATION-TESTS.md`. Overwrite if it exists.
 
 ## Content rules
 

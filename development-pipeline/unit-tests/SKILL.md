@@ -35,8 +35,7 @@ disable-model-invocation: true
     - **CREATE**: write the new test file at the recorded path. Mirror the framework, imports, naming, fixtures, mocks, and helpers used by the nearest existing unit test in the same location.
     - **EDIT**: change only the recorded assertions/cases.
     - **DELETE**: remove the recorded file, or delete only the recorded test functions.
-7. **Write the summary** to a markdown file inside the same folder as the plan. Filename: replace the trailing `PLAN.md` with `UNIT-TESTS.md` (e.g. `…-PLAN.md` → `…-UNIT-TESTS.md`). Overwrite if it
-   exists.
+7. **Write the summary** to a markdown file inside the same folder as the plan. Filename: replace the trailing `PLAN.md` with `UNIT-TESTS.md`. Overwrite if it exists.
 
 ## Content rules
 

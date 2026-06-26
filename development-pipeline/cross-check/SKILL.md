@@ -8,10 +8,11 @@ disable-model-invocation: true
 
 ## Inputs
 
-- A folder path containing a file ending with `SPEC.md` and a file ending with `PLAN.md`. Expected location: `specs/<kebab-title>/`.
-- Pre-implementation tests, picked up automatically:
-    - The folder's `UNIT-TESTS.md` and/or `INTEGRATION-TESTS.md` docs, if present, plus the test files they index.
-    - Optionally, test files or directories the user names in the invocation.
+A folder path (expected location: `specs/<kebab-title>/`) containing up to four docs ending with:
+- `SPEC.md` - mandatory.
+- `PLAN.md` - mandatory.
+- `UNIT-TESTS.md` - optional.
+- `INTEGRATION-TESTS.md` - optional.
 
 ## Workflow
 
@@ -19,8 +20,7 @@ disable-model-invocation: true
    on intended behavior (WHAT) and the plan as the authority on the intended changes (HOW).
 2. **Resolve and read the pre-implementation tests.** If the folder contains `UNIT-TESTS.md` and/or `INTEGRATION-TESTS.md`, read them in full, then read each test file listed in their `Created`,
    `Edited`, and `Deleted` tables. Also read any test files or directories the user named in the invocation. If a test file an index claims to exist cannot be read, treat its claimed coverage as unmet
-   and record the affected items as inconsistencies in step 3; do not stop. If no test doc is present and the user named no test paths, treat tests as absent and skip the **Spec ↔ tests** and **Plan ↔
-   tests** cross-checks.
+   and record the affected items as inconsistencies in step 3; do not stop. If no test doc is present and the user named no test paths, skip the **Spec ↔ tests** and **Plan ↔ tests** cross-checks.
 3. **Cross-check the documents.** Compare the documents against one another along three axes. For each finding, capture the exact location in each document (spec section/criterion, plan Step number,
    test `file::test_name`) and the conflicting statements. Treat each of these as a potential inconsistency:
     - **Spec ↔ plan**
@@ -50,8 +50,9 @@ disable-model-invocation: true
    asking the next; stop when every ambiguous divergence has an answer.
     - Question shape: "<artifact A location> states <X>; <artifact B location> states <Y>. Is this divergence intended?"
     - Based on the answer: drop the divergence (intended) or record it as an inconsistency in the matching section. If the user declines to answer, record it as an inconsistency.
-5. **Write the cross-check** to a markdown file inside the same folder. Filename: replace the trailing `SPEC.md` with `CROSS-CHECK.md` (e.g. `…-SPEC.md` → `…-CROSS-CHECK.md`). Overwrite if it exists.
-6. **Confirm** with a one-line message naming the file written and the number of inconsistencies found.
+5. **Write the cross-check.** Only if at least one inconsistency was found, write it to a markdown file inside the same folder; for the filename, replace the trailing `SPEC.md` with `CROSS-CHECK.md`,
+   and overwrite if it exists. If no inconsistencies were found, write no file.
+6. **Confirm** with a one-line message. If a file was written, name it and the number of inconsistencies found; otherwise state that no inconsistencies were found and no file was written.
 
 ## Content rules
 
@@ -63,16 +64,15 @@ disable-model-invocation: true
     - Restatements of acceptance criteria that are satisfied everywhere
     - Meta-commentary about the cross-check process
 
-  If you catch yourself writing "overall", "consistent", "matches", "as expected", "good", "also", "additionally", or "note that" — delete that sentence.
 - **Report the conflict, never the fix.** State which documents disagree and what each says. Do not prescribe how to reconcile them, which document to change, or what to write instead — that is the
-  next stage's work. If you catch yourself writing "should change", "fix by", "instead", "in order to", or "so that" — delete that sentence.
+  next stage's work.
 - Every inconsistency must be **self-contained**: inline the conflicting statement from each document. Naming the document and the location is required, but never write "see the spec" or "see Step 4"
   in place of the content.
 - One numbered heading per logical inconsistency. The same inconsistency observed at multiple sites is one issue with one table (one row per site or per document). Different inconsistencies are
   separate issues even when they involve the same document.
 - Use a table for evidence.
 - No TODOs, no "figure out later", no placeholders like `<TBD>`. A genuinely uncertain divergence is either asked about in step 4 or omitted.
-- If no inconsistencies are found, the file contains only the title and a single line: `No inconsistencies found.`
+- If no inconsistencies are found, tell the user and do not create any file.
 
 ## Investigation discipline
 
@@ -111,6 +111,6 @@ The file has up to three top-level sections, in this fixed order, and no others;
 ## Stop conditions
 
 - No folder provided → ask for one, then stop.
-- Folder contains no file ending with `SPEC.md` or no file ending with `PLAN.md` → tell the user, then stop.
-- Folder contains multiple files ending with `SPEC.md` or multiple files ending with `PLAN.md` → ask which one to use, then wait for their answer.
+- Folder is missing a file ending with `SPEC.md`, or a file ending with `PLAN.md` → tell the user, then stop.
+- Folder contains multiple files ending with `SPEC.md`, or multiple ending with `PLAN.md` → ask which one to use, then wait for their answer.
 - Spec or plan is unreadable or empty → tell the user, then stop.

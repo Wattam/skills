@@ -27,4 +27,4 @@ These hold across every pipeline skill. When you change one of them in a skill, 
 - Gap questions are asked one at a time in plain chat text; a recommendation is included only when evidence supports one, never invented.
 - Outputs are self-contained: inline every name, path, signature, and value needed to act on the artifact; never substitute a reference like "see the spec".
 - No `<TBD>` or TODO placeholders.
-- Output filenames derive from the input filename: replace the trailing `SPEC.md` or `PLAN.md` with the stage's suffix (e.g. `…-SPEC.md` → `…-PLAN.md`).
+- Output filenames derive from the input filename: replace the trailing `SPEC.md` or `PLAN.md` with the stage's suffix.
