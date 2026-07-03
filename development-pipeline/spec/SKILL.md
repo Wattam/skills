@@ -30,7 +30,7 @@ disable-model-invocation: true
         - Out-of-scope items unclear (behavior that must not change)
     - Bug fix:
         - Current behavior not stated
-        - Expected behavior not stated
+        - Expected-behavior bullets not listable (each a discrete observable behavior that should happen instead)
         - Repro steps missing when the behavior is non-obvious
 5. **Ask one question at a time.** Include a recommendation only when evidence supports one; never invent one. Wait for an answer before asking the next; stop when no gaps remain.
 6. **Write the spec.** Create a folder named `specs/` in the current working directory if it does not already exist, then create a subfolder inside `specs/` whose name is the derived kebab-case title.
@@ -103,7 +103,7 @@ Identical to the feature template, except: `## Goal`, `## Scope`, and `## Out of
 
 ## Expected behavior
 
-<what should happen>
+- <2–5 bullets, each one observable behavior that should happen instead; one bullet per discrete behavior so downstream stages can map, test, and review them individually>
 
 ## Suspected cause
 

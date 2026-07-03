@@ -9,5 +9,5 @@ The repository-wide authoring rules in `../CLAUDE.md` apply to every skill here;
 Each skill here is invoked on its own and shares no artifact chain or input/output contract with any other — adding one does not affect the others:
 
 - `init-claude-md` — generates a minimal `CLAUDE.md` for the current repository, or proposes a diff against an existing one.
-- `pi-extension` — guides creating or updating a pi agent extension: the common factory/event/context model plus pointers to the per-capability pi docs.
+- `pi-extension` — guides creating or updating a pi agent extension by routing the reader to the official pi docs and examples for each capability.
 - `standalone-review` — reviews code changes against loose context and writes a `REVIEW.md`.

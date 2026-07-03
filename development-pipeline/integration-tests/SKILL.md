@@ -35,6 +35,7 @@ disable-model-invocation: true
     - **EDIT**: change only the recorded assertions/scenarios.
     - **DELETE**: remove the recorded file, or delete only the recorded test functions.
 7. **Write the summary** to a markdown file inside the same folder as the spec. Filename: replace the trailing `SPEC.md` with `INTEGRATION-TESTS.md`. Overwrite if it exists.
+8. **Confirm** with a one-line message naming the summary file written and the counts of test files created, edited, and deleted.
 
 ## Content rules
 

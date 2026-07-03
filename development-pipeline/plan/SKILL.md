@@ -74,3 +74,4 @@ disable-model-invocation: true
 - Folder contains no file ending with `SPEC.md` → tell the user, then stop.
 - Folder contains multiple files ending with `SPEC.md` → ask which one to use, then wait for their answer.
 - Spec is unreadable or empty → tell the user, then stop.
+- User declines to answer a gap question → record it under `## Open questions` and continue.

@@ -29,9 +29,12 @@ anything above it is off-limits — only `foo/` and its subfolders are in scope.
     - Wait for an answer before asking the next question.
     - Stop when no gaps remain.
 
-3. **Phase 3 — Write.** Write the file at `./CLAUDE.md`, overwriting any existing `CLAUDE.md`.
+3. **Phase 3 — Write or diff.** Branch on whether a `CLAUDE.md` was found in scope during Phase 1.
+    - **No existing `CLAUDE.md`.** Write the assembled file at `./CLAUDE.md`.
+    - **A `CLAUDE.md` already exists.** Do not overwrite it silently. Show the user a diff of the assembled file against the existing `./CLAUDE.md` in plain chat text, then ask whether to apply it.
+      Write `./CLAUDE.md` only if the user accepts; if the user declines, make no change.
 
-4. **Confirm** with a one-line message naming the file written.
+4. **Confirm** with a one-line message: name the file written, or state that the existing `CLAUDE.md` was left unchanged.
 
 ## Content rules
 
@@ -73,3 +76,4 @@ This file provides guidance to coding agents when working with code in this repo
 
 - Current working directory contains none of the surveyed files and the user provides no interview answers → tell the user there is nothing concrete to record, then stop.
 - User declines to answer an interview question → drop that gap and continue with what is known.
+- User declines the proposed diff against an existing `CLAUDE.md` → make no change, then stop.

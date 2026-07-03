@@ -9,10 +9,12 @@ disable-model-invocation: true
 ## Inputs
 
 - A spec folder path containing a file ending with `SPEC.md`. Expected location: `specs/<kebab-title>/`.
+- The implementation plan, a file ending with `PLAN.md` in that folder, picked up automatically if present and skipped without penalty if absent. The stage reports below grade Acceptance criteria
+  against the **plan's** Acceptance criteria, not the spec's, so the plan is the only way to relate their statuses back to the spec and to detect a plan criterion that diverges from the spec.
 - Up to three **stage reports** the pipeline may have left in that folder, each picked up automatically if present and skipped without penalty if absent. Each report's file tables list the files its
   stage created, edited, and deleted:
-    - `IMPLEMENT.md` — also records each Acceptance criterion's verified/unverified/failed status.
-    - `UNIT-TESTS.md` and `INTEGRATION-TESTS.md` — also carry a Coverage table mapping each Acceptance criterion to the tests that cover it.
+    - `IMPLEMENT.md` — also records each Acceptance criterion's verified/unverified/failed status, graded against the plan's Acceptance criteria.
+    - `UNIT-TESTS.md` and `INTEGRATION-TESTS.md` — also carry a Coverage table mapping each plan Acceptance criterion to the tests that cover it.
 - The code changes to review, provided as one of:
     - A list of file paths or a directory.
     - A git diff range (e.g. `main..HEAD`, a branch name, or a commit SHA).
@@ -20,9 +22,10 @@ disable-model-invocation: true
 
 ## Workflow
 
-1. **Locate and ingest the spec.** List the folder contents, identify the file ending with `SPEC.md`, and read it in full. Treat every section as a binding constraint to check against. Read in full
-   every stage report present (the files ending with `IMPLEMENT.md`, `UNIT-TESTS.md`, and `INTEGRATION-TESTS.md`). For each one absent, skip every check below that depends on it; its absence is not an
-   issue.
+1. **Locate and ingest the spec.** List the folder contents, identify the file ending with `SPEC.md`, and read it in full. Treat every section as a binding constraint to check against. Read the file
+   ending with `PLAN.md` if present; its Acceptance criteria are the list the stage reports' statuses and Coverage tables actually reference, so reading it is what lets you map those plan-rooted
+   statuses back to spec criteria. Read in full every stage report present (the files ending with `IMPLEMENT.md`, `UNIT-TESTS.md`, and `INTEGRATION-TESTS.md`). For each one absent, skip every check
+   below that depends on it; its absence is not an issue.
 2. **Enumerate the changed files.** Resolve the input to a concrete list of file paths plus their changed line ranges. Read each changed file in full from disk so review line numbers stay accurate.
    Also read the spec's Context-referenced files so you can judge pattern compliance, Note constraints, and existing conventions the diff is supposed to mirror. For every stage report that was read,
    compare the files it lists as created, edited, or deleted against the resolved list and carry every mismatch into step 4.
@@ -44,9 +47,12 @@ disable-model-invocation: true
       authorization check)
     - Mismatch between a stage report and the change set: a file the report lists as created, edited, or deleted has no corresponding change in the diff, or a changed file is absent from the report's
       file tables
-    - A stage report's claim about an Acceptance criterion that the diff does not bear out — check each criterion directly against the code and tests regardless of the report. An `IMPLEMENT.md`
-      `verified` mark does not exempt a criterion from step 3's mapping, an `unverified` or `failed` mark must still be checked, and a `UNIT-TESTS.md` or `INTEGRATION-TESTS.md` Coverage row may map a
-      criterion to a test that is missing from the diff or does not actually exercise it
+    - A stage report's claim about an Acceptance criterion that the diff does not bear out. The reports grade each criterion against the **plan's** Acceptance criteria, not the spec's, so map each
+      status back to the spec criterion it serves before trusting it, then check every spec criterion directly against the code and tests regardless of the report. An `IMPLEMENT.md` `verified` mark does
+      not exempt a criterion from step 3's mapping, an `unverified` or `failed` mark must still be checked, and a `UNIT-TESTS.md` or `INTEGRATION-TESTS.md` Coverage row may map a criterion to a test
+      that is missing from the diff or does not actually exercise it
+    - A plan Acceptance criterion that contradicts a spec Acceptance criterion or has no basis in the spec (only when a plan is present). Because the stage reports grade against the plan, a `verified`
+      plan criterion can hide a spec criterion the diff never satisfies; judge against the spec and report the spec criterion under `## Acceptance criteria not met`
     - Test changes that reinforce the implementation instead of verifying the specified behavior — tautological or change-detector tests. Concrete forms:
         - Assertions hard-coded to the exact output the code currently produces, with no independent derivation from the spec's Examples or Acceptance criteria
         - Over-mocking so the test only confirms stubbed interactions or that a method was called, never a real result
@@ -85,6 +91,11 @@ disable-model-invocation: true
 - Use tables for evidence; quote the offending code only when it is shorter than the explanation and clarifies the issue.
 - No TODOs, no "figure out later", no placeholders like `<TBD>`. If a finding is uncertain, omit it.
 - If no issues are found, tell the user and do not create any file.
+
+## Investigation discipline
+
+- Do not run tests, install dependencies, or trigger any code execution.
+- Do not modify the code under review, the spec, the plan, the stage reports, or any other file. The only file this skill writes is its own `REVIEW.md` report.
 
 ## Review file structure
 

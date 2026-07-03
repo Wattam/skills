@@ -80,6 +80,11 @@ When at least one issue is found, the review is written as `REVIEW.md` in the cu
 - No TODOs, no "figure out later", no placeholders like `<TBD>`. If a finding is uncertain, omit it.
 - If no issues are found, tell the user and do not create any file.
 
+## Investigation discipline
+
+- Do not run tests, install dependencies, or trigger any code execution.
+- Do not modify the code under review, the context document, or any other file. The only file this skill writes is its own `REVIEW.md` report.
+
 ## Review file structure
 
 The review file has up to three top-level sections, in this fixed order; omit any section that has no entries. Within a section, number issues sequentially starting at 1.
