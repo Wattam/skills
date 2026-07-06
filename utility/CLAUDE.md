@@ -1,13 +1,7 @@
-# CLAUDE.md
-
-This file provides guidance to coding agents when working with code in this repository.
-
-The repository-wide authoring rules in `../CLAUDE.md` apply to every skill here; this file adds the conventions specific to the utility category.
-
 ## What this category is
 
-Each skill here is invoked on its own and shares no artifact chain or input/output contract with any other — adding one does not affect the others:
+Each skill here is invoked on its own and shares no artifact chain:
 
-- `init-claude-md` — generates a minimal `CLAUDE.md` for the current repository, or proposes a diff against an existing one.
-- `pi-extension` — guides creating or updating a pi agent extension by routing the reader to the official pi docs and examples for each capability.
-- `standalone-review` — reviews code changes against loose context and writes a `REVIEW.md`.
+- `init-claude-md` — generates a minimal `CLAUDE.md` for the current repository.
+- `pi-extension` — guides creating or updating a Pi agent extension by routing the reader to the official docs.
+- `standalone-review` — reviews code changes against loose context.
