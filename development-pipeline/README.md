@@ -66,10 +66,8 @@ Test files and production code go into your codebase directly; the `specs/` fold
 
 ## What to expect while a skill runs
 
-- **One question at a time.** When a skill hits a gap it cannot resolve from the codebase, it asks you a single plain question in chat and waits. It recommends an answer only when the codebase gives
-  it evidence for one. If you decline to answer, the skill records the gap rather than guessing, and where it records it depends on the stage: `spec`, `plan`, `unit-tests`, and `integration-tests` add
-  it to an `## Open questions` section in their output; `implement` stops at the blocked step instead; `cross-check` records the divergence as an inconsistency in the matching section; `review-code`
-  records the change under `## Out-of-scope changes`.
+- **One question at a time.** When a skill hits a gap it cannot resolve from the codebase, it interviews you — one plain question in chat at a time, until no gaps remain. It recommends an answer
+  only when the codebase gives it evidence for one.
 - **Self-contained documents.** Every artifact inlines all the names, paths, and values needed to act on it — you can hand a spec or plan to anyone (human or LLM) without the surrounding chat.
 - **Findings only, no praise.** `cross-check` and `review-code` list only problems. No report file is written when nothing is found — that's the good outcome.
 - **Tests run in full.** When `implement` verifies acceptance criteria, it runs the project's entire test suite — not only the tests touching the change — unless the plan or you say not to.

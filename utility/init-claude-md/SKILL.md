@@ -4,76 +4,33 @@ description: Generate a minimal CLAUDE.md for the current repository.
 disable-model-invocation: true
 ---
 
-# Init CLAUDE.md
+## Main Objective
 
-## Inputs
-
-- None. Operate on the current working directory.
-
-## Scope boundary
-
-Treat the current working directory as the filesystem root for this task. Never read, list, or reference paths outside it. Example: invoked in `/home/user/projects/foo`, `/home/user/projects/` and
-anything above it is off-limits — only `foo/` and its subfolders are in scope.
+Create a minimal CLAUDE.md containing only information an agent could not infer by investigating the repository. Every line must pass: "The agent would make mistakes without this?" If no, cut it.
 
 ## Workflow
 
-1. **Phase 1 — Survey.** Read, in scope, every file present from this list: manifests (`package.json`, `Cargo.toml`, `pyproject.toml`, `go.mod`, `pom.xml`), `Makefile`, CI config
-   (`.github/workflows/*`, `.gitlab-ci.yml`, `.circleci/config.yml`, etc.), `README*`, existing `CLAUDE.md`, `AGENTS.md`, `.cursor/rules`, `.cursorrules`, `.windsurfrules`, `.clinerules`, `.mcp.json`.
-   From these, detect candidates for every item in the **Include** list below.
-
-   Track what the files alone cannot reveal — these become Phase 2 questions.
-
-2. **Phase 2 — Interview.** Ask only what the survey could not answer.
-    - Ask one question at a time.
-    - Include a recommendation only when evidence supports one; never invent one.
-    - Wait for an answer before asking the next question.
-    - Stop when no gaps remain.
-
-3. **Phase 3 — Write or diff.** Branch on whether a `CLAUDE.md` was found in scope during Phase 1.
-    - **No existing `CLAUDE.md`.** Write the assembled file at `./CLAUDE.md`.
-    - **A `CLAUDE.md` already exists.** Do not overwrite it silently. Show the user a diff of the assembled file against the existing `./CLAUDE.md` in plain chat text, then ask whether to apply it.
-      Write `./CLAUDE.md` only if the user accepts; if the user declines, make no change.
-
-4. **Confirm** with a one-line message: name the file written, or state that the existing `CLAUDE.md` was left unchanged.
+1. **Phase 1 — Investigate repository:** Search, read and deeply analyze the files in the repository. List gaps: information needed but not inferable from the repository.
+2. **Phase 2 — Interview:** Interview me about every gap, one question at a time, until none remain. Also question any niche information in a pre-existing CLAUDE.md.
+3. **Phase 3 — Write:** Decide what is worth including, based on Phase 1 and 2, then write the assembled file to `./CLAUDE.md`.
 
 ## Content rules
 
-- Every line must pass: "Would Claude make mistakes without this?" If no, cut it.
 - Write tersely: short imperative rules, concrete examples over prose. Each item stands on its own.
-- Be specific: "Use 2-space indentation in TypeScript" beats "format code properly."
-- Write facts derived from files read in Phase 1 or interview answers in Phase 2. Do not invent sections like " Common Development Tasks" or "Tips for Development."
-
-## Required preamble
-
-Begin the file with exactly:
-
-```
-# CLAUDE.md
-
-This file provides guidance to coding agents when working with code in this repository.
-```
+- Be specific: "Use 2-space indentation in TypeScript" beats "format code properly".
 
 ## Include
 
-- One-line description of what the project does
-- Build/test/lint commands Claude cannot infer (non-standard scripts, flags, sequences)
-- Style rules diverging from language defaults (e.g., "prefer `type` over `interface`")
-- Testing quirks (e.g., "run single test: `pytest -k 'test_name'`")
-- Required env vars and setup steps
-- Non-obvious gotchas or architectural decisions
+- Build/test/lint commands agents cannot infer.
+- Style rules diverging from language defaults.
+- Testing quirks.
+- Non-obvious gotchas or architectural decisions.
 
 ## Exclude
 
-- Anything about git, branches, commits, or PRs
-- Meta-preferences ("plan first", "be terse", "explain tradeoffs")
-- File or component listings — Claude discovers these by reading code
-- Standard language conventions
-- Generic advice ("write clean code", "handle errors")
-- Commands obvious from manifests (`npm test`, `cargo test`, `pytest`)
-- Long or volatile content (API docs, references) — use `@path/to/file` imports instead
-
-## Stop conditions
-
-- Current working directory contains none of the surveyed files and the user provides no interview answers → tell the user there is nothing concrete to record, then stop.
-- User declines to answer an interview question → drop that gap and continue with what is known.
-- User declines the proposed diff against an existing `CLAUDE.md` → make no change, then stop.
+- File or component listings — agents discover these by reading code.
+- Standard language conventions.
+- Generic advice.
+- Commands obvious from manifests (`npm test`, `cargo test`, etc.).
+- Long or volatile content (API docs, references).
+- Generic introduction with `This file provides guidance to coding agents when working with code in this repository`.

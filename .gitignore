@@ -1,2 +1,4 @@
 .idea
-.claude
+CLAUDE.local.md
+.claude/CLAUDE.md
+.claude/settings.local.json
