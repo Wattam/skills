@@ -11,7 +11,7 @@ A folder path containing a file ending with `SPEC.md`. Expected location: `specs
 ## Workflow
 
 1. **Locate and ingest the spec.** List the folder contents, identify the file ending with `SPEC.md`, and read it in full.
-2. **Investigate the codebase.** Open each file the spec's Context names, plus their direct callers, related entities, and tests. Extract exact signatures, current line targets, and existing
+2. **Investigate the codebase.** Open each production file the spec's Context names, plus their direct callers and related entities. Extract exact signatures, current line targets, and existing
    patterns to mirror. Look for **prefactoring opportunities** — existing code worth restructuring first, without changing behavior, to make the feature change simpler to apply.
 3. **Identify gaps.** Scan the spec and what the investigation surfaced for missing information that would block execution. Treat each of these as a potential gap:
     - **Identifiers** — target files/modules/directories, function/class/endpoint/table/column names, dependencies/libraries/versions not pinned.
@@ -33,6 +33,7 @@ A folder path containing a file ending with `SPEC.md`. Expected location: `specs
 - Prefer code blocks and tables over prose.
 - No TODOs or `<TBD>` placeholders — every gap must be answered in step 4.
 - Do not create or update test files, and do not add test-writing steps to the plan, unless explicitly asked.
+- Write the **Acceptance criteria** assuming the test suite exists and passes by the time the plan is implemented — tests are authored in a later stage, so a criterion may require running them even though this skill writes none.
 
 ## File structure
 
