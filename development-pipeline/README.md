@@ -17,7 +17,7 @@ spec ──┬──► plan ──┬──► unit-tests ───────
 | `/plan`              | The spec folder                                                                                                                                                                                                            | `<title>-PLAN.md` — **how** to build it, as ordered steps                                                      |
 | `/integration-tests` | The spec folder                                                                                                                                                                                                            | Integration test files in your codebase + `<title>-INTEGRATION-TESTS.md` (an index of the changes)             |
 | `/unit-tests`        | The spec folder (reads the plan)                                                                                                                                                                                           | Unit test files in your codebase + `<title>-UNIT-TESTS.md` (an index of the changes)                           |
-| `/cross-check`       | The spec folder                                                                                                                                                                                                            | `<title>-CROSS-CHECK.md` — contradictions between spec, plan, and tests; written when contradictions are found |
+| `/cross-check`       | The spec folder                                                                                                                                                                                                            | Reconciled spec/plan/test files + `<title>-CROSS-CHECK.md` — unresolved inconsistencies; written if any remain |
 | `/implement`         | The spec folder (or a direct path to the plan)                                                                                                                                                                             | The production code change + `<title>-IMPLEMENT.md` (the files changed and each acceptance criterion's result) |
 | `/review-code`       | The spec folder + optionally a diff range or file list (defaults to the uncommitted working tree; reads `<title>-PLAN.md`, `<title>-IMPLEMENT.md`, `<title>-UNIT-TESTS.md`, and `<title>-INTEGRATION-TESTS.md` if present) | `<title>-REVIEW.md` — issues found in the code, measured against the spec; written when issues are found       |
 
@@ -26,7 +26,7 @@ Ordering is flexible where it can be:
 - `plan` and `integration-tests` both work from the spec alone, so either can go first.
 - `unit-tests` and `implement` need the plan to exist.
 - For **TDD**, write tests before `/implement`; otherwise write them after. Both flows work.
-- `cross-check` runs after the plan and any pre-implementation tests, and before `/implement` — it catches contradictions before any production code is written.
+- `cross-check` runs after the plan and any pre-implementation tests, and before `/implement`.
 
 You don't have to run every stage. `spec → plan → implement` is a perfectly valid short loop for small changes.
 
@@ -40,7 +40,7 @@ You don't have to run every stage. `spec → plan → implement` is a perfectly 
 /integration-tests specs/add-promotion-archive-job/
 /unit-tests specs/add-promotion-archive-job/
 /cross-check specs/add-promotion-archive-job/
-# fix anything the cross-check flags, then:
+# work through each inconsistency with it; it fixes the docs and tests as you agree, then:
 
 /implement specs/add-promotion-archive-job/
 /review-code specs/add-promotion-archive-job/
@@ -69,7 +69,8 @@ Test files and production code go into your codebase directly; the `specs/` fold
 - **One question at a time.** When a skill hits a gap it cannot resolve from the codebase, it interviews you — one plain question in chat at a time, until no gaps remain. It recommends an answer
   only when the codebase gives it evidence for one.
 - **Self-contained documents.** Every artifact inlines all the names, paths, and values needed to act on it — you can hand a spec or plan to anyone (human or LLM) without the surrounding chat.
-- **Findings only, no praise.** `cross-check` and `review-code` list only problems. No report file is written when nothing is found — that's the good outcome.
+- **Findings only, no praise.** `review-code` lists only problems; no report file is written when nothing is found — that's the good outcome. `cross-check` works through the inconsistencies it finds
+  with you, fixing the affected documents and test files as you agree on each, and writes a report only for the ones left unresolved.
 - **Tests run in full.** When `implement` verifies acceptance criteria, it runs the project's entire test suite — not only the tests touching the change — unless the plan or you say not to.
 - **Strict lanes.** Specs never say *how*, plans never say *why*, `implement` only executes the plan (it never touches branches or commits, and writes no document other than its `IMPLEMENT.md`
-  report), and `cross-check` never modifies anything. If a stage's output drifts out of its lane, that's a bug worth fixing in the skill.
+  report), and `cross-check` edits only the pipeline documents and their test files, never production code.

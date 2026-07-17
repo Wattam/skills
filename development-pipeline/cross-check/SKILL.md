@@ -5,7 +5,7 @@ disable-model-invocation: true
 
 ## Main Objective
 
-Cross-check a specification, implementation plan, and test documents for inconsistencies.
+Cross-check a specification, implementation plan, and test documents for inconsistencies, then resolve each one interactively.
 
 ## Inputs
 
@@ -25,7 +25,9 @@ A folder path (expected location: `specs/<kebab-title>/`) containing up to four 
    and **Plan ↔ Unit Tests** axes.
 3. **Investigate the codebase.** Search and read the codebase to locate the files, symbols, and existing patterns relevant to the check.
 4. **Cross-check the documents** along three axes. For each finding, capture the exact location in each document (spec section/criterion, plan Step number, test `file::test_name`) and the conflicting
-   statements. Treat each of these as a potential inconsistency:
+   statements, and tag it as a **confirmed inconsistency** (the evidence shows the documents genuinely disagree) or an **ambiguous divergence** (the evidence cannot decide whether it is a real
+   inconsistency or an intended difference). Collect every finding before starting the interview; fix nothing yet. Treat each of these as a potential
+   inconsistency:
     - **Spec ↔ Plan**
         - A Scope item (feature spec) or Expected-behavior bullet (bug-fix spec) has no corresponding plan Step.
         - A plan Step introduces behavior not traceable to any Scope item, Expected-behavior bullet, Note, or Context entry (the plan does more than the spec asks).
@@ -47,29 +49,34 @@ A folder path (expected location: `specs/<kebab-title>/`) containing up to four 
         - A plan Step removes a symbol, branch, or behavior that a test still exercises, with no corresponding test deletion recorded.
         - A plan Step that introduces or modifies a symbol is exercised by no test.
         - A Coverage table cites a plan Acceptance criterion the plan does not contain.
-5. **Interview me about every ambiguous divergence** — one where the evidence cannot decide whether it is a real inconsistency or an intended difference (e.g. the plan deliberately narrows the spec).
-   One question at a time, until none remain. Include a recommendation when evidence supports one; never invent one. Based on the answer, drop the divergence (intended) or record it as an inconsistency.
-6. **Write the cross-check**, only if at least one inconsistency was found, to a markdown file inside the same folder. Filename: replace the trailing `SPEC.md` with `CROSS-CHECK.md`. Overwrite if it
-   exists. If no inconsistencies were found, write no file.
-7. **Confirm** with a one-line message: the file written and the number of inconsistencies found, or that none were found and no file was written.
+5. **Resolve every finding with me interactively, one at a time**, until none remain — both confirmed inconsistencies and ambiguous divergences. For each finding:
+    - **Present the conflict.** Name the documents that disagree and quote what each says. For an ambiguous divergence, state the open question. Include a recommendation when evidence supports one;
+      never invent one.
+    - **Decide the reconciliation from my answer.** Determine which document or test is authoritative and what the corrected content is.
+    - **Apply the fix immediately** to the affected file(s) — the spec, the plan, a test doc, and/or a test file — so each disagreement is cleared before moving to the next finding. Keep test docs and the tests itself synchronized.
+    - **Leave the finding open** if we cannot reach a reconciliation.
+6. **Write the cross-check**, only if at least one finding was left open in step 5, to a markdown file inside the same folder. Filename: replace the trailing `SPEC.md` with `CROSS-CHECK.md`. Overwrite
+   if it exists. List only the open findings. If every finding was resolved, write no file.
+7. **Confirm** with a one-line message: the files fixed, the counts of findings fixed and dropped as intended, the count left open, and either the report file written or that none was written because
+   nothing remained open.
 
 ## Content rules
 
 - **Optimized for LLM consumption:** short declarative sentences, explicit identifiers, no rhetorical flourish.
-- **Report the conflict, never the fix.** State which documents disagree and what each says; how to reconcile them is the next stage's work.
-- Every inconsistency must be **self-contained**: inline the conflicting statement from each document. Never write "see the spec" or "see Step 4" in place of the content.
+- **The report lists only open findings.**.
+- Every open finding must be **self-contained**: inline the conflicting statement from each document. Never write "see the spec" or "see Step 4" in place of the content.
 - One numbered heading per logical inconsistency; the same inconsistency observed at multiple sites is one issue with one row per site. Use a table for evidence.
 - Do not include summaries of the documents, items that agree, praise, or meta-commentary.
-- No TODOs or `<TBD>` placeholders — a genuinely uncertain divergence is either asked about in step 5 or omitted.
 
-## Investigation discipline
+## Fix discipline
 
 - Do not run tests, install dependencies, or trigger any code execution.
-- Do not modify the spec, the plan, the test docs, or the test files. The only file this skill writes is its own `CROSS-CHECK.md` report.
+- Never modify production (non-test) code.
 
 ## File structure
 
-Up to three top-level sections, in this fixed order, and no others; omit any section that has no entries. Within a section, number inconsistencies sequentially starting at 1.
+The report holds only the findings left open in step 5. Up to three top-level sections, in this fixed order, and no others; omit any section that has no open findings. Within a section, number
+findings sequentially starting at 1.
 
 ```md
 # Cross-check: <short title taken from the spec>
@@ -79,6 +86,8 @@ Up to three top-level sections, in this fixed order, and no others; omit any sec
 ### 1. <inconsistency title>
 
 <1–2 sentences: what disagrees and which items are involved.>
+
+Open question: <what still needs to be decided to reconcile it.>
 
 | Artifact | Location           | Statement                       |
 |----------|--------------------|---------------------------------|
