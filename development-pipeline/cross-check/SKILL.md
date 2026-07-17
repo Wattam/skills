@@ -1,11 +1,8 @@
 ---
 name: cross-check
+description: Cross-check a specification, implementation plan, and test documents for inconsistencies, then resolve each one interactively.
 disable-model-invocation: true
 ---
-
-## Main Objective
-
-Cross-check a specification, implementation plan, and test documents for inconsistencies, then resolve each one interactively.
 
 ## Inputs
 
