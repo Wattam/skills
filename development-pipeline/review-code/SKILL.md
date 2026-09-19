@@ -4,6 +4,8 @@ description: Review code changes against a specification.
 disable-model-invocation: true
 ---
 
+Flow: `spec → plan → {integration-tests, unit-tests} → cross-check → implement → review-code`.
+
 ## Inputs
 
 - A spec folder path containing a file ending with `SPEC.md`. Expected location: `specs/<kebab-title>/`.

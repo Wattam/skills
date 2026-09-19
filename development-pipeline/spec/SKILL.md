@@ -4,6 +4,8 @@ description: Turn a natural-language feature/bug-fix request into a specificatio
 disable-model-invocation: true
 ---
 
+Flow: `spec → plan → {integration-tests, unit-tests} → cross-check → implement → review-code`.
+
 ## Inputs
 
 A natural-language description of a feature or bug fix, provided as text and/or as a file path.

@@ -4,6 +4,8 @@ description: Cross-check a specification, implementation plan, and test document
 disable-model-invocation: true
 ---
 
+Flow: `spec → plan → {integration-tests, unit-tests} → cross-check → implement → review-code`.
+
 ## Inputs
 
 A folder path (expected location: `specs/<kebab-title>/`) containing up to four docs ending with:

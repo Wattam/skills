@@ -4,6 +4,8 @@ description: Turn a specification into an implementation plan.
 disable-model-invocation: true
 ---
 
+Flow: `spec → plan → {integration-tests, unit-tests} → cross-check → implement → review-code`.
+
 ## Inputs
 
 A folder path containing a file ending with `SPEC.md`. Expected location: `specs/<kebab-title>/`.
