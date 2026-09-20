@@ -4,7 +4,7 @@ description: Cross-check a specification, implementation plan, and test document
 disable-model-invocation: true
 ---
 
-Flow: `spec → plan → {integration-tests, unit-tests} → cross-check → implement → review-code`.
+Flow: `spec → plan → {integration-tests, unit-tests} → cross-check → implement → review-code → adress-review`.
 
 ## Inputs
 

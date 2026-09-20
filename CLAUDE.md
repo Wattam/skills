@@ -2,7 +2,7 @@
 
 Skill definitions. Skills are grouped into category folders. Each category has its own `CLAUDE.md` with the conventions specific to it:
 
-- `development-pipeline/` — feature-development workflow (spec → plan → tests → cross-check → implement → review). See `development-pipeline/CLAUDE.md`.
+- `development-pipeline/` — feature-development workflow (spec → plan → tests → cross-check → implement → review-code → adress-review). See `development-pipeline/CLAUDE.md`.
 - `utility/` — standalone skills that each do one self-contained job. See `utility/CLAUDE.md`.
 
 ## Authoring rules for every SKILL.md

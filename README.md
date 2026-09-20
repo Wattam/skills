@@ -19,7 +19,7 @@ This runs `npx skills add . -g -y -a universal -a pi -a claude-code`, installing
 
 Each category has its own `README.md` (usage) and `CLAUDE.md` (authoring conventions):
 
-- **`development-pipeline/`** — skills that chain into one feature-development workflow (spec → plan → tests → cross-check → implement → review). See `development-pipeline/README.md`.
+- **`development-pipeline/`** — skills that form one feature-development workflow (spec → plan → tests → cross-check → implement → review-code → adress-review). See `development-pipeline/README.md`.
 - **`utility/`** — standalone skills, each doing one self-contained job. See `utility/README.md`.
 
 See `CLAUDE.md` for the conventions shared across every skill.

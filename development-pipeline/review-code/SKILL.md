@@ -4,7 +4,7 @@ description: Review code changes against a specification.
 disable-model-invocation: true
 ---
 
-Flow: `spec → plan → {integration-tests, unit-tests} → cross-check → implement → review-code`.
+Flow: `spec → plan → {integration-tests, unit-tests} → cross-check → implement → review-code → adress-review`.
 
 ## Inputs
 

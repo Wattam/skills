@@ -4,7 +4,7 @@ description: Create, edit, and delete integration tests in the codebase based on
 disable-model-invocation: true
 ---
 
-Flow: `spec → plan → {integration-tests, unit-tests} → cross-check → implement → review-code`.
+Flow: `spec → plan → {integration-tests, unit-tests} → cross-check → implement → review-code → adress-review`.
 
 ## Inputs
 
