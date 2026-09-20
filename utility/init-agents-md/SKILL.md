@@ -1,18 +1,18 @@
 ---
-name: init-claude-md
-description: Generate a minimal CLAUDE.md for the current repository.
+name: init-agents-md
+description: Generate a minimal AGENTS.md for the current repository.
 disable-model-invocation: true
 ---
 
 ## Main Objective
 
-Create a minimal CLAUDE.md containing only information an agent could not infer by investigating the repository. Every line must pass: "The agent would make mistakes without this?" If no, cut it.
+Create a minimal AGENTS.md containing only information an agent could not infer by investigating the repository. Every line must pass: "The agent would make mistakes without this?" If no, cut it.
 
 ## Workflow
 
 1. **Phase 1 — Investigate repository:** Search, read and deeply analyze the files in the repository. List gaps: information needed but not inferable from the repository.
-2. **Phase 2 — Interview:** Interview me about every gap, one question at a time, until none remain. Also question any niche information in a pre-existing CLAUDE.md.
-3. **Phase 3 — Write:** Decide what is worth including, based on Phase 1 and 2, then write the assembled file to `./CLAUDE.md`.
+2. **Phase 2 — Interview:** Interview me about every gap, one question at a time, until none remain. Also question any niche information in a pre-existing AGENTS.md.
+3. **Phase 3 — Write:** Decide what is worth including, based on Phase 1 and 2, then write the assembled file to `./AGENTS.md`.
 
 ## Content rules
 

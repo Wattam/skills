@@ -2,9 +2,9 @@
 
 Each skill here is invoked on its own and shares no artifact chain with any other. See `../README.md` for installation.
 
-## `init-claude-md`
+## `init-agents-md`
 
-Run `/init-claude-md` inside any repo to write a minimal `CLAUDE.md` at its root from an investigation of the repo plus a short interview. Every line must earn its place: only information an agent
+Run `/init-agents-md` inside any repo to write a minimal `AGENTS.md` at its root from an investigation of the repo plus a short interview. Every line must earn its place: only information an agent
 could not infer from the repo itself.
 
 ## `pi-extension`

@@ -1,9 +1,9 @@
 ## What this repo is
 
-Skill definitions. Skills are grouped into category folders. Each category has its own `CLAUDE.md` with the conventions specific to it:
+Skill definitions. Skills are grouped into category folders. Each category has its own `AGENTS.md` with the conventions specific to it:
 
-- `development-pipeline/` — feature-development workflow (spec → plan → tests → cross-check → implement → review-code → adress-review). See `development-pipeline/CLAUDE.md`.
-- `utility/` — standalone skills that each do one self-contained job. See `utility/CLAUDE.md`.
+- `development-pipeline/` — feature-development workflow (spec → plan → tests → cross-check → implement → review-code → adress-review). See `development-pipeline/AGENTS.md`.
+- `utility/` — standalone skills that each do one self-contained job. See `utility/AGENTS.md`.
 
 ## Authoring rules for every SKILL.md
 
