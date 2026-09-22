@@ -4,7 +4,7 @@ description: Turn a specification into an implementation plan.
 disable-model-invocation: true
 ---
 
-Flow: `spec → plan → {integration-tests, unit-tests} → cross-check → implement → review-code → adress-review`.
+Flow: `spec → plan → test → cross-check → implement → review-code → adress-review`.
 
 ## Inputs
 
@@ -35,7 +35,7 @@ A folder path containing a file ending with `SPEC.md`. Expected location: `specs
 - Prefer code blocks and tables over prose.
 - No TODOs or `<TBD>` placeholders — every gap must be answered in step 4.
 - Do not create or update test files, and do not add test-writing steps to the plan, unless explicitly asked.
-- Write the **Acceptance criteria** assuming the test suite exists and passes by the time the plan is implemented — tests are authored in a later stage, so a criterion may require running them even though this skill writes none.
+- Write the **Acceptance criteria** assuming the test suite exists and passes by the time the plan is implemented. Tests are authored in the `test` stage, so a criterion can require running them even though this skill writes none.
 
 ## File structure
 

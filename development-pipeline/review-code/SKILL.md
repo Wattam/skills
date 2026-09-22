@@ -4,7 +4,7 @@ description: Review code changes against a specification.
 disable-model-invocation: true
 ---
 
-Flow: `spec → plan → {integration-tests, unit-tests} → cross-check → implement → review-code → adress-review`.
+Flow: `spec → plan → test → cross-check → implement → review-code → adress-review`.
 
 ## Inputs
 
@@ -12,7 +12,7 @@ Flow: `spec → plan → {integration-tests, unit-tests} → cross-check → imp
 - Picked up automatically from that folder when present, skipped without penalty when absent:
     - `PLAN.md` — the stage reports grade Acceptance criteria against the **plan's** criteria, not the spec's; the plan is what maps their statuses back to the spec.
     - `IMPLEMENT.md` — files changed plus each plan Acceptance criterion's verified/unverified/failed status.
-    - `UNIT-TESTS.md` and `INTEGRATION-TESTS.md` — test files changed plus a Coverage table mapping plan Acceptance criteria to tests.
+    - `TEST.md` — test files changed plus a Coverage table mapping spec and plan requirements to tests.
 - The code changes to review, provided as one of:
     - A list of file paths or a directory.
     - A git diff range (e.g. `main..HEAD`, a branch name, or a commit SHA).

@@ -4,7 +4,7 @@ description: Turn a natural-language feature/bug-fix request into a specificatio
 disable-model-invocation: true
 ---
 
-Flow: `spec → plan → {integration-tests, unit-tests} → cross-check → implement → review-code → adress-review`.
+Flow: `spec → plan → test → cross-check → implement → review-code → adress-review`.
 
 ## Inputs
 
