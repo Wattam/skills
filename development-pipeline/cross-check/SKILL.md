@@ -16,10 +16,10 @@ A folder path with the expected location `specs/<kebab-title>/`. The folder cont
 
 ## Workflow
 
-1. **Locate and ingest the spec and plan.** List the folder contents. Identify the files ending with `SPEC.md` and `PLAN.md`. Read both in full. The spec is the authority on intended behavior. The plan is the authority on intended changes.
-2. **Read the test document.** Derive its filename by replacing the trailing `SPEC.md` in the spec filename with `TEST.md`. If the folder contains that file, read it in full. Read each existing test file cited in its `Changes` and `Coverage` tables. Verify that each deleted file or named test is absent. Treat an unreadable expected file or an incomplete deletion as an inconsistency in step 4. If the matching test document is absent, skip the **Spec ↔ Tests** and **Plan ↔ Tests** axes.
-3. **Investigate the codebase.** Search and read the codebase to locate the files, symbols, test suites, and existing patterns relevant to the check.
-4. **Cross-check the documents** along three axes. For each finding, capture the exact location in each document. Use a spec section or criterion, a plan Step or criterion, and a test `file::test_name`. Capture the conflicting statements. Tag the finding as a **confirmed inconsistency** when the evidence shows a disagreement. Tag it as an **ambiguous divergence** when the evidence cannot show if the difference is intended. Collect all findings before the interview. Do not fix files yet. Treat each item as a potential inconsistency:
+1. Locate and ingest the spec and plan. List the folder contents. Identify the files ending with `SPEC.md` and `PLAN.md`. Read both in full. The spec is the authority on intended behavior. The plan is the authority on intended changes.
+2. Read the test document. Derive its filename by replacing the trailing `SPEC.md` in the spec filename with `TEST.md`. If the folder contains that file, read it in full. Read each existing test file cited in its `Changes` and `Coverage` tables. Verify that each deleted file or named test is absent. Treat an unreadable expected file or an incomplete deletion as an inconsistency in step 4. If the matching test document is absent, skip the **Spec ↔ Tests** and **Plan ↔ Tests** axes.
+3. Investigate the codebase. Search and read the codebase to locate the files, symbols, test suites, and existing patterns relevant to the check.
+4. Cross-check the documents along three axes. For each finding, capture the exact location in each document. Use a spec section or criterion, a plan Step or criterion, and a test `file::test_name`. Capture the conflicting statements. Tag the finding as a **confirmed inconsistency** when the evidence shows a disagreement. Tag it as an **ambiguous divergence** when the evidence cannot show if the difference is intended. Collect all findings before the interview. Do not fix files yet. Treat each item as a potential inconsistency:
     - **Spec ↔ Plan**
         - A Scope item or Expected-behavior bullet has no matching plan Step.
         - A plan Step introduces behavior that does not trace to a Scope item, Expected-behavior bullet, Note, or Context entry.
@@ -42,13 +42,13 @@ A folder path with the expected location `specs/<kebab-title>/`. The folder cont
         - A testable behavior or target introduced or modified by a plan Step is exercised by no test.
         - A plan Acceptance criterion has no Coverage row and no assertion in a read test.
         - A Coverage row cites a plan Step or criterion that the plan does not contain.
-5. **Resolve every finding with me, one at a time.** Include confirmed inconsistencies and ambiguous divergences. For each finding:
-    - **Present the conflict.** Name the documents and quote each statement. State the open question for an ambiguous divergence. Include a recommendation when evidence supports one. Do not invent a recommendation.
-    - **Use my answer to reconcile the files.** Determine the authoritative content and the required corrections.
-    - **Apply the fix immediately.** Edit the spec, plan, test document, or test files as required. Keep the test document and test files synchronized. Clear one disagreement before you present the next.
-    - **Leave the finding open** when no reconciliation is reached.
-6. **Write the cross-check** only when step 5 leaves at least one finding open. Write it in the spec folder. Replace the trailing `SPEC.md` with `CROSS-CHECK.md` for the filename. Overwrite the file if it exists. List only open findings. Do not write a file when all findings are resolved.
-7. **Confirm** with one line. Name the files fixed. Give the counts of findings fixed, dropped as intended, and left open. Name the report file, or state that no report was written because no finding remains open.
+5. Resolve every finding with me, one at a time. Include confirmed inconsistencies and ambiguous divergences. For each finding:
+    - Present the conflict. Name the documents and quote each statement. State the open question for an ambiguous divergence. Include a recommendation when evidence supports one. Do not invent a recommendation.
+    - Use my answer to reconcile the files. Determine the authoritative content and the required corrections.
+    - Apply the fix immediately. Edit the spec, plan, test document, or test files as required. Keep the test document and test files synchronized. Clear one disagreement before you present the next.
+    - Leave the finding open when no reconciliation is reached.
+6. Write the cross-check only when step 5 leaves at least one finding open. Write it in the spec folder. Replace the trailing `SPEC.md` with `CROSS-CHECK.md` for the filename. Overwrite the file if it exists. List only open findings. Do not write a file when all findings are resolved.
+7. Confirm with one line. Name the files fixed. Give the counts of findings fixed, dropped as intended, and left open. Name the report file, or state that no report was written because no finding remains open.
 
 ## Content rules
 

@@ -12,10 +12,10 @@ A natural-language description of a feature or bug fix, provided as text and/or 
 
 ## Workflow
 
-1. **Classify the request** as **feature** or **bug fix** and pick the template variant (see "File structure" below).
-2. **Investigate the codebase.** Search and read the codebase to locate the files, symbols, and existing patterns relevant to the request.
-3. **Derive a short title** in kebab-case for the filename. Example: `add-promotion-archive-job`.
-4. **Identify gaps.** Scan the request and what the investigation surfaced for missing information that would block writing a useful spec. Treat each of these as a potential gap:
+1. Classify the request as **feature** or **bug fix** and pick the template variant (see "File structure" below).
+2. Investigate the codebase. Search and read the codebase to locate the files, symbols, and existing patterns relevant to the request.
+3. Derive a short title in kebab-case for the filename. Example: `add-promotion-archive-job`.
+4. Identify gaps. Scan the request and what the investigation surfaced for missing information that would block writing a useful spec. Treat each of these as a potential gap:
     - Acceptance criteria not testable (no observable pass/fail)
     - No specific files, modules, or existing patterns to point at in Context
     - No concrete example (input → output, before → after)
@@ -28,11 +28,11 @@ A natural-language description of a feature or bug fix, provided as text and/or 
         - Current behavior not stated
         - Expected-behavior bullets not listable (each a discrete observable behavior that should happen instead)
         - Reproduction steps missing when the behavior is non-obvious
-5. **Interview me about every gap.** One question at a time, until none remain. Include a recommendation for a gap when evidence supports one; never invent one.
-6. **Write the spec.** Create a folder named `specs/` in the current working directory (if it does not already exist), then create a subfolder inside of it whose name is the derived kebab-case title.
+5. Interview me about every gap. One question at a time, until none remain. Include a recommendation for a gap when evidence supports one; never invent one.
+6. Write the spec. Create a folder named `specs/` in the current working directory (if it does not already exist), then create a subfolder inside of it whose name is the derived kebab-case title.
    Write the spec inside that subfolder as `<kebab-case-title>-SPEC.md` (e.g. `specs/add-promotion-archive-job/add-promotion-archive-job-SPEC.md`). If the subfolder already exists, reuse it; if the
    target file already exists, overwrite it.
-7. **Confirm** with a one-line message naming the folder and file written.
+7. Confirm with a one-line message naming the folder and file written.
 
 ## Content rules
 

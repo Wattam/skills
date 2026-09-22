@@ -21,13 +21,13 @@ Review code changes against loose context and write a `REVIEW.md`.
 
 ## Workflow
 
-1. **Ingest the context.** Take inline context verbatim; read a context path in full. Extract every concrete expectation it states — intended behavior, requirements, constraints, scope boundaries,
+1. Ingest the context. Take inline context verbatim; read a context path in full. Extract every concrete expectation it states — intended behavior, requirements, constraints, scope boundaries,
    examples — and treat each as a binding constraint. If no context is provided, skip every check below that depends on stated intent; its absence is not an issue.
-2. **Enumerate the changed files.** Resolve the input to a concrete list of file paths plus their changed line ranges. Read each changed file in full from disk so review line numbers stay accurate.
+2. Enumerate the changed files. Resolve the input to a concrete list of file paths plus their changed line ranges. Read each changed file in full from disk so review line numbers stay accurate.
    Also read the surrounding code the diff touches — callers, callees, sibling modules, and any file whose convention the diff is supposed to mirror.
-3. **Map each change to the context.** For every changed hunk, determine which stated expectation it satisfies or violates, or whether it is unrelated to the stated intent. Track unmapped changes
+3. Map each change to the context. For every changed hunk, determine which stated expectation it satisfies or violates, or whether it is unrelated to the stated intent. Track unmapped changes
    (defined in step 5). If no context was provided, skip this mapping.
-4. **Identify issues.** Treat each of these as a potential issue:
+4. Identify issues. Treat each of these as a potential issue:
     - A stated expectation not implemented or only partially implemented (the intent has no corresponding code, or the code contradicts it)
     - File or symbol modified that is outside the stated scope (only when context was provided)
     - An example in the context not honored (input → output mismatch, before → after mismatch)
@@ -45,11 +45,11 @@ Review code changes against loose context and write a `REVIEW.md`.
         - A bug present in the diff encoded as the expected result, locking in the wrong behavior
         - Snapshot/golden files regenerated and committed without inspection
         - Only the happy path exercised, leaving edge cases and error paths unasserted
-5. **Interview me about every unmapped change** — a changed hunk not covered by the stated intent and not derivable from any expectation, constraint, or example in it (only when context was
+5. Interview me about every unmapped change — a changed hunk not covered by the stated intent and not derivable from any expectation, constraint, or example in it (only when context was
    provided). One question at a time, until none remain. Include a classification recommendation (intended-but-undocumented or out-of-scope) when evidence supports one; never invent one. Based on the
    answer, drop the hunk (intended, simply absent from the context) or record it as an issue under `## Out-of-scope changes`.
-6. **Write the review**, only if at least one issue was found, to `REVIEW.md` in the current working directory. Overwrite if it exists. If no issues were found, write no file.
-7. **Confirm** with a one-line message: the file written and the number of issues found, or that none were found and no file was written.
+6. Write the review, only if at least one issue was found, to `REVIEW.md` in the current working directory. Overwrite if it exists. If no issues were found, write no file.
+7. Confirm with a one-line message: the file written and the number of issues found, or that none were found and no file was written.
 
 ## Content rules
 

@@ -20,14 +20,14 @@ Flow: `spec → plan → test → cross-check → implement → review-code → 
 
 ## Workflow
 
-1. **Locate and ingest the docs.** List the folder contents, identify the file ending with `SPEC.md`, and read it in full; treat every section as a binding constraint. Read `PLAN.md` and every stage
+1. Locate and ingest the docs. List the folder contents, identify the file ending with `SPEC.md`, and read it in full; treat every section as a binding constraint. Read `PLAN.md` and every stage
    report present in full. For each absent doc, skip every check below that depends on it; its absence is not an issue.
-2. **Enumerate the changed files.** Resolve the input to a concrete list of file paths plus their changed line ranges. Read each changed file in full from disk so review line numbers stay accurate.
+2. Enumerate the changed files. Resolve the input to a concrete list of file paths plus their changed line ranges. Read each changed file in full from disk so review line numbers stay accurate.
    Also read the spec's Context-referenced files to judge pattern compliance, Note constraints, and existing conventions. Compare the files each stage report lists as created, edited, or deleted
    against the resolved list and carry every mismatch into step 4.
-3. **Map each change to the spec.** For every changed hunk, determine which spec item it satisfies or violates: Scope bullet (feature spec), Expected-behavior bullet (bug-fix spec), Acceptance
+3. Map each change to the spec. For every changed hunk, determine which spec item it satisfies or violates: Scope bullet (feature spec), Expected-behavior bullet (bug-fix spec), Acceptance
    criterion, Context pointer, Example, or Note. Track unmapped changes (defined in step 5).
-4. **Identify issues.** Treat each of these as a potential issue:
+4. Identify issues. Treat each of these as a potential issue:
     - Scope item (feature spec) or Expected-behavior bullet (bug-fix spec) not implemented or only partially implemented
     - File or symbol modified that is outside the spec's stated scope — listed under Out of scope, or unrelated to the Expected behavior or Suspected cause (bug-fix spec)
     - Acceptance criterion not satisfied by the diff (no corresponding code, or the code contradicts it)
@@ -53,12 +53,12 @@ Flow: `spec → plan → test → cross-check → implement → review-code → 
         - A bug present in the diff encoded as the expected result, locking in the wrong behavior
         - Snapshot/golden files regenerated and committed without inspection
         - Only the happy path exercised, leaving the spec's edge cases, error paths, and Acceptance criteria unasserted
-5. **Interview me about every unmapped change** — a changed hunk not covered by the spec and not derivable from any Scope, Expected-behavior, Context, or Note entry. One question at a time, until
+5. Interview me about every unmapped change — a changed hunk not covered by the spec and not derivable from any Scope, Expected-behavior, Context, or Note entry. One question at a time, until
    none remain. Include a classification recommendation (intended-but-undocumented or out-of-scope) when evidence supports one; never invent one. Based on the answer, drop the hunk (intended, simply
    absent from the spec text) or record it as an issue under `## Out-of-scope changes`.
-6. **Write the review**, only if at least one issue was found, to a markdown file inside the same folder as the spec. Filename: replace the trailing `SPEC.md` with `REVIEW.md`. Overwrite if it
+6. Write the review, only if at least one issue was found, to a markdown file inside the same folder as the spec. Filename: replace the trailing `SPEC.md` with `REVIEW.md`. Overwrite if it
    exists. If no issues were found, write no file.
-7. **Confirm** with a one-line message: the file written and the number of issues found, or that none were found and no file was written.
+7. Confirm with a one-line message: the file written and the number of issues found, or that none were found and no file was written.
 
 ## Content rules
 
