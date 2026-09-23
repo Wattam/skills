@@ -1,5 +1,5 @@
 ---
-name: standalone-adress-review
+name: standalone-address-review
 description: Validate findings from any code review and fix confirmed issues without pipeline documents.
 disable-model-invocation: true
 ---

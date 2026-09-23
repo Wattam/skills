@@ -5,26 +5,27 @@ These skills turn a feature request or bug report into specified, tested, and re
 ## The pipeline
 
 ```
-spec ──► plan ──► test ──► cross-check ──► implement ──► review-code ──► adress-review
+spec ──► plan ──► test ──► cross-check ──► implement ──► review-code ──► address-review
 ```
 
-| Stage            | You provide                                                                                                                                                          | It produces                                                                                                    |
-|------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------|
-| `/spec`          | A feature or bug description as text or a file path                                                                                                                  | `specs/<title>/<title>-SPEC.md` with what to build and why                                                     |
-| `/plan`          | The spec folder                                                                                                                                                      | `<title>-PLAN.md` with ordered implementation steps                                                            |
-| `/test`          | The spec folder with the spec and plan                                                                                                                               | Test files in the codebase and `<title>-TEST.md` as an index of the changes                                    |
-| `/cross-check`   | The spec folder                                                                                                                                                      | Reconciled spec, plan, and test files; `<title>-CROSS-CHECK.md` records unresolved inconsistencies when needed |
-| `/implement`     | The spec folder or a direct path to the plan                                                                                                                         | The production code change and `<title>-IMPLEMENT.md`                                                          |
-| `/review-code`   | The spec folder and an optional diff range or file list; the default is the uncommitted working tree; it reads `PLAN.md`, `IMPLEMENT.md`, and `TEST.md` when present | `<title>-REVIEW.md` when issues are found                                                                      |
-| `/adress-review` | The spec folder or its `<title>-REVIEW.md` file                                                                                                                      | Confirmed fixes and updated documents; review issues tagged `[fixed]` or `[invalidated]`; no new document      |
+| Stage             | You provide                                                                                                                                                            | It produces                                                                                                    |
+|-------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------|
+| `/spec`           | A feature or bug description as text or a file path                                                                                                                    | `specs/<title>/<title>-SPEC.md` with what to build and why                                                     |
+| `/plan`           | The spec folder                                                                                                                                                        | `<title>-PLAN.md` with ordered implementation steps                                                            |
+| `/test`           | The spec folder with the spec and plan                                                                                                                                 | Test files in the codebase and `<title>-TEST.md` as an index of the changes; after `/implement`, test results  |
+| `/cross-check`    | The spec folder                                                                                                                                                        | Reconciled spec, plan, and test files; `<title>-CROSS-CHECK.md` records unresolved inconsistencies when needed |
+| `/implement`      | The spec folder or a direct path to the plan; it reads `TEST.md` and `CROSS-CHECK.md` when present                                                                     | The production code change and `<title>-IMPLEMENT.md`                                                          |
+| `/review-code`    | The spec folder and an optional diff range or file list; the default is the uncommitted working tree outside `specs/`; it reads the other stage documents when present | `<title>-REVIEW.md` when issues are found                                                                      |
+| `/address-review` | The spec folder or its `<title>-REVIEW.md` file                                                                                                                        | Confirmed fixes and updated documents; review issues tagged `[fixed]` or `[invalidated]`; no new document      |
 
 Ordering is flexible where the inputs permit it:
 
 - `test` needs the spec and plan.
-- For TDD, run `/test` before `/implement`. Otherwise run it after `/implement`.
-- Run `cross-check` after the plan and any pre-implementation tests. Run it before `/implement`.
-- `adress-review` needs the spec and its matching review. Other stage documents are optional.
-- Run `review-code` again after fixes to check the final changes.
+- For TDD, run `/test` before `/implement`. `/test` does not run the tests; `/implement` runs them. Otherwise run `/test` after `/implement`. `/test` then runs the new tests and the full suite and records the results in `TEST.md`.
+- Run `cross-check` after the plan and any pre-implementation tests. Run it before `/implement`. `/implement` asks before it proceeds with open cross-check findings.
+- `address-review` needs the spec and its matching review. Other stage documents are optional.
+- Run `review-code` again after fixes to check the final changes. A clean run deletes the stale `REVIEW.md`.
+- Re-running `/spec` or `/plan` makes later documents in the folder stale. Both skills name the stale documents when they finish.
 
 You do not have to run every stage. `spec → plan → implement` is a valid short flow for small changes.
 
@@ -42,7 +43,7 @@ You do not have to run every stage. `spec → plan → implement` is a valid sho
 /implement specs/add-promotion-archive-job/
 /review-code specs/add-promotion-archive-job/
 # If the review reports issues:
-/adress-review specs/add-promotion-archive-job/
+/address-review specs/add-promotion-archive-job/
 /review-code specs/add-promotion-archive-job/
 ```
 
@@ -64,9 +65,9 @@ Test files and production code go into the codebase. The `specs/` folder contain
 
 ## What to expect while a skill runs
 
-- **Questions.** Stages other than `adress-review` ask one question at a time when a missing decision blocks progress. They recommend an answer only when codebase evidence supports it.
+- **Questions.** Stages other than `address-review` ask one question at a time when a missing decision blocks progress. They recommend an answer only when codebase evidence supports it.
 - **Self-contained documents.** Each artifact includes the names, paths, and values needed to use it without the chat history.
-- **Findings only.** `review-code` lists only problems. It writes no report when it finds no problem. `cross-check` resolves inconsistencies with you. It updates documents and test files after each answer. It writes a report only for unresolved findings.
-- **Validated fixes.** `adress-review` validates findings and fixes confirmed issues without questions. It updates existing documents for the corrected version. It tags review issues only as `[fixed]` or `[invalidated]`. It leaves unresolved issues untagged. It creates no document.
-- **Full test runs.** `implement` and `adress-review` run the full project test suite unless the plan or you exclude it. They report checks that fail or cannot run.
-- **Stage limits.** Specs state what and why. Plans state how. `test` edits tests but not production code. `implement` executes the plan and writes its report. `cross-check` edits pipeline documents and tests but not production code. `adress-review` can edit production code, tests, and affected documents for confirmed review issues. `implement` and `adress-review` use version control only for read-only checks.
+- **Findings only.** `review-code` lists only problems. It writes no report when it finds no problem and deletes a stale one. `cross-check` resolves inconsistencies with you. It updates documents and test files after each answer. It writes a report only for unresolved findings and deletes a stale one when none remain.
+- **Validated fixes.** `address-review` validates findings and fixes confirmed issues without questions. It updates existing documents for the corrected version. It appends `[fixed]` or `[invalidated]` to review issue headings. It leaves unresolved issues untagged. It leaves open cross-check findings for you to decide. It creates no document.
+- **Full test runs.** `implement` and `address-review` run the full project test suite unless the plan or you exclude it. `test` runs it only after `/implement`. They report checks that fail or cannot run. None of them installs dependencies. `implement` asks first; the others record the check as not run.
+- **Stage limits.** Specs state what and why. Plans state how. `test` edits tests but not production code. `implement` executes the plan and writes its report. It does not edit tests. `cross-check` edits pipeline documents and tests but not production code. `address-review` can edit production code, tests, and affected documents for confirmed review issues. Every stage uses version control only for read-only checks.

@@ -4,7 +4,7 @@ description: Cross-check a specification, implementation plan, and test document
 disable-model-invocation: true
 ---
 
-Flow: `spec → plan → test → cross-check → implement → review-code → adress-review`.
+Flow: `spec → plan → test → cross-check → implement → review-code → address-review`. `test` runs before `implement` (test-first) or after it. Stages may be skipped; `spec → plan → implement` is a valid short flow.
 
 ## Inputs
 
@@ -47,8 +47,8 @@ A folder path with the expected location `specs/<kebab-title>/`. The folder cont
     - Use my answer to reconcile the files. Determine the authoritative content and the required corrections.
     - Apply the fix immediately. Edit the spec, plan, test document, or test files as required. Keep the test document and test files synchronized. Clear one disagreement before you present the next.
     - Leave the finding open when no reconciliation is reached.
-6. Write the cross-check only when step 5 leaves at least one finding open. Write it in the spec folder. Replace the trailing `SPEC.md` with `CROSS-CHECK.md` for the filename. Overwrite the file if it exists. List only open findings. Do not write a file when all findings are resolved.
-7. Confirm with one line. Name the files fixed. Give the counts of findings fixed, dropped as intended, and left open. Name the report file, or state that no report was written because no finding remains open.
+6. Write the cross-check only when step 5 leaves at least one finding open. Write it in the spec folder. Replace the trailing `SPEC.md` with `CROSS-CHECK.md` for the filename. Overwrite the file if it exists. List only open findings. Do not write a file when all findings are resolved. Delete an existing cross-check file when all findings are resolved, because it is stale.
+7. Confirm with one line. Name the files fixed. Give the counts of findings fixed, dropped as intended, and left open. Name the report file, or state that no report was written because no finding remains open and name any stale report deleted.
 
 ## Content rules
 
@@ -62,6 +62,7 @@ A folder path with the expected location `specs/<kebab-title>/`. The folder cont
 
 - Do not run tests, install dependencies, or trigger code execution.
 - Do not modify production code.
+- Use version control only for read-only inspection.
 
 ## File structure
 

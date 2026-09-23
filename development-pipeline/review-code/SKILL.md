@@ -4,7 +4,7 @@ description: Review code changes against a specification.
 disable-model-invocation: true
 ---
 
-Flow: `spec → plan → test → cross-check → implement → review-code → adress-review`.
+Flow: `spec → plan → test → cross-check → implement → review-code → address-review`. `test` runs before `implement` (test-first) or after it. Stages may be skipped; `spec → plan → implement` is a valid short flow.
 
 ## Inputs
 
@@ -12,19 +12,22 @@ Flow: `spec → plan → test → cross-check → implement → review-code → 
 - Picked up automatically from that folder when present, skipped without penalty when absent:
     - `PLAN.md` — the stage reports grade Acceptance criteria against the **plan's** criteria, not the spec's; the plan is what maps their statuses back to the spec.
     - `IMPLEMENT.md` — files changed plus each plan Acceptance criterion's verified/unverified/failed status.
-    - `TEST.md` — test files changed plus a Coverage table mapping spec and plan requirements to tests.
+    - `TEST.md` — test files changed plus a Coverage table mapping spec and plan requirements to tests. A `Results` table records test runs made after implementation; they are newer than
+      the `IMPLEMENT.md` statuses.
+    - `CROSS-CHECK.md` — open inconsistencies between the spec, plan, and tests. The spec stays the authority for any change that touches an open finding.
 - The code changes to review, provided as one of:
     - A list of file paths or a directory.
     - A git diff range (e.g. `main..HEAD`, a branch name, or a commit SHA).
-    - Nothing → default to the uncommitted working tree (`git status` + `git diff HEAD`).
+    - Nothing → default to the uncommitted working tree (`git status` + `git diff HEAD`). Treat each untracked file from `git status` as fully added.
+- Exclude the `specs/` folder from the change set. Pipeline documents are not code under review.
 
 ## Workflow
 
 1. Locate and ingest the docs. List the folder contents, identify the file ending with `SPEC.md`, and read it in full; treat every section as a binding constraint. Read `PLAN.md` and every stage
-   report present in full. For each absent doc, skip every check below that depends on it; its absence is not an issue.
+   report present in full. Read the project instructions. For each absent doc, skip every check below that depends on it; its absence is not an issue.
 2. Enumerate the changed files. Resolve the input to a concrete list of file paths plus their changed line ranges. Read each changed file in full from disk so review line numbers stay accurate.
-   Also read the spec's Context-referenced files to judge pattern compliance, Note constraints, and existing conventions. Compare the files each stage report lists as created, edited, or deleted
-   against the resolved list and carry every mismatch into step 4.
+   Also read the spec's Context-referenced files to judge pattern compliance, Note constraints, and existing conventions. Merge the files that all stage reports list as created, edited, or
+   deleted into one list. Compare that merged list against the resolved list and carry every mismatch into step 4.
 3. Map each change to the spec. For every changed hunk, determine which spec item it satisfies or violates: Scope bullet (feature spec), Expected-behavior bullet (bug-fix spec), Acceptance
    criterion, Context pointer, Example, or Note. Track unmapped changes (defined in step 5).
 4. Identify issues. Treat each of these as a potential issue:
@@ -40,7 +43,8 @@ Flow: `spec → plan → test → cross-check → implement → review-code → 
     - For bug-fix specs: the reproduction input still produces the wrong behavior, or the expected behavior is not produced
     - Suspected correctness bug introduced by the diff itself (null deref, off-by-one, swallowed exception, missing transaction boundary, leaked resource, SQL/XSS/command injection, broken
       authorization check)
-    - Mismatch between a stage report and the change set: a file the report lists as created, edited, or deleted has no corresponding change in the diff, or a changed file is absent from the report
+    - Mismatch between the stage reports and the change set: a file any report lists as created, edited, or deleted has no corresponding change in the diff, or a changed file is absent from
+      every report (only when at least one stage report is present)
     - A stage report's claim about an Acceptance criterion that the diff does not bear out. Map each plan-graded status back to the spec criterion it serves, then check every spec criterion directly
       against the code and tests regardless of the report: a `verified` mark exempts nothing, an `unverified` or `failed` mark must still be checked, and a Coverage row may cite a test that is missing
       from the diff or does not actually exercise the criterion
@@ -57,8 +61,8 @@ Flow: `spec → plan → test → cross-check → implement → review-code → 
    none remain. Include a classification recommendation (intended-but-undocumented or out-of-scope) when evidence supports one; never invent one. Based on the answer, drop the hunk (intended, simply
    absent from the spec text) or record it as an issue under `## Out-of-scope changes`.
 6. Write the review, only if at least one issue was found, to a markdown file inside the same folder as the spec. Filename: replace the trailing `SPEC.md` with `REVIEW.md`. Overwrite if it
-   exists. If no issues were found, write no file.
-7. Confirm with a one-line message: the file written and the number of issues found, or that none were found and no file was written.
+   exists. If no issues were found, write no file and delete an existing review file, because it is stale.
+7. Confirm with a one-line message: the file written and the number of issues found, or that none were found and no file was written, naming any stale review deleted.
 
 ## Content rules
 
@@ -75,7 +79,8 @@ Flow: `spec → plan → test → cross-check → implement → review-code → 
 ## Investigation discipline
 
 - Do not run tests, install dependencies, or trigger any code execution.
-- Do not modify the code under review, the spec, the plan, or the stage reports. The only file this skill writes is its own `REVIEW.md` report.
+- Do not modify the code under review, the spec, the plan, or the stage reports. The only file this skill writes or deletes is its own `REVIEW.md` report.
+- Use version control only for read-only inspection.
 
 ## File structure
 
@@ -111,6 +116,7 @@ Up to three top-level sections, in this fixed order, and no others; omit any sec
 
 Every issue that cites specific code carries the same `File`/`Lines`/`Code` evidence table; an Acceptance criterion the diff never addresses may stand on its 1–2 sentences with no table.
 `## Implementation issues` covers every finding that is neither out-of-scope nor a missed acceptance criterion.
+Issue headings carry no status tag. `address-review` appends ` [fixed]` or ` [invalidated]` to the end of a heading.
 
 ## Stop conditions
 
