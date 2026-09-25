@@ -1,5 +1,5 @@
 ---
-name: standalone-review
+name: solo-review
 description: Review code changes.
 disable-model-invocation: true
 ---
