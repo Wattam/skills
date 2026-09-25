@@ -8,12 +8,19 @@ behavior, edit its markdown.
 
 ## Installation
 
+On macOS or Linux:
+
 ```bash
 ./install-skills.sh
 ```
 
-This runs `npx skills add . -g -y -a universal -a pi -a claude-code`, installing every skill in this repo globally to the shared `~/.agents/skills` directory (`universal`) and symlinking the `pi`
-(`~/.pi/agent/skills`) and `claude-code` (`~/.claude/skills`) agent directories to it. Re-run it after editing a skill to pick up changes.
+On Windows, run from PowerShell (requires Node.js and npm):
+
+```powershell
+.\install-skills.ps1
+```
+
+Both scripts run `npx skills add . -g -y -a universal -a pi -a claude-code` from the repository directory. The CLI installs canonical skill copies under `~/.agents/skills` and links individual skills into the global `universal` (`~/.config/agents/skills`), `pi` (`~/.pi/agent/skills`), and `claude-code` (`~/.claude/skills`) directories. On Windows, the CLI uses directory junctions and falls back to copying if a link cannot be created. Re-run the script after editing a skill to pick up changes.
 
 ## Categories
 
