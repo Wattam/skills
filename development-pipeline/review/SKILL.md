@@ -1,10 +1,10 @@
 ---
-name: review-code
+name: review
 description: Review code changes against a specification.
 disable-model-invocation: true
 ---
 
-Flow: `spec → plan → test → cross-check → implement → review-code → address-review`. `test` runs before `implement` (test-first) or after it. Stages may be skipped; `spec → plan → implement` is a valid short flow.
+Flow: `spec → plan → test → cross-check → implement → review → address-review`. `test` runs before `implement` (test-first) or after it. Stages may be skipped; `spec → plan → implement` is a valid short flow.
 
 ## Inputs
 
