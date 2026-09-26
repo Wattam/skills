@@ -29,10 +29,10 @@ Flow: `spec → plan → test → cross-check → implement → review → addre
    Also read the spec's Context-referenced files to judge pattern compliance, Note constraints, and existing conventions. Merge the files that all stage reports list as created, edited, or
    deleted into one list. Compare that merged list against the resolved list and carry every mismatch into step 4.
 3. Map each change to the spec. For every changed hunk, determine which spec item it satisfies or violates: Scope bullet (feature spec), Expected-behavior bullet (bug-fix spec), Acceptance
-   criterion, Context pointer, Example, or Note. Track unmapped changes (defined in step 5).
+   criterion, Context pointer, Example, or Note. Treat necessary setup/infrastructure repairs unrelated to feature logic or test assertions as supporting test verification when recorded in `IMPLEMENT.md`. Track unmapped changes (defined in step 5).
 4. Identify issues. Treat each of these as a potential issue:
     - Scope item (feature spec) or Expected-behavior bullet (bug-fix spec) not implemented or only partially implemented
-    - File or symbol modified that is outside the spec's stated scope — listed under Out of scope, or unrelated to the Expected behavior or Suspected cause (bug-fix spec)
+    - File or symbol modified that is outside the spec's stated scope — listed under Out of scope, or unrelated to the Expected behavior or Suspected cause (bug-fix spec) and not a necessary test setup repair recorded in `IMPLEMENT.md`
     - Acceptance criterion not satisfied by the diff (no corresponding code, or the code contradicts it)
     - Example in the spec not honored (input → output mismatch, before → after mismatch)
     - Existing pattern named in Context not followed (a new ad-hoc pattern introduced instead)
